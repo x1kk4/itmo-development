@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'coach',
     'client',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
