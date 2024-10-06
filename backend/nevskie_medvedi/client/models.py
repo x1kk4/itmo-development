@@ -2,10 +2,14 @@
 
 from django.db import models
 
-
 class Branch(models.Model):
+    # Model field definitions
     name = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=100)
+
+    class Meta:
+        app_label = 'client'  
+
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
