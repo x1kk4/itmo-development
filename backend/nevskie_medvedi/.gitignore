@@ -7,3 +7,5 @@ env/
 *.pyd
 .DS_Store
 .idea/
+/static
+.env
