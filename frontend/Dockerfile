@@ -1,6 +1,4 @@
-ARG BASE_IMAGE=cr.vnuk.tech/library/node:21.13-alpine3.20-v1
-
-FROM ${BASE_IMAGE}
+FROM node:18-alpine
 
 WORKDIR /app
 
