@@ -9,7 +9,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "build:web": "expo export -p web",
+    "serve:web": "mkdir -p ./serveDist/mobile && cp -r ./dist/* ./serveDist/mobile && npx serve serveDist"
   },
   "jest": {
     "preset": "jest-expo"
