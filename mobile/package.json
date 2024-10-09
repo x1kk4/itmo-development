@@ -11,7 +11,7 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "build:web": "expo export -p web",
-    "serve:web": "mkdir -p ./serveDist/mobile && cp -r ./dist/* ./serveDist/mobile && npx serve serveDist"
+    "prepare:web": "mkdir -p ./serveDist/mobile && cp -r ./dist/* ./serveDist/mobile"
   },
   "jest": {
     "preset": "jest-expo"
