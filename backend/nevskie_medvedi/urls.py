@@ -7,11 +7,6 @@ from drf_yasg import openapi
 from coach.views import CoachViewSet, EventViewSet, SessionViewSet
 from client.views import ClientViewSet, ChildViewSet
 
-from django.conf import settings
-from django.conf.urls.static import static
-
-from django.views.static import serve
-
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
 router.register(r'sessions', SessionViewSet)
@@ -30,19 +25,14 @@ schema_view = get_schema_view(
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
-   url='https://itmo.website/api/v1/',
    patterns=[path('api/v1/', include(router.urls))],
 )
 
 urlpatterns = [
-   path('admin/', admin.site.urls),
-   path('api/v1/', include(router.urls)),
-   # Swagger URLs
-   path('api/v1/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   path('api/v1/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('api/v1/static/<path:path>', serve, {'document_root': settings.STATIC_ROOT}),
-   #  path('api/v1/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('admin/', admin.site.urls),
+    path('api/v1/', include(router.urls)),
+    # Swagger URLs
+    path('api/v1/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/v1/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/v1/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
-
-if settings.DEBUG:
-   urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
