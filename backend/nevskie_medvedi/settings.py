@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+DB_BASE_PATH = os.getenv("DB_BASE_PATH")
+if DB_BASE_PATH and not os.path.exists(DB_BASE_PATH):
+    os.mkdir(DB_BASE_PATH)
+
+BASE_DIR = Path(DB_BASE_PATH) if DB_BASE_PATH else Path(__file__).parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +30,7 @@ SECRET_KEY = "django-insecure-l0exuu&!9y_0diopd&kfq6q=d@ulfb5n9)kikrzv50swg_x3(d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.ebalopsa.ru']
+ALLOWED_HOSTS = ['itmo.website', 'localhost', 'backend']
 
 
 # Application definition
