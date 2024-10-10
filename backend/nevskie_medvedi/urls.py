@@ -7,6 +7,9 @@ from drf_yasg import openapi
 from coach.views import CoachViewSet, EventViewSet, SessionViewSet
 from client.views import ClientViewSet, ChildViewSet
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
 router.register(r'sessions', SessionViewSet)
