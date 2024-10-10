@@ -10,6 +10,8 @@ from client.views import ClientViewSet, ChildViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.views.static import serve
+
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
 router.register(r'sessions', SessionViewSet)
