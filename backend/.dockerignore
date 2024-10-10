@@ -1,0 +1,21 @@
+.git
+.ci/*
+
+.idea/
+.vscode/
+
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache
+
+# MacOS meta
+.DS_Store
+
+**/*.egg-info
+
+.mypy_cache
+.ruff_cache
