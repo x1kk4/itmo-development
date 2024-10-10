@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      DB_BASE_PATH: /etc/db
+    volumes:
+      - ./db:/etc/db
