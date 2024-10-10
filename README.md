@@ -13,4 +13,4 @@
 - Design: https://www.figma.com/design/1p6yUL0sDV6aBeU4hD9cpp/Nevskye-medvedi?node-id=0-1&m=dev&t=p2MjDyZFvJ3fQPo1-1
 - Kanban: https://tree.taiga.io/project/x1kk4-itmo-development/kanban
 
-\_
+\_|
