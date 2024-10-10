@@ -124,7 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -133,17 +133,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Basic': {
-            'type': 'basic'
+    "SECURITY_DEFINITIONS": {
+        "Basic": {
+            "type": "basic"
         }
     },
-    'USE_SESSION_AUTH': False,
-    'JSON_EDITOR': True,
-    'STATIC_URL': '/api/v1/swagger/static'
+    "USE_SESSION_AUTH": False,
+    "JSON_EDITOR": True,
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': [],
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [],
+#     'DEFAULT_PERMISSION_CLASSES': [],
+# }
