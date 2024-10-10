@@ -141,5 +141,5 @@ SWAGGER_SETTINGS = {
     },
     "USE_SESSION_AUTH": False,
     "JSON_EDITOR": True,
-    "SPEC_URL": "/api/v1/swagger/"
+    'SCHEME': 'https'
 }
