@@ -1,9 +1,11 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { TUser } from './types'
 import { ROLE } from '@/router/types'
+import { produce } from 'immer'
 
 export type TAuthContextShape = {
   user: TUser
+  changeRole: (role: ROLE) => void
 }
 const AuthContext = React.createContext<TAuthContextShape>({} as TAuthContextShape)
 
@@ -14,15 +16,28 @@ export type TAuthProviderProps = {
 const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
 
+  const [userData, setUserData] = useState<TUser>({
+    role: ROLE.UNAUTHORIZED,
+    username: 'mama azazina',
+    email: 'angular@gmail.com',
+  })
+
+  const changeRole = useCallback(
+    (role: ROLE) =>
+      setUserData(
+        produce((draft) => {
+          draft.role = role
+        }),
+      ),
+    [setUserData],
+  )
+
   const value: TAuthContextShape = useMemo(
     () => ({
-      user: {
-        role: ROLE.PARENT,
-        username: 'mama azazina',
-        email: 'angular@gmail.com',
-      },
+      user: userData,
+      changeRole,
     }),
-    [],
+    [userData, changeRole],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
