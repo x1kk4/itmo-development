@@ -6,7 +6,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from coach.views import CoachViewSet, EventViewSet, SessionViewSet
 from client.views import ClientViewSet, ChildViewSet
-from locations.views import BranchViewSet  
+from coach.views import BranchViewSet  
 
 from django.conf import settings
 from django.conf.urls.static import static
