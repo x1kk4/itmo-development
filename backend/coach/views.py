@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Coach, Session, Event, TrainingSession, Branch
-from .serializers import CoachSerializer, SessionSerializer, EventSerializer, TrainingSessionSerializer, BranchSerializer
+from coach.models import Coach, Session, Event, TrainingSession, Branch
+from coach.serializers import CoachSerializer, SessionSerializer, EventSerializer, TrainingSessionSerializer, BranchSerializer
 
 class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all()
