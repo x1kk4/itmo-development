@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "commonjs": false
+  },
+
+  "globals": {
+    "JSX": true
+  },
+
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+
+  "plugins": ["react", "require-explicit-generics", "@typescript-eslint"],
+
+  "rules": {
+    "eqeqeq": ["error", "always"],
+    "no-unused-vars": "off",
+    "no-console": ["warn", { "allow": ["info", "error"] }],
+    "max-lines": [
+      "warn",
+      {
+        "max": 500,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
+
+    "require-explicit-generics/require-explicit-generics": ["warn", ["useState"]],
+
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/ban-ts-comment": ["error", { "ts-expect-error": "allow-with-description" }],
+
+    "react/react-in-jsx-scope": "off"
+  }
+}
