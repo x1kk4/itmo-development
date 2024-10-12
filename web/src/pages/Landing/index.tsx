@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const Landing: FC = () => {
   return (
     <Box margin={'auto'}>
-      <Text marginBottom={8}>Чота там эээ... медведи кароч ))</Text>
+      <Text marginBottom={8}>Страница лендинга</Text>
       <Flex
         flexDirection={'column'}
         gap={4}
