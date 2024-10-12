@@ -12,18 +12,32 @@ class Session(models.Model):
     date = models.DateField()
     time = models.TimeField()
     group_level = models.CharField(max_length=50)
-from django.db import models
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
-    coach = models.ForeignKey('Coach', related_name='events', on_delete=models.CASCADE)
-# models.py in coach app
+    coach = models.ForeignKey(Coach, related_name='events', on_delete=models.CASCADE)
+
 class TrainingSession(models.Model):
     coach = models.ForeignKey(Coach, related_name='training_sessions', on_delete=models.CASCADE)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
     attendees = models.ManyToManyField(Child, related_name='training_sessions')
+
+class Branch(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    working_hours = models.CharField(max_length=100)
+    contact_info = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# Add Branch ForeignKey to Event and Session
+Event.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='events')
+Session.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='sessions')
