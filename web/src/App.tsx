@@ -11,7 +11,10 @@ const App: FC = () => {
   const { user } = useAuthContext()
 
   return (
-    <Flex minHeight={'100vh'}>
+    <Flex
+      minHeight={'100vh'}
+      position={'relative'}
+    >
       <Suspense fallback={<h1>Loading...</h1>}>
         <Routes>
           {pageRoutes

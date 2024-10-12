@@ -1,3 +1,4 @@
+import { DevRolePicker } from '@/components/DevRolePicker'
 import { Sidebar } from '@/components/Sidebar'
 import { Box } from '@chakra-ui/react'
 import { FC } from 'react'
@@ -10,6 +11,7 @@ const ParentLayout: FC = () => {
       <Box padding={4}>
         <Outlet />
       </Box>
+      <DevRolePicker />
     </>
   )
 }
