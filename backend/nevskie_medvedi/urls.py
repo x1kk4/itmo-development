@@ -6,6 +6,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from coach.views import CoachViewSet, EventViewSet, SessionViewSet
 from client.views import ClientViewSet, ChildViewSet
+from locations.views import BranchViewSet  # 假设分支机构在 locations 应用中
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -16,6 +17,7 @@ router.register(r'sessions', SessionViewSet)
 router.register(r'events', EventViewSet)
 router.register(r'clients', ClientViewSet)
 router.register(r'children', ChildViewSet)
+router.register(r'branches', BranchViewSet)  # 添加分支机构的路由
 
 schema_view = get_schema_view(
    openapi.Info(
