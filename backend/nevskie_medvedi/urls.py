@@ -13,8 +13,8 @@ from django.conf.urls.static import static
 # Setup the router
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
-router.register(r'sessions', SessionViewSet)
-router.register(r'events', EventViewSet)
+# router.register(r'sessions', SessionViewSet)
+# router.register(r'events', EventViewSet)
 router.register(r'training_sessions', TrainingSessionViewSet)
 router.register(r'branches', BranchViewSet)
 router.register(r'clients', ClientViewSet)
