@@ -10,7 +10,7 @@ class CoachSerializer(serializers.ModelSerializer):
     events = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name='event-detail'  、
+        view_name='event-detail'
     )
     sessions = serializers.HyperlinkedRelatedField(
         many=True,
@@ -28,7 +28,7 @@ class CoachSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'login', 'password', 'salary', 'events', 'sessions', 'training_sessions']
 
 class EventSerializer(serializers.ModelSerializer):
-    coach = serializers.ReadOnlyField(source='coach.name')  、
+    coach = serializers.ReadOnlyField(source='coach.name')
 
     class Meta:
         model = Event
