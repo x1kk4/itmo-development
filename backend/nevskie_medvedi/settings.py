@@ -132,8 +132,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+ENV_MODE: Literal["prod", "dev"] = os.getenv("ENV_MODE", "dev")
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if ENV_MODE == "prod" else ()
+SECURE_SSL_REDIRECT = True if ENV_MODE == "prod" else False
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {

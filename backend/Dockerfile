@@ -10,9 +10,10 @@ COPY . /app/
 
 EXPOSE 8000
 
+ENV ENV_MODE="prod"
+
 RUN python3 manage.py collectstatic
 
 RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-
