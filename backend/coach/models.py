@@ -27,6 +27,14 @@ class TrainingSession(models.Model):
     end_time = models.TimeField()
     attendees = models.ManyToManyField(Child, related_name='training_sessions')
 
+
+    def end_session(self):
+        for child in self.attendees.all():
+            subscription = Subscription.objects.get(client=child.parent)
+            subscription.session_count -= 1
+            subscription.save()
+
+
 class Branch(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
