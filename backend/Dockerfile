@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-RUN apk add build-base
+RUN apt install build-essential
 
 WORKDIR /app
 
