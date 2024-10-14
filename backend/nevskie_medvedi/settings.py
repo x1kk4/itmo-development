@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from typing import Literal  
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
