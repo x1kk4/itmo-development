@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Literal  
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 DB_BASE_PATH = os.getenv("DB_BASE_PATH")
@@ -30,7 +32,7 @@ SECRET_KEY = "django-insecure-l0exuu&!9y_0diopd&kfq6q=d@ulfb5n9)kikrzv50swg_x3(d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['itmo.website', 'localhost', 'backend']
+ALLOWED_HOSTS = ['itmo.website','127.0.0.1', 'localhost', 'backend']
 
 
 # Application definition
@@ -144,4 +146,5 @@ SWAGGER_SETTINGS = {
     },
     "USE_SESSION_AUTH": False,
     "JSON_EDITOR": True,
+    "EXLUDED_MEDIA_TYPES": [],
 }

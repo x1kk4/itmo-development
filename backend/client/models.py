@@ -23,3 +23,10 @@ class Child(models.Model):
     age = models.IntegerField()
     group_level = models.CharField(max_length=50)
     parent = models.ForeignKey(Client, related_name='children', on_delete=models.CASCADE)
+
+class Subscription(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='subscriptions')
+    session_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.client.name}'s Subscription - Sessions left: {self.session_count}"

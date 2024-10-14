@@ -1,7 +1,9 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from .models import Client, Child
 from .serializers import ClientSerializer, ChildSerializer
-from rest_framework.response import Response
+from django.db.models import Q
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
@@ -10,8 +12,13 @@ class ClientViewSet(viewsets.ModelViewSet):
 class ChildViewSet(viewsets.ModelViewSet):
     queryset = Child.objects.all()
     serializer_class = ChildSerializer
-# views.py in client app
-from django.db.models import Q
+
+    @action(detail=True, methods=['get'])
+    def children(self, request, pk=None):
+        client = self.get_object()
+        children = client.children.all()
+        serializer = ChildSerializer(children, many=True)
+        return Response(serializer.data)
 
 class ClientSearchViewSet(viewsets.ViewSet):
     def list(self, request):

@@ -6,6 +6,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from coach.views import CoachViewSet, EventViewSet, SessionViewSet, TrainingSessionViewSet, BranchViewSet
 from client.views import ClientViewSet, ChildViewSet
+from coach.views import home  # 确保从适当的位置导入 home 视图
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,8 +14,6 @@ from django.conf.urls.static import static
 # Setup the router
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
-# router.register(r'sessions', SessionViewSet)
-# router.register(r'events', EventViewSet)
 router.register(r'training_sessions', TrainingSessionViewSet)
 router.register(r'branches', BranchViewSet)
 router.register(r'clients', ClientViewSet)
@@ -36,9 +35,9 @@ schema_view = get_schema_view(
 
 # URL patterns
 urlpatterns = [
+    path('', home, name='home'),  # 根 URL 的视图
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    # Swagger URLs
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('api/v1/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
