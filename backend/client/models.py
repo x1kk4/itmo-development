@@ -6,10 +6,14 @@ class Branch(models.Model):
     # Model field definitions
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-
+    image = models.URLField(default='', blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    def __str__(self):
+        return f"{self.name} located at {self.location}"
     class Meta:
         app_label = 'client'  
-
+    
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
