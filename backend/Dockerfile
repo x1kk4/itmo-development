@@ -1,7 +1,5 @@
 FROM python:3.11-slim
 
-RUN apt install build-essential
-
 WORKDIR /app
 
 COPY requirements.txt /app/
