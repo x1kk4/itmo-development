@@ -11,6 +11,11 @@ COPY . /app/
 EXPOSE 8000
 
 ENV ENV_MODE="prod"
+ENV DB_NAME="nevskie_medvedi"
+ENV DB_USER="nevskie_user"
+ENV DB_PASSWORD="secure_password"
+ENV DB_HOST="nevsky-bears-postgres-618ed2"
+ENV DB_PORT="5432"
 
 RUN python3 manage.py collectstatic
 
