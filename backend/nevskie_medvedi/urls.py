@@ -8,6 +8,9 @@ from coach.views import CoachViewSet, EventViewSet, SessionViewSet, TrainingSess
 from client.views import ClientViewSet, ChildViewSet
 from coach.views import home  # 确保从适当的位置导入 home 视图
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # Setup the router
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
@@ -38,4 +41,4 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('api/v1/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
