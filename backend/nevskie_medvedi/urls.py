@@ -8,6 +8,9 @@ from coach.views import CoachViewSet, EventViewSet, SessionViewSet, TrainingSess
 from client.views import ClientViewSet, ChildViewSet
 from coach.views import home  # 确保从适当的位置导入 home 视图
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # Setup the router
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
