@@ -3,7 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-const Landing: FC = () => {
+const LandingPage: FC = () => {
   return (
     <Box margin={'auto'}>
       <Text marginBottom={8}>Страница лендинга</Text>
@@ -19,4 +19,4 @@ const Landing: FC = () => {
   )
 }
 
-export { Landing }
+export { LandingPage }

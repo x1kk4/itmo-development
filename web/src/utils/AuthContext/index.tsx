@@ -17,7 +17,7 @@ const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
 
   const [userData, setUserData] = useState<TUser>({
-    role: ROLE.UNAUTHORIZED,
+    role: ROLE.PARENT,
     username: 'mama azazina',
     email: 'angular@gmail.com',
   })

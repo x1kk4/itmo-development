@@ -1,12 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Schedule } from '@/views/Schedule'
 import { FC } from 'react'
 
-const Schedule: FC = () => {
-  return (
-    <Box>
-      <p>Schedule</p>
-    </Box>
-  )
-}
+const SchedulePage: FC = () => <Schedule />
 
-export { Schedule }
+export { SchedulePage }

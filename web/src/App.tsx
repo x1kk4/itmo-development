@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { pageRoutes } from './router/pageRoutes'
 import { useAuthContext } from './utils/AuthContext'
 import { layout } from './layouts'
-import { redirects } from './router/redirect'
+import { redirects } from './router/redirects'
 
 const App: FC = () => {
   const { user } = useAuthContext()

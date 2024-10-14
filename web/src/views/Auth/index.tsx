@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { FC } from 'react'
 
-const SignUp: FC = () => {
+const Auth: FC = () => {
   return (
     <Box>
-      <p>SignUp</p>
+      <p>Auth</p>
     </Box>
   )
 }
 
-export { SignUp }
+export { Auth }

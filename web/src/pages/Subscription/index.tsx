@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import { FC } from 'react'
 
-const Subscription: FC = () => {
+const SubscriptionPage: FC = () => {
   return (
     <Box>
       <p>Subscription</p>
@@ -9,4 +9,4 @@ const Subscription: FC = () => {
   )
 }
 
-export { Subscription }
+export { SubscriptionPage }

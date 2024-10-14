@@ -1,12 +1,13 @@
+import { Auth } from '@/views/Auth'
 import { Box } from '@chakra-ui/react'
 import { FC } from 'react'
 
-const DashboardPage: FC = () => {
+const SignUpPage: FC = () => {
   return (
     <Box>
-      <p>Dashboard</p>
+      <Auth />
     </Box>
   )
 }
 
-export { DashboardPage }
+export { SignUpPage }
