@@ -1,41 +1,71 @@
-import { Box, Tooltip } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Map, Placemark, ZoomControl, YMaps } from '@pbe/react-yandex-maps'
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { branches } from './branches'
+import { useAuthContext } from '@/utils/AuthContext'
 
 const Branches: FC = () => {
+  const { setBranch, user } = useAuthContext()
+
+  const handleBranchClick = useCallback(
+    (branch: number) => () => {
+      setBranch(branch)
+    },
+    [setBranch],
+  )
+
   return (
-    <Box>
+    <Box
+      height={'calc(100% - 50px)'}
+      padding={4}
+      border={'1px'}
+      borderColor={'gray.300'}
+      borderRadius={'lg'}
+    >
       <YMaps>
         <Map
           defaultState={{
             center: [59.938678, 30.314474],
-            zoom: 9,
+            zoom: 11,
           }}
-          width={'900px'}
-          height={'600px'}
+          width={'100%'}
+          height={'100%'}
         >
           {branches.map((branch, index) => (
-            <Tooltip
-              label={branch.name}
+            <Placemark
               key={index}
-            >
-              <Placemark
-                defaultGeometry={branch.coord}
-                properties={{
-                  balloonContentBody:
-                    '<div>Это ваш кастомный контент для тултипа/поповера</div>' +
-                    '<div>Здесь может быть любая HTML-разметка</div>',
-                }}
-                modules={['geoObject.addon.balloon']}
-              />
-            </Tooltip>
+              geometry={branch.coord}
+              properties={{
+                balloonContentHeader: branch.name,
+                balloonContentBody: `
+                  <img style="width: 200px; margin: auto" src=${branch.image}/>
+                  ${
+                    user.branch === index
+                      ? '<p style="color: #38A169; font-weight: bold; text-align: center; margin-top: 10px;">ВАШ ФИЛИАЛ</p>'
+                      : `<button style="color: #3182ce; width: 100%; margin-top: 10px; font-size: 18px; padding: 5px; background: none; border: 1px solid #3182ce; cursor: pointer; border-radius: 8px" id="branch-button-${index}">Записаться</button>`
+                  }
+                `,
+                hintContent: branch.name,
+              }}
+              options={{
+                balloonPanelMaxMapArea: 0,
+              }}
+              modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+              onBalloonOpen={() => {
+                setTimeout(() => {
+                  const button = document.getElementById(`branch-button-${index}`)
+                  if (button) {
+                    button.addEventListener('click', handleBranchClick(index))
+                  }
+                }, 0)
+              }}
+            />
           ))}
           <ZoomControl
             defaultOptions={{
               position: {
                 right: 10,
-                top: 150,
+                bottom: 30,
               },
             }}
           />

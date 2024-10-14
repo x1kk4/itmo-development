@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { FC, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
@@ -11,8 +11,12 @@ const App: FC = () => {
   const { user } = useAuthContext()
 
   return (
-    <Flex
+    <Box
+      display={'grid'}
+      gridAutoFlow={'column'}
+      gridAutoColumns={'auto 1fr'}
       minHeight={'100vh'}
+      width={'100vw'}
       position={'relative'}
     >
       <Suspense fallback={<h1>Loading...</h1>}>
@@ -34,7 +38,7 @@ const App: FC = () => {
           />
         </Routes>
       </Suspense>
-    </Flex>
+    </Box>
   )
 }
 
