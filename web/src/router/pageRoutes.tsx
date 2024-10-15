@@ -4,12 +4,13 @@ import { RouteProps } from 'react-router-dom'
 
 import { SignInPage } from '@/pages/auth/sign-in'
 import { SignUpPage } from '@/pages/auth/sign-up'
-import { DashboardPage } from '@/pages/dashboard'
-import { SchedulePage } from '@/pages/schedule'
-import { BranchesPage } from '@/pages/branches'
-import { SubscriptionPage } from '@/pages/subscription'
+
 import { LAYOUT } from '@/layouts'
-import { LandingPage } from '@/pages/landing'
+import { BranchesPage } from '../pages/branches'
+import { DashboardPage } from '../pages/dashboard'
+import { LandingPage } from '../pages/landing'
+import { SchedulePage } from '../pages/schedule'
+import { SubscriptionPage } from '../pages/subscription'
 
 type TPageRoute = RouteProps & {
   allowedRoles: ROLE[]
