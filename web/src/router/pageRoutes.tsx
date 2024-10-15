@@ -2,7 +2,7 @@ import { ROLE } from './types'
 import { routes } from './routes'
 import { RouteProps } from 'react-router-dom'
 
-// import { LandingPage } from '@/pages/landing'
+import { LandingPage } from '@/pages/landing'
 import { SignInPage } from '@/pages/auth/sign-in'
 import { SignUpPage } from '@/pages/auth/sign-up'
 // import { DashboardPage } from '@/pages/dashboard'
@@ -17,12 +17,12 @@ type TPageRoute = RouteProps & {
 }
 
 const pageRoutes: TPageRoute[] = [
-  // {
-  //   path: routes.landing,
-  //   element: <LandingPage />,
-  //   allowedRoles: [ROLE.UNAUTHORIZED, ROLE.PARENT, ROLE.COACH, ROLE.MANAGER],
-  //   layout: LAYOUT.LANDING,
-  // },
+  {
+    path: routes.landing,
+    element: <LandingPage />,
+    allowedRoles: [ROLE.UNAUTHORIZED, ROLE.PARENT, ROLE.COACH, ROLE.MANAGER],
+    layout: LAYOUT.LANDING,
+  },
   {
     path: routes['sign-in'],
     element: <SignInPage />,
