@@ -2,7 +2,6 @@ import { ROLE } from './types'
 import { routes } from './routes'
 import { RouteProps } from 'react-router-dom'
 
-import { LandingPage } from '@/pages/landing'
 import { SignInPage } from '@/pages/auth/sign-in'
 import { SignUpPage } from '@/pages/auth/sign-up'
 // import { DashboardPage } from '@/pages/dashboard'
@@ -10,6 +9,7 @@ import { SignUpPage } from '@/pages/auth/sign-up'
 // import { BranchesPage } from '@/pages/branches'
 // import { SubscriptionPage } from '@/pages/subscription'
 import { LAYOUT } from '@/layouts'
+import { LandingPage } from '@/pages/landing'
 
 type TPageRoute = RouteProps & {
   allowedRoles: ROLE[]
