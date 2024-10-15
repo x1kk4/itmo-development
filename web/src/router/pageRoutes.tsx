@@ -3,13 +3,13 @@ import { LAYOUT } from '@/layouts'
 import { routes } from './routes'
 import { RouteProps } from 'react-router-dom'
 
-import { LandingPage } from 'pages/landing/index'
-import { SignInPage } from 'pages/auth/sign-in/index'
-import { SignUpPage } from 'pages/auth/sign-up/index'
+import { LandingPage } from 'pages/landing'
+import { SignInPage } from 'pages/auth/sign-in'
+import { SignUpPage } from 'pages/auth/sign-up'
 import { DashboardPage } from 'pages/dashboard'
-// import { SchedulePage } from 'pages/schedule/index.tsx'
-// import { BranchesPage } from '@/pages/branches/index'
-// import { SubscriptionPage } from '@/pages/subscription/index'
+import { SchedulePage } from 'pages/schedule'
+import { BranchesPage } from 'pages/branches'
+import { SubscriptionPage } from 'pages/subscription'
 
 type TPageRoute = RouteProps & {
   allowedRoles: ROLE[]
@@ -41,24 +41,24 @@ const pageRoutes: TPageRoute[] = [
     allowedRoles: [ROLE.PARENT],
     layout: LAYOUT.PARENT,
   },
-  // {
-  //   path: routes.schedule,
-  //   element: <SchedulePage />,
-  //   allowedRoles: [ROLE.PARENT],
-  //   layout: LAYOUT.PARENT,
-  // },
-  // {
-  //   path: routes.branches,
-  //   element: <BranchesPage />,
-  //   allowedRoles: [ROLE.PARENT],
-  //   layout: LAYOUT.PARENT,
-  // },
-  // {
-  //   path: routes.subscription,
-  //   element: <SubscriptionPage />,
-  //   allowedRoles: [ROLE.PARENT],
-  //   layout: LAYOUT.PARENT,
-  // },
+  {
+    path: routes.schedule,
+    element: <SchedulePage />,
+    allowedRoles: [ROLE.PARENT],
+    layout: LAYOUT.PARENT,
+  },
+  {
+    path: routes.branches,
+    element: <BranchesPage />,
+    allowedRoles: [ROLE.PARENT],
+    layout: LAYOUT.PARENT,
+  },
+  {
+    path: routes.subscription,
+    element: <SubscriptionPage />,
+    allowedRoles: [ROLE.PARENT],
+    layout: LAYOUT.PARENT,
+  },
 ]
 
 export { pageRoutes }
