@@ -7,6 +7,8 @@ RUN npm install
 
 COPY . .
 
+RUN tsc --version
+
 RUN npm run build
 
 FROM nginx:alpine3.20-slim
