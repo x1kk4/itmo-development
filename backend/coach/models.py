@@ -34,18 +34,6 @@ class TrainingSession(models.Model):
             subscription.session_count -= 1
             subscription.save()
 
-
-class Branch(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    working_hours = models.CharField(max_length=100)
-    contact_info = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
 # Add Branch ForeignKey to Event and Session
 Event.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='events')
 Session.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='sessions')
