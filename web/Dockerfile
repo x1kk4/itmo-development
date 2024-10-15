@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-RUN tsc --version
+RUN npx tsc --version
 
 RUN npm run build
 
