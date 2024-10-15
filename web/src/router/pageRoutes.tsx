@@ -58,7 +58,7 @@ const pageRoutes: TPageRoute[] = [
   //   element: <SubscriptionPage />,
   //   allowedRoles: [ROLE.PARENT],
   //   layout: LAYOUT.PARENT,
-  },
+  // },
 ]
 
 export { pageRoutes }
