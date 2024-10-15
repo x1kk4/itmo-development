@@ -7,7 +7,7 @@ import { LandingPage } from 'pages/landing/index'
 import { SignInPage } from 'pages/auth/sign-in/index'
 import { SignUpPage } from 'pages/auth/sign-up/index'
 // import { DashboardPage } from 'pages/dashboard/index'
-import { SchedulePage } from 'pages/schedule/index'
+import { SchedulePage } from 'pages/schedule/index.tsx'
 // import { BranchesPage } from '@/pages/branches/index'
 // import { SubscriptionPage } from '@/pages/subscription/index'
 
