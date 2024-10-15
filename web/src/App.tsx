@@ -10,10 +10,6 @@ import { redirects } from './router/redirects'
 const App: FC = () => {
   const { user } = useAuthContext()
 
-  if (1) {
-    return null
-  }
-
   return (
     <Box
       display={'grid'}
