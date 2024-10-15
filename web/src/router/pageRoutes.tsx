@@ -9,7 +9,7 @@ import { SignUpPage } from '@/pages/auth/sign-up'
 // import { BranchesPage } from '@/pages/branches'
 // import { SubscriptionPage } from '@/pages/subscription'
 import { LAYOUT } from '@/layouts'
-import { LandingPage } from '@/pages/landing'
+import { LandingPage } from '@/pages/landing/index'
 
 type TPageRoute = RouteProps & {
   allowedRoles: ROLE[]
