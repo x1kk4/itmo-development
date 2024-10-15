@@ -33,7 +33,3 @@ class TrainingSession(models.Model):
             subscription = Subscription.objects.get(client=child.parent)
             subscription.session_count -= 1
             subscription.save()
-
-# Add Branch ForeignKey to Event and Session
-Event.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='events')
-Session.branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, related_name='sessions')

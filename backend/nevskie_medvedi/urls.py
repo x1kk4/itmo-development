@@ -4,8 +4,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from coach.views import CoachViewSet, EventViewSet, SessionViewSet, TrainingSessionViewSet, BranchViewSet
-from client.views import ClientViewSet, ChildViewSet
+from coach.views import CoachViewSet, TrainingSessionViewSet
+from client.views import ClientViewSet, ChildViewSet, BranchViewSet
 from coach.views import home  # 确保从适当的位置导入 home 视图
 
 from django.conf import settings

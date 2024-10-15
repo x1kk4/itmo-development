@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Client, Child
-from .serializers import ClientSerializer, ChildSerializer
+from .models import Client, Child, Branch
+from .serializers import ClientSerializer, ChildSerializer, BranchSerializer
 from django.db.models import Q
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -26,3 +26,7 @@ class ClientSearchViewSet(viewsets.ViewSet):
         clients = Client.objects.filter(Q(name__icontains=query) | Q(contact_info__icontains=query))
         serializer = ClientSerializer(clients, many=True)
         return Response(serializer.data)
+
+class BranchViewSet(viewsets.ModelViewSet):
+    queryset = Branch.objects.all()
+    serializer_class = BranchSerializer
