@@ -15,7 +15,8 @@ class CoachSerializer(serializers.ModelSerializer):
 class TrainingSessionSerializer(serializers.ModelSerializer):
     attendees = serializers.SlugRelatedField(
         many=True,
-        queryset=Child.objects.all()
+        queryset=Child.objects.all(),
+        slug_field='name',
         required=False  
     )
 
