@@ -23,11 +23,12 @@ def create_branches():
         {"name": "Петергофское ш., 5, корп. 3", "location": "59.848521, 30.204504", "image": "https://avatars.mds.yandex.net/get-altay/10834132/2a0000018e0a843651a42e001100b8511f9b/L_height"},
         {"name": "Афонская ул., 5", "location": "60.018014, 30.305678", "image": "https://avatars.mds.yandex.net/get-altay/4699294/2a0000017b7c7706e33656bd36104e221904/L_height"}
     ]
-    for data in branches_data:
-        branch, created = Branch.objects.get_or_create(
-            name=data['name'],
-            defaults={'location': data['location'], 'image': data['image']}
-        )
+    for data in branch_data:
+        branch, created = Branch.objects.get_or_create(name=data['name'], defaults=data)
+        if created:
+            print(f'Created branch: {branch.name}')
+        else:
+            print(f'Branch already exists: {branch.name}')
 
 if __name__ == '__main__':
     create_branches()
