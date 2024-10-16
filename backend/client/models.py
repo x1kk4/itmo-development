@@ -7,6 +7,8 @@ class Branch(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     image = models.URLField(default='', blank=True)
+    working_hours = models.CharField(max_length=100, null=True, blank=True)  # Optional field
+    contact_info = models.CharField(max_length=100, null=True, blank=True)  # Optional field
     #latitude = models.FloatField(null=True, blank=True)
     #longitude = models.FloatField(null=True, blank=True)
     def __str__(self):

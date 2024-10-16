@@ -18,5 +18,5 @@ class ChildSerializer(serializers.ModelSerializer):
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
-        fields = ['id', 'name', 'location', 'latitude', 'longitude', 'working_hours', 'contact_info', 'image']
+        fields = ['id', 'name', 'location', 'working_hours', 'contact_info', 'image']
 
