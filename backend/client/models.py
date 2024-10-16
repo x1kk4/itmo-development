@@ -5,12 +5,12 @@ from django.db import models
 class Branch(models.Model):
     # Model field definitions
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
     image = models.URLField(default='', blank=True)
     #latitude = models.FloatField(null=True, blank=True)
     #longitude = models.FloatField(null=True, blank=True)
     def __str__(self):
-        return f"{self.name} located at {self.address}"
+        return f"{self.name} located at {self.location}"
     class Meta:
         app_label = 'client'  
     
@@ -26,7 +26,7 @@ class Child(models.Model):
     age = models.IntegerField()
     group_level = models.CharField(max_length=50)
     parent = models.ForeignKey(Client, related_name='children', on_delete=models.CASCADE)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, null=True)
 
 
 class Subscription(models.Model):
