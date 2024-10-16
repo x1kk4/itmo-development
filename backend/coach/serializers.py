@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from coach.models import Coach, TrainingSession
-
+from client.models import Child
 class CoachSerializer(serializers.ModelSerializer):
     training_sessions = serializers.HyperlinkedRelatedField(
         many=True,
@@ -15,8 +15,8 @@ class CoachSerializer(serializers.ModelSerializer):
 class TrainingSessionSerializer(serializers.ModelSerializer):
     attendees = serializers.SlugRelatedField(
         many=True,
-        read_only=True,
-        slug_field='name'  
+        queryset=Child.objects.all()
+        required=False  
     )
 
     class Meta:

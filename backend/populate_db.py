@@ -54,15 +54,15 @@ def create_clients(branches):
 
 def create_children():
     parents = Client.objects.all()
-    levels = ["Beginner", "Intermediate", "Advanced"]
+    #levels = ["Beginner", "Intermediate", "Advanced"]
     for parent in parents:
-        for level in levels:
-            Child.objects.create(
-                name=f"{parent.name}'s Child - {level}",
-                age=random.randint(5, 18),
-                group_level=level,
-                parent=parent
-            )
+        #for level in levels:
+        Child.objects.create(
+            name=f"Ребёнок {parent.name}",
+            age=random.randint(5, 18),
+            #group_level=level,
+            parent=parent
+        )
 
 
 def create_coaches_and_sessions():

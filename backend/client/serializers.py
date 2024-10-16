@@ -7,6 +7,8 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ChildSerializer(serializers.ModelSerializer):
+    branch = serializers.PrimaryKeyRelatedField(queryset=Branch.objects.all())
+    
     class Meta:
         model = Child
         fields = '__all__'
@@ -14,5 +16,5 @@ class ChildSerializer(serializers.ModelSerializer):
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
-        fields = '__all__'
+        fields = ['id', 'name', 'address', 'latitude', 'longitude', 'working_hours', 'contact_info', 'image']
 
