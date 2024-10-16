@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Client, Child, Branch
 
 class ClientSerializer(serializers.ModelSerializer):
+    children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    
     class Meta:
         model = Client
         fields = '__all__'
