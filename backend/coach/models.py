@@ -1,11 +1,14 @@
 from django.db import models
 from client.models import Child
+from client.models import Subscription
 
 class Coach(models.Model):
     name = models.CharField(max_length=100)
     login = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
+
+
 
 class Session(models.Model):
     coach = models.ForeignKey(Coach, related_name='sessions', on_delete=models.CASCADE)
