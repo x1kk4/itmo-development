@@ -7,14 +7,13 @@ from drf_yasg import openapi
 from coach.views import CoachViewSet, TrainingSessionViewSet
 from client.views import ClientViewSet, ChildViewSet, BranchViewSet
 from coach.views import home  # 确保从适当的位置导入 home 视图
-
 from django.conf import settings
 from django.conf.urls.static import static
 
 # Setup the router
 router = DefaultRouter()
 router.register(r'coaches', CoachViewSet)
-router.register(r'training_sessions', TrainingSessionViewSet)
+router.register(r'training_sessions', TrainingSessionViewSet,basename='training-session')
 router.register(r'branches', BranchViewSet)
 router.register(r'clients', ClientViewSet)
 router.register(r'children', ChildViewSet)
