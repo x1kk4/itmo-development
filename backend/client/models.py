@@ -13,7 +13,8 @@ class Branch(models.Model):
         return f"{self.name} located at {self.location}"
     class Meta:
         app_label = 'client'  
-    
+    def __str__(self):
+        return f"{self.name} located at {self.location}"
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
