@@ -15,6 +15,11 @@ const parentMenu: TMenuItem[] = [
     icon: MdDashboard,
   },
   {
+    title: 'Карта филиалов',
+    url: routes.branches,
+    icon: MdMap,
+  },
+  {
     title: 'Расписание',
     url: routes.schedule,
     icon: MdSchedule,
@@ -23,11 +28,6 @@ const parentMenu: TMenuItem[] = [
   //   title: 'Новости',
   //   url: routes.news,
   // },
-  {
-    title: 'Карта филиалов',
-    url: routes.branches,
-    icon: MdMap,
-  },
   {
     title: 'Абонемент',
     url: routes.subscription,
