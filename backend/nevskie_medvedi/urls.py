@@ -5,7 +5,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from coach.views import CoachViewSet, TrainingSessionViewSet
-from client.views import ClientViewSet, ChildViewSet, BranchViewSet
+from client.views import ClientViewSet, ChildViewSet, BranchViewSet, SubsciptionViewSet
 from coach.views import home  # 确保从适当的位置导入 home 视图
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,6 +17,7 @@ router.register(r'training_sessions', TrainingSessionViewSet,basename='training-
 router.register(r'branches', BranchViewSet)
 router.register(r'clients', ClientViewSet)
 router.register(r'children', ChildViewSet)
+router.register(r'subscription', SubsciptionViewSet)
 
 # Setup Swagger view
 schema_view = get_schema_view(

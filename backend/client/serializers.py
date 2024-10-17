@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Client, Child, Branch
+from .models import Client, Child, Branch, Subscription
 
 class ClientSerializer(serializers.ModelSerializer):
     children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -19,4 +19,10 @@ class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
         fields = ['id', 'name', 'location', 'working_hours', 'contact_info', 'image']
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = '__all__'
+
 
