@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-l0exuu&!9y_0diopd&kfq6q=d@ulfb5n9)kikrzv50swg_x3(d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['itmo.website','127.0.0.1', 'localhost:5173', 'backend']
+ALLOWED_HOSTS = ['itmo.website','127.0.0.1', 'localhost', 'backend']
 
 
 # Application definition
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'coach',
     'client',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://itmo.website"
 ]
 
 ROOT_URLCONF = "nevskie_medvedi.urls"
