@@ -3,7 +3,7 @@ import { FC, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { pageRoutes } from './router/pageRoutes'
-import { useAuthContext } from './utils/AuthContext'
+import { useAuthContext } from './utils/contexts/AuthContext'
 import { layout } from './layouts'
 import { redirects } from './router/redirects'
 

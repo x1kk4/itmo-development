@@ -1,5 +1,5 @@
 import { ROLE } from '@/router/types'
-import { useAuthContext } from '@/utils/AuthContext'
+import { useAuthContext } from '@/utils/contexts/AuthContext'
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { FC } from 'react'
 import { MdPermIdentity } from 'react-icons/md'
