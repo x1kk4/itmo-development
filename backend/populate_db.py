@@ -29,7 +29,7 @@ def create_clients():
         {"name": "Виталий Цаль", "username": "homelander", "password": "complexpassword456", "contact_info": "jane.smithers@example.com"},
         {"name": "Елена Головач", "username": "Мама Лена", "password": "complexpassword789", "contact_info": "alice.johnsonson@example.com"}
     ]
-    
+
     for data in client_data:
         Client.objects.create(**data)
 
@@ -41,11 +41,18 @@ def create_children():
         {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent_id": 3}
     ]
 
-    for data in children_data:
+    for data in client_data:
         try:
-            Child.objects.create(**data)
+            client, created = Client.objects.update_or_create(
+                username=data['username'],
+                defaults=data
+            )
+            if created:
+                print(f"Created new client: {client.username}")
+            else:
+                print(f"Updated existing client: {client.username}")
         except IntegrityError as e:
-            print(f"Error creating child: {e}")
+            print(f"Error with client {data['username']}: {e}")
 
 
 def create_coaches_and_sessions():
