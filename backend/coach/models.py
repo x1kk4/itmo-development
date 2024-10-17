@@ -1,14 +1,11 @@
 from django.db import models
-from client.models import Child
-from client.models import Subscription
+from client.models import Child, Subscription, Branch
 
 class Coach(models.Model):
     name = models.CharField(max_length=100)
     login = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
-
-
 
 class Session(models.Model):
     coach = models.ForeignKey(Coach, related_name='sessions', on_delete=models.CASCADE)
@@ -29,6 +26,7 @@ class TrainingSession(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     attendees = models.ManyToManyField(Child, related_name='training_sessions')
+    branch = models.ForeignKey(Branch, related_name='training_sessions', on_delete=models.CASCADE)
 
 
     def end_session(self):
