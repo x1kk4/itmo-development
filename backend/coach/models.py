@@ -27,6 +27,7 @@ class TrainingSession(models.Model):
     end_time = models.TimeField()
     attendees = models.ManyToManyField(Child, related_name='training_sessions')
     branch = models.ForeignKey(Branch, related_name='training_sessions', on_delete=models.CASCADE)
+    children_list = models.ManyToManyField(Child, related_name='children_list_training_sessions')
 
 
     def end_session(self):

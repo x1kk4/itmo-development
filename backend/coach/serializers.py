@@ -20,6 +20,13 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
         required=False  
     )
 
+    children_list = serializers.SlugRelatedField(
+        many=True,
+        queryset=Child.objects.all(),
+        slug_field='name',
+        required=False  
+    )
+
     class Meta:
         model = TrainingSession
         fields = '__all__'
