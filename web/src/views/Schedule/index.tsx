@@ -4,14 +4,25 @@ import dayjs from 'dayjs'
 import { Box, useDisclosure } from '@chakra-ui/react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import styles from './schedule.module.css'
-import { events } from './events'
 import { AppointmentModal } from './AppointmentModal'
+import { useTrainingSessions } from '@/utils/hooks/useTrainingSessions'
+import { convertToEventTime } from '@/helpers/convertToEventTime'
 
 const localizer = dayjsLocalizer(dayjs)
 
 const Schedule: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+
+  const { data: eventsData } = useTrainingSessions()
+
+  const events = useMemo(() => {
+    return eventsData?.map((event) => ({
+      id: event.id,
+      start: convertToEventTime(event.date, event.start_time),
+      end: convertToEventTime(event.date, event.end_time),
+    }))
+  }, [eventsData])
 
   const formats: Formats = useMemo(
     () => ({

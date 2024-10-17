@@ -1,7 +1,7 @@
 const events = [
   {
     id: 1,
-    start: new Date(2024, 9, 16, 10, 0), // Year, Month (0-based), Day, Hour, Minute
+    start: new Date(2024, 9, 16, 10, 0),
     end: new Date(2024, 9, 16, 11, 30),
   },
   {
