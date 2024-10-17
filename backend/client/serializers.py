@@ -6,7 +6,7 @@ class ClientSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Client
-        fields = '__all__'
+        fields = ['name', 'username', 'contact_info']
 
 class ChildSerializer(serializers.ModelSerializer):
     branch = serializers.PrimaryKeyRelatedField(queryset=Branch.objects.all())
