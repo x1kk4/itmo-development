@@ -29,18 +29,7 @@ def create_clients():
         {"name": "Виталий Цаль", "username": "homelander", "password": "complexpassword456", "contact_info": "jane.smithers@example.com"},
         {"name": "Елена Головач", "username": "Мама Лена", "password": "complexpassword789", "contact_info": "alice.johnsonson@example.com"}
     ]
-
-    for data in client_data:
-        Client.objects.create(**data)
-
-
-def create_children():
-    children_data = [
-        {"name": "Валерий Жмышенко", "age": 14, "group_level": "Advanced", "parent_id": 1},
-        {"name": "Петр Цаль", "age": 10, "group_level": "Intermediate", "parent_id": 2},
-        {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent_id": 3}
-    ]
-
+    
     for data in client_data:
         try:
             client, created = Client.objects.update_or_create(
@@ -53,6 +42,20 @@ def create_children():
                 print(f"Updated existing client: {client.username}")
         except IntegrityError as e:
             print(f"Error with client {data['username']}: {e}")
+
+
+def create_children():
+    children_data = [
+        {"name": "Валерий Жмышенко", "age": 14, "group_level": "Advanced", "parent_id": 1},
+        {"name": "Петр Цаль", "age": 10, "group_level": "Intermediate", "parent_id": 2},
+        {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent_id": 3}
+    ]
+
+    for data in children_data:
+        try:
+            Child.objects.create(**data)
+        except IntegrityError as e:
+            print(f"Error creating child: {e}")
 
 
 def create_coaches_and_sessions():
