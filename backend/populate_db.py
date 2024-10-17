@@ -19,8 +19,19 @@ def create_branches():
         {"name": "Петергофское ш., 5, корп. 3", "location": "59.848521, 30.204504", "image": "https://avatars.mds.yandex.net/get-altay/10834132/2a0000018e0a843651a42e001100b8511f9b/L_height"},
         {"name": "Афонская ул., 5", "location": "60.018014, 30.305678", "image": "https://avatars.mds.yandex.net/get-altay/4699294/2a0000017b7c7706e33656bd36104e221904/L_height"}
     ]
+    
     for data in branches_data:
-        Branch.objects.create(**data)
+        try:
+            branch, created = Branch.objects.update_or_create(
+                name=data['name'],
+                defaults=data
+            )
+            if created:
+                print(f"Created new branch: {branch.name}")
+            else:
+                print(f"Updated existing branch: {branch.name}")
+        except IntegrityError as e:
+            print(f"Error with branch {data['name']}: {e}")
 
 
 def create_clients():
@@ -53,9 +64,17 @@ def create_children():
 
     for data in children_data:
         try:
-            Child.objects.create(**data)
+            child, created = Child.objects.update_or_create(
+                name=data['name'],
+                parent_id=data['parent_id'],
+                defaults=data
+            )
+            if created:
+                print(f"Created new child: {child.name}")
+            else:
+                print(f"Updated existing child: {child.name}")
         except IntegrityError as e:
-            print(f"Error creating child: {e}")
+            print(f"Error with child {data['name']}: {e}")
 
 
 def create_coaches_and_sessions():
@@ -67,9 +86,16 @@ def create_coaches_and_sessions():
 
     for data in coach_data:
         try:
-            Coach.objects.create(**data)
+            coach, created = Coach.objects.update_or_create(
+                login=data['login'],
+                defaults=data
+            )
+            if created:
+                print(f"Created new coach: {coach.name}")
+            else:
+                print(f"Updated existing coach: {coach.name}")
         except IntegrityError as e:
-            print(f"Error creating coach: {e}")
+            print(f"Error with coach {data['login']}: {e}")
 
     training_sessions_data = [
         {"date": "2024-10-18", "start_time": "09:30:00", "end_time": "10:30:00", "coach_id": 1, "branch_id": 3},
@@ -106,9 +132,19 @@ def create_coaches_and_sessions():
 
     for data in training_sessions_data:
         try:
-            TrainingSession.objects.create(**data)
+            session, created = TrainingSession.objects.update_or_create(
+                date=data['date'],
+                start_time=data['start_time'],
+                coach_id=data['coach_id'],
+                branch_id=data['branch_id'],
+                defaults=data
+            )
+            if created:
+                print(f"Created new training session: {session.date} {session.start_time} at branch {session.branch_id}")
+            else:
+                print(f"Updated existing training session: {session.date} {session.start_time} at branch {session.branch_id}")
         except IntegrityError as e:
-            print(f"Error creating training session: {e}")
+            print(f"Error with training session {data['date']} {data['start_time']} at branch {data['branch_id']}: {e}")
 
 
 if __name__ == '__main__':
