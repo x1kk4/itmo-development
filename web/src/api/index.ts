@@ -23,6 +23,7 @@ export type TTrainingSession = {
   start_time: string
   end_time: string
   coach: number
+  branch: number
 }
 
 export type TGetTrainingSessionsResponse = TTrainingSession[]
