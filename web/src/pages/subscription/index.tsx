@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { FC } from 'react'
 
-const Schedule: FC = () => {
+const SubscriptionPage: FC = () => {
   return (
     <Box>
-      <p>Schedule</p>
+      <p>Subscription</p>
     </Box>
   )
 }
 
-export { Schedule }
+export { SubscriptionPage }

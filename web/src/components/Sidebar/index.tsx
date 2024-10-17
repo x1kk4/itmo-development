@@ -3,7 +3,7 @@ import { Flex, Icon, IconButton, Link, Text } from '@chakra-ui/react'
 
 import { parentMenu } from './menus'
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom'
-import { GiBearFace } from 'react-icons/gi'
+import { MdMenu } from 'react-icons/md'
 
 export const Sidebar: FC = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true)
@@ -26,7 +26,7 @@ export const Sidebar: FC = () => {
     >
       <IconButton
         aria-label={'Toggle sidebar'}
-        icon={<GiBearFace size={24} />}
+        icon={<MdMenu size={24} />}
         width={'100%'}
         borderRadius={0}
         onClick={toggleSidebar}

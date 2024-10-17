@@ -4,4 +4,5 @@ export type TUser = {
   role: ROLE
   username?: string
   email?: string
+  branch: number | null
 }

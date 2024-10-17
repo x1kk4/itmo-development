@@ -6,6 +6,7 @@ import { produce } from 'immer'
 export type TAuthContextShape = {
   user: TUser
   changeRole: (role: ROLE) => void
+  setBranch: (branch: number) => void
 }
 const AuthContext = React.createContext<TAuthContextShape>({} as TAuthContextShape)
 
@@ -17,9 +18,10 @@ const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
 
   const [userData, setUserData] = useState<TUser>({
-    role: ROLE.UNAUTHORIZED,
+    role: ROLE.PARENT,
     username: 'mama azazina',
     email: 'angular@gmail.com',
+    branch: null,
   })
 
   const changeRole = useCallback(
@@ -32,12 +34,23 @@ const AuthProvider = (props: TAuthProviderProps) => {
     [setUserData],
   )
 
+  const setBranch = useCallback(
+    (branch: number) =>
+      setUserData(
+        produce((draft) => {
+          draft.branch = branch
+        }),
+      ),
+    [setUserData],
+  )
+
   const value: TAuthContextShape = useMemo(
     () => ({
       user: userData,
       changeRole,
+      setBranch,
     }),
-    [userData, changeRole],
+    [userData, changeRole, setBranch],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
