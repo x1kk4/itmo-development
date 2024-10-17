@@ -35,9 +35,9 @@ def create_clients():
 
 def create_children():
     children_data = [
-        {"name": "Валерий Жмышенко", "age": 14, "group_level": "Advanced", "parent": 1},
-        {"name": "Петр Цаль", "age": 10, "group_level": "Intermediate", "parent": 2},
-        {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent": 3}
+        {"name": "Валерий Жмышенко", "age": 14, "group_level": "Advanced", "parent_id": 1},
+        {"name": "Петр Цаль", "age": 10, "group_level": "Intermediate", "parent_id": 2},
+        {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent_id": 3}
     ]
     for data in children_data:
         Child.objects.create(**data)
@@ -54,36 +54,36 @@ def create_coaches_and_sessions():
         Coach.objects.create(**data)
 
     training_sessions_data = [
-        {"date": "2024-10-18", "start_time": "09:30:00", "end_time": "10:30:00", "coach": 1, "branch": 3},
-        {"date": "2024-10-19", "start_time": "14:00:00", "end_time": "15:00:00", "coach": 2, "branch": 5},
-        {"date": "2024-10-20", "start_time": "11:15:00", "end_time": "12:15:00", "coach": 3, "branch": 1},
-        {"date": "2024-10-21", "start_time": "16:45:00", "end_time": "17:45:00", "coach": 1, "branch": 7},
-        {"date": "2024-10-22", "start_time": "08:00:00", "end_time": "09:00:00", "coach": 2, "branch": 2},
-        {"date": "2024-10-23", "start_time": "13:30:00", "end_time": "14:30:00", "coach": 3, "branch": 6},
-        {"date": "2024-10-24", "start_time": "10:00:00", "end_time": "11:00:00", "coach": 1, "branch": 4},
-        {"date": "2024-10-25", "start_time": "17:15:00", "end_time": "18:15:00", "coach": 2, "branch": 8},
-        {"date": "2024-10-26", "start_time": "12:45:00", "end_time": "13:45:00", "coach": 3, "branch": 1},
-        {"date": "2024-10-27", "start_time": "15:30:00", "end_time": "16:30:00", "coach": 1, "branch": 5},
-        {"date": "2024-10-28", "start_time": "09:00:00", "end_time": "10:00:00", "coach": 2, "branch": 3},
-        {"date": "2024-10-29", "start_time": "18:00:00", "end_time": "19:00:00", "coach": 3, "branch": 7},
-        {"date": "2024-10-30", "start_time": "11:45:00", "end_time": "12:45:00", "coach": 1, "branch": 2},
-        {"date": "2024-10-31", "start_time": "14:30:00", "end_time": "15:30:00", "coach": 2, "branch": 6},
-        {"date": "2024-10-18", "start_time": "16:15:00", "end_time": "17:15:00", "coach": 3, "branch": 4},
-        {"date": "2024-10-19", "start_time": "08:30:00", "end_time": "09:30:00", "coach": 1, "branch": 8},
-        {"date": "2024-10-20", "start_time": "13:00:00", "end_time": "14:00:00", "coach": 2, "branch": 1},
-        {"date": "2024-10-21", "start_time": "10:45:00", "end_time": "11:45:00", "coach": 3, "branch": 5},
-        {"date": "2024-10-22", "start_time": "17:30:00", "end_time": "18:30:00", "coach": 1, "branch": 3},
-        {"date": "2024-10-23", "start_time": "09:15:00", "end_time": "10:15:00", "coach": 2, "branch": 7},
-        {"date": "2024-10-24", "start_time": "12:30:00", "end_time": "13:30:00", "coach": 3, "branch": 2},
-        {"date": "2024-10-25", "start_time": "15:45:00", "end_time": "16:45:00", "coach": 1, "branch": 6},
-        {"date": "2024-10-26", "start_time": "08:45:00", "end_time": "09:45:00", "coach": 2, "branch": 4},
-        {"date": "2024-10-27", "start_time": "11:00:00", "end_time": "12:00:00", "coach": 3, "branch": 8},
-        {"date": "2024-10-28", "start_time": "14:15:00", "end_time": "15:15:00", "coach": 1, "branch": 1},
-        {"date": "2024-10-29", "start_time": "17:30:00", "end_time": "18:30:00", "coach": 2, "branch": 5},
-        {"date": "2024-10-30", "start_time": "10:30:00", "end_time": "11:30:00", "coach": 3, "branch": 3},
-        {"date": "2024-10-31", "start_time": "13:45:00", "end_time": "14:45:00", "coach": 1, "branch": 7},
-        {"date": "2024-10-18", "start_time": "16:00:00", "end_time": "17:00:00", "coach": 2, "branch": 2},
-        {"date": "2024-10-19", "start_time": "19:00:00", "end_time": "20:00:00", "coach": 3, "branch": 6}
+        {"date": "2024-10-18", "start_time": "09:30:00", "end_time": "10:30:00", "coach_id": 1, "branch_id": 3},
+        {"date": "2024-10-19", "start_time": "14:00:00", "end_time": "15:00:00", "coach_id": 2, "branch_id": 5},
+        {"date": "2024-10-20", "start_time": "11:15:00", "end_time": "12:15:00", "coach_id": 3, "branch_id": 1},
+        {"date": "2024-10-21", "start_time": "16:45:00", "end_time": "17:45:00", "coach_id": 1, "branch_id": 7},
+        {"date": "2024-10-22", "start_time": "08:00:00", "end_time": "09:00:00", "coach_id": 2, "branch_id": 2},
+        {"date": "2024-10-23", "start_time": "13:30:00", "end_time": "14:30:00", "coach_id": 3, "branch_id": 6},
+        {"date": "2024-10-24", "start_time": "10:00:00", "end_time": "11:00:00", "coach_id": 1, "branch_id": 4},
+        {"date": "2024-10-25", "start_time": "17:15:00", "end_time": "18:15:00", "coach_id": 2, "branch_id": 8},
+        {"date": "2024-10-26", "start_time": "12:45:00", "end_time": "13:45:00", "coach_id": 3, "branch_id": 1},
+        {"date": "2024-10-27", "start_time": "15:30:00", "end_time": "16:30:00", "coach_id": 1, "branch_id": 5},
+        {"date": "2024-10-28", "start_time": "09:00:00", "end_time": "10:00:00", "coach_id": 2, "branch_id": 3},
+        {"date": "2024-10-29", "start_time": "18:00:00", "end_time": "19:00:00", "coach_id": 3, "branch_id": 7},
+        {"date": "2024-10-30", "start_time": "11:45:00", "end_time": "12:45:00", "coach_id": 1, "branch_id": 2},
+        {"date": "2024-10-31", "start_time": "14:30:00", "end_time": "15:30:00", "coach_id": 2, "branch_id": 6},
+        {"date": "2024-10-18", "start_time": "16:15:00", "end_time": "17:15:00", "coach_id": 3, "branch_id": 4},
+        {"date": "2024-10-19", "start_time": "08:30:00", "end_time": "09:30:00", "coach_id": 1, "branch_id": 8},
+        {"date": "2024-10-20", "start_time": "13:00:00", "end_time": "14:00:00", "coach_id": 2, "branch_id": 1},
+        {"date": "2024-10-21", "start_time": "10:45:00", "end_time": "11:45:00", "coach_id": 3, "branch_id": 5},
+        {"date": "2024-10-22", "start_time": "17:30:00", "end_time": "18:30:00", "coach_id": 1, "branch_id": 3},
+        {"date": "2024-10-23", "start_time": "09:15:00", "end_time": "10:15:00", "coach_id": 2, "branch_id": 7},
+        {"date": "2024-10-24", "start_time": "12:30:00", "end_time": "13:30:00", "coach_id": 3, "branch_id": 2},
+        {"date": "2024-10-25", "start_time": "15:45:00", "end_time": "16:45:00", "coach_id": 1, "branch_id": 6},
+        {"date": "2024-10-26", "start_time": "08:45:00", "end_time": "09:45:00", "coach_id": 2, "branch_id": 4},
+        {"date": "2024-10-27", "start_time": "11:00:00", "end_time": "12:00:00", "coach_id": 3, "branch_id": 8},
+        {"date": "2024-10-28", "start_time": "14:15:00", "end_time": "15:15:00", "coach_id": 1, "branch_id": 1},
+        {"date": "2024-10-29", "start_time": "17:30:00", "end_time": "18:30:00", "coach_id": 2, "branch_id": 5},
+        {"date": "2024-10-30", "start_time": "10:30:00", "end_time": "11:30:00", "coach_id": 3, "branch_id": 3},
+        {"date": "2024-10-31", "start_time": "13:45:00", "end_time": "14:45:00", "coach_id": 1, "branch_id": 7},
+        {"date": "2024-10-18", "start_time": "16:00:00", "end_time": "17:00:00", "coach_id": 2, "branch_id": 2},
+        {"date": "2024-10-19", "start_time": "19:00:00", "end_time": "20:00:00", "coach_id": 3, "branch_id": 6}
     ]
 
     for data in training_sessions_data:
