@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-l0exuu&!9y_0diopd&kfq6q=d@ulfb5n9)kikrzv50swg_x3(d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['itmo.website','127.0.0.1', 'localhost', 'backend']
+ALLOWED_HOSTS = ['itmo.website','127.0.0.1', 'localhost:5173', 'backend']
 
 
 # Application definition
