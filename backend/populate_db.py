@@ -29,6 +29,7 @@ def create_clients():
         {"name": "Виталий Цаль", "username": "homelander", "password": "complexpassword456", "contact_info": "jane.smithers@example.com"},
         {"name": "Елена Головач", "username": "Мама Лена", "password": "complexpassword789", "contact_info": "alice.johnsonson@example.com"}
     ]
+    
     for data in client_data:
         Client.objects.create(**data)
 
@@ -39,8 +40,12 @@ def create_children():
         {"name": "Петр Цаль", "age": 10, "group_level": "Intermediate", "parent_id": 2},
         {"name": "Леонид Головач", "age": 7, "group_level": "Beginner", "parent_id": 3}
     ]
+
     for data in children_data:
-        Child.objects.create(**data)
+        try:
+            Child.objects.create(**data)
+        except IntegrityError as e:
+            print(f"Error creating child: {e}")
 
 
 def create_coaches_and_sessions():
@@ -51,7 +56,10 @@ def create_coaches_and_sessions():
     ]
 
     for data in coach_data:
-        Coach.objects.create(**data)
+        try:
+            Coach.objects.create(**data)
+        except IntegrityError as e:
+            print(f"Error creating coach: {e}")
 
     training_sessions_data = [
         {"date": "2024-10-18", "start_time": "09:30:00", "end_time": "10:30:00", "coach_id": 1, "branch_id": 3},
@@ -87,7 +95,10 @@ def create_coaches_and_sessions():
     ]
 
     for data in training_sessions_data:
-        TrainingSession.objects.create(**data)
+        try:
+            TrainingSession.objects.create(**data)
+        except IntegrityError as e:
+            print(f"Error creating training session: {e}")
 
 
 if __name__ == '__main__':
