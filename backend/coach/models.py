@@ -15,6 +15,7 @@ class TrainingSession(models.Model):
     attendees = models.ManyToManyField(Child, related_name='training_sessions')
     branch = models.ForeignKey(Branch, related_name='training_sessions', on_delete=models.CASCADE)
     children_list = models.ManyToManyField(Child, related_name='children_list_training_sessions')
+    group_level = models.CharField(max_length=100)
 
 
     def end_session(self):
