@@ -28,7 +28,7 @@ const DevRolePicker: FC = () => {
       <MenuList>
         <MenuItem onClick={() => changeRole(ROLE.UNAUTHORIZED)}>{role[ROLE.UNAUTHORIZED]}</MenuItem>
         <MenuItem onClick={() => changeRole(ROLE.PARENT)}>{role[ROLE.PARENT]}</MenuItem>
-        {/* <MenuItem onClick={() => changeRole(ROLE.COACH)}>Тренер</MenuItem> */}
+        <MenuItem onClick={() => changeRole(ROLE.COACH)}>Тренер</MenuItem>
         {/* <MenuItem onClick={() => changeRole(ROLE.MANAGER)}>Менеджер</MenuItem> */}
       </MenuList>
     </Menu>

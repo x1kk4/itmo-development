@@ -1,6 +1,7 @@
 import { FC, useMemo, useState } from 'react'
 import { Calendar, dayjsLocalizer, type Formats, type Event } from 'react-big-calendar'
 import dayjs from 'dayjs'
+import 'dayjs/locale/ru'
 import { Box, useDisclosure } from '@chakra-ui/react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import styles from './schedule.module.css'
@@ -32,13 +33,11 @@ const Schedule: FC = () => {
   const formats: Formats = useMemo(
     () => ({
       dateFormat: 'ddd',
-
       dayFormat: (date) => localizer.format(date, 'DD ddd', 'ru'),
-
-      // dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
-      //   localizer.format(start, { date: 'short' }, culture) +
-      //   ' — ' +
-      //   localizer.format(end, { date: 'short' }, culture),
+      weekdayFormat: (date) => dayjs(date).format('dd'),
+      timeGutterFormat: (date) => localizer.format(date, 'HH:mm'),
+      eventTimeRangeFormat: ({ start, end }) =>
+        `${localizer.format(start, 'HH:mm')} - ${localizer.format(end, 'HH:mm')}`,
     }),
     [],
   )
@@ -64,11 +63,14 @@ const Schedule: FC = () => {
         endAccessor='end'
         defaultView='week'
         className={styles.calendar}
-        views={['week', 'month']}
+        views={['week']}
+        // views={['week', 'month']}
         events={events}
         onSelectEvent={handleEventClick}
         step={20}
         formats={formats}
+        min={new Date(0, 0, 0, 8, 0, 0)}
+        max={new Date(0, 0, 0, 22, 0, 0)}
       />
       <AppointmentModal
         isOpen={isOpen}
