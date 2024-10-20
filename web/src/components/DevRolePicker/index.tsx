@@ -14,6 +14,10 @@ const role = {
 const DevRolePicker: FC = () => {
   const { user, authGuest, authParent, authCoach } = useAuthContext()
 
+  if (!user) {
+    return null
+  }
+
   return (
     <Menu>
       <MenuButton
