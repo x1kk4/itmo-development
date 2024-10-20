@@ -13,11 +13,11 @@ class ChildViewSet(viewsets.ModelViewSet):
     queryset = Child.objects.all()
     serializer_class = ChildSerializer
 
-    @action(detail=True, methods=['get'])
-    def children(self, request, pk=None):
-        client = self.get_object()
-        children = client.children.all()
-        serializer = ChildSerializer(children, many=True)
+    @action(methods=['put'], detail=False, url_path='batch-retrieve')
+    def batch_retrieve(self, request):
+        ids = request.data.get('ids', [])
+        queryset = self.queryset.filter(id__in=ids)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 class ClientSearchViewSet(viewsets.ViewSet):

@@ -40,3 +40,21 @@ def home(request):
     <p>Please visit <a href='/api/v1/swagger/'>Swagger documentation</a> to explore the API.</p>
     """
     return HttpResponse(message)
+
+# coach/views.py
+
+from django.db.models import Q
+
+class TrainingSessionViewSet(viewsets.ModelViewSet):
+    queryset = TrainingSession.objects.all()
+    serializer_class = TrainingSessionSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        coach_id = self.request.query_params.get('coach_id')
+        child_ids = self.request.query_params.getlist('child_ids')  # 获取多个child_ids
+        if coach_id:
+            queryset = queryset.filter(coach_id=coach_id)
+        if child_ids:
+            queryset = queryset.filter(attendees__id__in=child_ids)
+        return queryset

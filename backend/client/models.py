@@ -21,7 +21,7 @@ class Client(models.Model):
     username = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     contact_info = models.CharField(max_length=150)
-    
+    subscription = models.ForeignKey('Subscription', on_delete=models.SET_NULL, null=True, related_name='clients')
 
 class Child(models.Model):
     name = models.CharField(max_length=100)
