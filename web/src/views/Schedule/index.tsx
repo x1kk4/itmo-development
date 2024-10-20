@@ -8,7 +8,7 @@ import styles from './schedule.module.css'
 import { AppointmentModal } from './AppointmentModal'
 import { useTrainingSessions } from '@/utils/hooks/useTrainingSessions'
 import { convertToEventTime } from '@/helpers/convertToEventTime'
-import { useAuthContext } from '@/utils/contexts/AuthContext'
+import { useParentContext } from '@/utils/contexts/ParentContext'
 
 const localizer = dayjsLocalizer(dayjs)
 
@@ -16,19 +16,19 @@ const Schedule: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
-  const { user } = useAuthContext()
+  const { selectedChildrenData } = useParentContext()
 
   const { data: eventsData } = useTrainingSessions()
 
   const events = useMemo(() => {
     return eventsData
-      ?.filter((event) => event.branch === user.branch)
+      ?.filter((event) => event.branch === selectedChildrenData?.branch)
       .map((event) => ({
         id: event.id,
         start: convertToEventTime(event.date, event.start_time),
         end: convertToEventTime(event.date, event.end_time),
       }))
-  }, [eventsData, user.branch])
+  }, [eventsData, selectedChildrenData])
 
   const formats: Formats = useMemo(
     () => ({

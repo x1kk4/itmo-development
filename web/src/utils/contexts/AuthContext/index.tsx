@@ -1,12 +1,20 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { TUser } from './types'
 import { ROLE } from '@/router/types'
-import { produce } from 'immer'
+import { useClient } from '@/utils/hooks/useClient'
+import { useCoach } from '@/utils/hooks/useCoach'
+import { useLocalStorage } from '@uidotdev/usehooks'
+
+const DEFAULT_PARENT_ID = 1
+
+const DEFAULT_COACH_ID = 1
 
 export type TAuthContextShape = {
-  user: TUser
-  changeRole: (role: ROLE) => void
-  setBranch: (branch: number) => void
+  user: TUser | null
+  authGuest: () => void
+  authParent: () => void
+  authCoach: () => void
+  isLoading: boolean
 }
 const AuthContext = React.createContext<TAuthContextShape>({} as TAuthContextShape)
 
@@ -17,40 +25,63 @@ export type TAuthProviderProps = {
 const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
 
-  const [userData, setUserData] = useState<TUser>({
-    role: ROLE.PARENT,
-    username: 'mama azazina',
-    email: 'angular@gmail.com',
-    branch: null,
-  })
+  const [persistRole, setPersistRole] = useLocalStorage<ROLE>('role', ROLE.UNAUTHORIZED)
 
-  const changeRole = useCallback(
-    (role: ROLE) =>
-      setUserData(
-        produce((draft) => {
-          draft.role = role
-        }),
-      ),
-    [setUserData],
-  )
+  const { data: client, isLoading: isClientLoading } = useClient(DEFAULT_PARENT_ID)
+  const { data: coach, isLoading: isCoachLoading } = useCoach(DEFAULT_COACH_ID)
 
-  const setBranch = useCallback(
-    (branch: number) =>
-      setUserData(
-        produce((draft) => {
-          draft.branch = branch
-        }),
-      ),
-    [setUserData],
-  )
+  const [userData, setUserData] = useState<TUser | null>(null)
+
+  const authGuest = useCallback(() => {
+    setUserData({
+      role: ROLE.UNAUTHORIZED,
+    })
+    setPersistRole(ROLE.UNAUTHORIZED)
+  }, [setPersistRole])
+
+  const authParent = useCallback(() => {
+    if (client) {
+      setUserData({
+        role: ROLE.PARENT,
+        ...client,
+      })
+      setPersistRole(ROLE.PARENT)
+    }
+  }, [client, setPersistRole])
+
+  const authCoach = useCallback(() => {
+    if (coach) {
+      setUserData({
+        role: ROLE.COACH,
+        ...coach,
+      })
+      setPersistRole(ROLE.COACH)
+    }
+  }, [coach, setPersistRole])
+
+  useEffect(() => {
+    if (persistRole === ROLE.PARENT) {
+      authParent()
+      return
+    }
+
+    if (persistRole === ROLE.COACH) {
+      authCoach()
+      return
+    }
+
+    authGuest()
+  }, [authGuest, authParent, authCoach, persistRole])
 
   const value: TAuthContextShape = useMemo(
     () => ({
       user: userData,
-      changeRole,
-      setBranch,
+      authGuest,
+      authParent,
+      authCoach,
+      isLoading: isClientLoading || isCoachLoading,
     }),
-    [userData, changeRole, setBranch],
+    [userData, authGuest, authParent, authCoach, isClientLoading, isCoachLoading],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

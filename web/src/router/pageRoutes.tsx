@@ -23,7 +23,7 @@ const pageRoutes: TPageRoute[] = [
   {
     path: routes.landing,
     element: <LandingPage />,
-    allowedRoles: [ROLE.UNAUTHORIZED, ROLE.PARENT, ROLE.COACH, ROLE.MANAGER],
+    allowedRoles: [ROLE.UNAUTHORIZED],
     layout: LAYOUT.LANDING,
   },
   {

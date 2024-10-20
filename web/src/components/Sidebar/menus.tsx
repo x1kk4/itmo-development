@@ -7,7 +7,7 @@ import {
   MdEventAvailable,
   MdMap,
   MdSchedule,
-  MdWeb,
+  // MdWeb,
 } from 'react-icons/md'
 
 export type TMenuItem = {
@@ -41,11 +41,11 @@ const parentMenu: TMenuItem[] = [
     url: routes.subscription,
     icon: MdAttachMoney,
   },
-  {
-    title: 'Лендинг',
-    url: routes.landing,
-    icon: MdWeb,
-  },
+  // {
+  //   title: 'Лендинг',
+  //   url: routes.landing,
+  //   icon: MdWeb,
+  // },
 ]
 
 const coachMenu = [

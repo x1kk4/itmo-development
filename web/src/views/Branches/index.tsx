@@ -2,23 +2,27 @@ import { Box, Flex } from '@chakra-ui/react'
 import { Map, Placemark, ZoomControl, YMaps } from '@pbe/react-yandex-maps'
 import { FC, useCallback } from 'react'
 
-import { useAuthContext } from '@/utils/contexts/AuthContext'
 import { useBranches } from '@/utils/hooks/useBranches'
 import { useNavigate } from 'react-router-dom'
+import { useParentContext } from '@/utils/contexts/ParentContext'
+import { useUpdateChild } from '@/utils/hooks/useUpdateChildren'
 
 const Branches: FC = () => {
   const navigate = useNavigate()
 
-  const { setBranch, user } = useAuthContext()
+  const { selectedChildrenData } = useParentContext()
+  const { mutate } = useUpdateChild()
 
   const { data: branches, isLoading } = useBranches()
 
   const handleBranchClick = useCallback(
     (branch: number) => () => {
-      setBranch(branch)
-      navigate('/schedule')
+      if (selectedChildrenData) {
+        mutate({ ...selectedChildrenData, branch })
+        navigate('/schedule')
+      }
     },
-    [setBranch, navigate],
+    [navigate, selectedChildrenData, mutate],
   )
 
   if (isLoading) {
@@ -89,17 +93,23 @@ const Branches: FC = () => {
                 balloonContentBody: `
                   <img style="width: 200px; margin: auto" src=${branch.image}/>
                   ${
-                    user.branch === branch.id
+                    selectedChildrenData?.branch === branch.id
                       ? '<p style="color: #38A169; font-weight: bold; text-align: center; margin-top: 10px;">ВАШ ФИЛИАЛ</p>'
                       : `<button style="color: #3182ce; width: 100%; margin-top: 10px; font-size: 18px; padding: 5px; background: none; border: 1px solid #3182ce; cursor: pointer; border-radius: 8px" id="branch-button-${branch.id}">Записаться</button>`
                   }
                 `,
                 hintContent: branch.name,
-                iconCaption: user.branch === branch.id ? 'Ваш филиал' : '',
+                iconCaption:
+                  selectedChildrenData?.branch === branch.id
+                    ? `Занимается ${selectedChildrenData?.name}`
+                    : '',
               }}
               options={{
                 balloonPanelMaxMapArea: 0,
-                preset: user.branch === branch.id ? 'islands#redIcon' : 'islands#blueIcon',
+                preset:
+                  selectedChildrenData?.branch === branch.id
+                    ? 'islands#redIcon'
+                    : 'islands#blueIcon',
               }}
               modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
               onBalloonOpen={() => {
