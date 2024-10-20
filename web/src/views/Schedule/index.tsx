@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from 'react'
 import { Calendar, dayjsLocalizer, type Formats, type Event } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
-import { Box, useDisclosure } from '@chakra-ui/react'
+import { Card, useDisclosure } from '@chakra-ui/react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import styles from './schedule.module.css'
 import { AppointmentModal } from './AppointmentModal'
@@ -48,12 +48,10 @@ const Schedule: FC = () => {
   }
 
   return (
-    <Box
+    <Card
       height={'calc(100% - 50px)'}
       maxH={'calc(100% - 50px)'}
       padding={4}
-      border={'1px'}
-      borderColor={'gray.300'}
       borderRadius={'lg'}
     >
       <Calendar
@@ -77,7 +75,7 @@ const Schedule: FC = () => {
         onClose={onClose}
         event={selectedEvent}
       />
-    </Box>
+    </Card>
   )
 }
 

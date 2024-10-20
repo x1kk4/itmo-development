@@ -12,9 +12,7 @@ const Auth: FC<TAuthProps> = ({ title }) => {
   return (
     <Flex
       border={'1px'}
-      borderColor={'gray.300'}
       height={'100%'}
-      borderRadius={'lg'}
       justifyContent={'center'}
       alignItems={'center'}
     >

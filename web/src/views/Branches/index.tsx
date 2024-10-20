@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Card } from '@chakra-ui/react'
 import { Map, Placemark, ZoomControl, YMaps } from '@pbe/react-yandex-maps'
 import { FC, useCallback } from 'react'
 
@@ -27,9 +27,7 @@ const Branches: FC = () => {
 
   if (isLoading) {
     return (
-      <Flex
-        border={'1px'}
-        borderColor={'gray.300'}
+      <Card
         height={'100%'}
         borderRadius={'lg'}
         justifyContent={'center'}
@@ -42,15 +40,13 @@ const Branches: FC = () => {
         >
           Загрузка карты...
         </Box>
-      </Flex>
+      </Card>
     )
   }
 
   if (!branches || branches?.length === 0) {
     return (
-      <Flex
-        border={'1px'}
-        borderColor={'gray.300'}
+      <Card
         height={'100%'}
         borderRadius={'lg'}
         justifyContent={'center'}
@@ -63,16 +59,14 @@ const Branches: FC = () => {
         >
           Карта появится после добавления хотя бы одного филиала
         </Box>
-      </Flex>
+      </Card>
     )
   }
 
   return (
-    <Box
+    <Card
       height={'calc(100% - 50px)'}
       padding={4}
-      border={'1px'}
-      borderColor={'gray.300'}
       borderRadius={'lg'}
     >
       <YMaps>
@@ -132,7 +126,7 @@ const Branches: FC = () => {
           />
         </Map>
       </YMaps>
-    </Box>
+    </Card>
   )
 }
 
