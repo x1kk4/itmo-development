@@ -24,7 +24,7 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{event ? event.title : ''}</ModalHeader>
+        <ModalHeader>Запись на тренировку</ModalHeader>
         <ModalBody>
           {event ? (
             <>
@@ -36,12 +36,10 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
         <ModalFooter>
           <Button
             colorScheme='blue'
-            mr={3}
             onClick={onClose}
           >
-            Close
+            Записаться
           </Button>
-          <Button colorScheme='red'>Delete</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

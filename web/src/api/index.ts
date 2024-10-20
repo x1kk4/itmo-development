@@ -1,6 +1,6 @@
 import { TCoach, TParent } from '@/utils/contexts/AuthContext/types'
 import { api } from './client'
-import { TChildren } from '@/utils/contexts/ParentContext/types'
+import { TChildren, TGroupLevel } from '@/utils/contexts/ParentContext/types'
 
 export type TBranch = {
   id: number
@@ -26,6 +26,7 @@ export type TTrainingSession = {
   end_time: string
   coach: number
   branch: number
+  group_level: TGroupLevel
 }
 
 export type TGetTrainingSessionsResponse = TTrainingSession[]

@@ -8,3 +8,9 @@ export type TChildren = {
   group_level: TGroupLevel
   parent: number
 }
+
+export const groupLevel = {
+  Beginner: 'Новичок',
+  Intermediate: 'Средний',
+  Advanced: 'Профи',
+}

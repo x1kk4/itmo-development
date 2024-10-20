@@ -9,6 +9,9 @@ import { AppointmentModal } from './AppointmentModal'
 import { useTrainingSessions } from '@/utils/hooks/useTrainingSessions'
 import { convertToEventTime } from '@/helpers/convertToEventTime'
 import { useParentContext } from '@/utils/contexts/ParentContext'
+import { TGroupLevel, groupLevel } from '@/utils/contexts/ParentContext/types'
+
+dayjs.locale('ru')
 
 const localizer = dayjsLocalizer(dayjs)
 
@@ -27,6 +30,11 @@ const Schedule: FC = () => {
         id: event.id,
         start: convertToEventTime(event.date, event.start_time),
         end: convertToEventTime(event.date, event.end_time),
+        level: event.group_level,
+        coach: event.coach,
+        branch: event.branch,
+        date: event.date,
+        timeSlot: `${event.start_time} - ${event.end_time}`,
       }))
   }, [eventsData, selectedChildrenData])
 
@@ -47,6 +55,20 @@ const Schedule: FC = () => {
     onOpen()
   }
 
+  const eventPropGetter = (event: Event & { level: TGroupLevel }) => {
+    let color = '#4299e1'
+
+    if (event.level === 'Beginner') {
+      color = '#48BB78'
+    } else if (event.level === 'Intermediate') {
+      color = '#ECC94B'
+    } else if (event.level === 'Advanced') {
+      color = '#F56565'
+    }
+
+    return { style: { backgroundColor: color } }
+  }
+
   return (
     <Card
       height={'calc(100% - 50px)'}
@@ -55,6 +77,7 @@ const Schedule: FC = () => {
       borderRadius={'lg'}
     >
       <Calendar
+        titleAccessor={(event) => groupLevel[event.level]}
         localizer={localizer}
         defaultDate={new Date()}
         startAccessor='start'
@@ -62,13 +85,13 @@ const Schedule: FC = () => {
         defaultView='week'
         className={styles.calendar}
         views={['week']}
-        // views={['week', 'month']}
         events={events}
         onSelectEvent={handleEventClick}
         step={20}
         formats={formats}
         min={new Date(0, 0, 0, 8, 0, 0)}
         max={new Date(0, 0, 0, 22, 0, 0)}
+        eventPropGetter={eventPropGetter}
       />
       <AppointmentModal
         isOpen={isOpen}
