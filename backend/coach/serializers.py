@@ -1,3 +1,4 @@
+#coach/serializers.py
 from rest_framework import serializers
 from coach.models import Coach, TrainingSession
 from client.models import Child
