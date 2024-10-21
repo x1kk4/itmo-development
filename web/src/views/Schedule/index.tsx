@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from 'react'
 import { Calendar, dayjsLocalizer, type Formats, type Event } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
-import { Card, useDisclosure } from '@chakra-ui/react'
+import { Box, Card, useDisclosure } from '@chakra-ui/react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import styles from './schedule.module.css'
 import { AppointmentModal } from './AppointmentModal'
@@ -21,7 +21,7 @@ const Schedule: FC = () => {
 
   const { selectedChildrenData } = useParentContext()
 
-  const { data: eventsData } = useTrainingSessions()
+  const { data: eventsData, isLoading } = useTrainingSessions()
 
   const events = useMemo(() => {
     return eventsData
@@ -67,6 +67,25 @@ const Schedule: FC = () => {
     }
 
     return { style: { backgroundColor: color } }
+  }
+
+  if (isLoading) {
+    return (
+      <Card
+        height={'calc(100% - 50px)'}
+        borderRadius={'lg'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <Box
+          textAlign={'center'}
+          fontSize={24}
+          fontWeight={600}
+        >
+          Загрузка расписания...
+        </Box>
+      </Card>
+    )
   }
 
   return (
