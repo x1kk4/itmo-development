@@ -11,13 +11,11 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 class ClientSerializer(serializers.ModelSerializer):
     children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    subscription = SubscriptionSerializer(read_only=True)
+    subscription = serializers.PrimaryKeyRelatedField(read_only=True, allow_null=True)
     
     class Meta:
         model = Client
         fields = ['id', 'children', 'name', 'username', 'contact_info', 'subscription']
-        depth = 1
-        # fields = '__all__'
 
 class ChildSerializer(serializers.ModelSerializer):
     branch = serializers.PrimaryKeyRelatedField(queryset=Branch.objects.all())
