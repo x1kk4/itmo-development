@@ -4,6 +4,7 @@ from .models import Client, Child, Branch, Subscription
 
 class ClientSerializer(serializers.ModelSerializer):
     children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    subscription = serializers.PrimaryKeyRelatedField(queryset=Subscription.objects.all(), allow_null=True)
     
     class Meta:
         model = Client
