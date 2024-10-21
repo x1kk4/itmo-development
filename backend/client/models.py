@@ -31,8 +31,9 @@ class Child(models.Model):
 
 
 class Subscription(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='subscriptions')
+    client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='subscription', unique=True)
     session_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.client.name}'s Subscription - Sessions left: {self.session_count}"
+
