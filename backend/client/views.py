@@ -5,6 +5,8 @@ from rest_framework.decorators import action
 from .models import Client, Child, Branch, Subscription
 from .serializers import ClientSerializer, ChildSerializer, BranchSerializer, SubscriptionSerializer
 from django.db.models import Q
+from django.core.exceptions import ValidationError
+import json
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
@@ -16,9 +18,18 @@ class ChildViewSet(viewsets.ModelViewSet):
 
     @action(methods=['put'], detail=False, url_path='batch-retrieve')
     def batch_retrieve(self, request):
-        ids = request.data.get('ids', [])
-        queryset = self.queryset.filter(id__in=ids)
-        serializer = self.get_serializer(queryset, many=True)
+        try:
+            # Попробуй проанализировать данные JSON из тела запроса.
+            data = json.loads(request.body)
+            ids = data.get('ids', [])
+            if not isinstance(ids, list) or not all(isinstance(id, int) for id in ids):
+                raise ValidationError("ids must be a list of integers")
+        except (json.JSONDecodeError, ValidationError) as e:
+            return Response({'error': str(e)}, status=400)
+
+        
+        children = self.queryset.filter(id__in=ids)
+        serializer = self.get_serializer(children, many=True)
         return Response(serializer.data)
 
 class ClientSearchViewSet(viewsets.ViewSet):
