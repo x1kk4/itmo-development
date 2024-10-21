@@ -3,12 +3,11 @@ from rest_framework import serializers
 from .models import Client, Child, Branch, Subscription
 
 class SubscriptionSerializer(serializers.ModelSerializer):
-    client = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(), read_only=True)
+    client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.all())
 
     class Meta:
         model = Subscription
         fields = ['id', 'client', 'session_count']
-        read_only_fields = ['client']
 
 class ClientSerializer(serializers.ModelSerializer):
     children = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
