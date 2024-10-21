@@ -45,7 +45,15 @@ const App: FC = () => {
     }
 
     if (user.role === ROLE.PARENT) {
-      return <ParentProvider childrenIds={user.children}>{routes}</ParentProvider>
+      return (
+        <ParentProvider
+          parentId={user.id}
+          childrenIds={user.children}
+          subscriptionId={user.subscription}
+        >
+          {routes}
+        </ParentProvider>
+      )
     }
 
     return routes

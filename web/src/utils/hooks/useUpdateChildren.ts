@@ -2,14 +2,13 @@ import { TUpdateChildrenRequest, TUpdateChildrenResponse, updateChildren } from 
 import { queryClient } from '@/main'
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 
-export const useUpdateChild = (): UseMutationResult<
+export const useUpdateChildren = (): UseMutationResult<
   TUpdateChildrenResponse,
   Error,
-  TUpdateChildrenRequest,
-  unknown
+  { id: number; data: TUpdateChildrenRequest }
 > => {
-  return useMutation<TUpdateChildrenResponse, Error, TUpdateChildrenRequest, unknown>({
-    mutationFn: (updates: TUpdateChildrenRequest) => updateChildren(updates),
+  return useMutation<TUpdateChildrenResponse, Error, { id: number; data: TUpdateChildrenRequest }>({
+    mutationFn: ({ id, data }) => updateChildren(id, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['children', data.id] })
     },

@@ -5,30 +5,30 @@ import { FC, useCallback } from 'react'
 import { useBranches } from '@/utils/hooks/useBranches'
 import { useNavigate } from 'react-router-dom'
 import { useParentContext } from '@/utils/contexts/ParentContext'
-import { useUpdateChild } from '@/utils/hooks/useUpdateChildren'
+import { useUpdateChildren } from '@/utils/hooks/useUpdateChildren'
 
 const Branches: FC = () => {
   const navigate = useNavigate()
 
   const { selectedChildrenData } = useParentContext()
-  const { mutate } = useUpdateChild()
+  const { mutate } = useUpdateChildren()
 
   const { data: branches, isLoading } = useBranches()
 
   const handleBranchClick = useCallback(
     (branch: number) => () => {
       if (selectedChildrenData) {
-        mutate({ ...selectedChildrenData, branch })
+        mutate({ id: selectedChildrenData?.id, data: { branch } })
         navigate('/schedule')
       }
     },
-    [navigate, selectedChildrenData, mutate],
+    [navigate, mutate, selectedChildrenData],
   )
 
   if (isLoading) {
     return (
       <Card
-        height={'100%'}
+        height={'calc(100% - 50px)'}
         borderRadius={'lg'}
         justifyContent={'center'}
         alignItems={'center'}
@@ -47,7 +47,7 @@ const Branches: FC = () => {
   if (!branches || branches?.length === 0) {
     return (
       <Card
-        height={'100%'}
+        height={'calc(100% - 50px)'}
         borderRadius={'lg'}
         justifyContent={'center'}
         alignItems={'center'}

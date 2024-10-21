@@ -11,6 +11,7 @@ export type TParent = {
   name: string
   username: string
   contact_info: string
+  subscription: number | null
 }
 
 export type TCoach = {

@@ -14,3 +14,9 @@ export const groupLevel = {
   Intermediate: 'Средний',
   Advanced: 'Профи',
 }
+
+export type TSubscription = {
+  id: number
+  session_count: number
+  client: number
+}
