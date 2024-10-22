@@ -1,12 +1,17 @@
-import { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 import { Flex, Icon, IconButton, Link, Text } from '@chakra-ui/react'
 
-import { parentMenu } from './menus'
+import { TMenuItem, parentMenu } from './menus'
 import { Link as ReactRouterLink, useLocation } from 'react-router-dom'
 import { MdMenu } from 'react-icons/md'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
-export const Sidebar: FC = () => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(true)
+type TSidebarProps = {
+  menu?: TMenuItem[]
+}
+
+export const Sidebar: FC<TSidebarProps> = ({ menu = parentMenu }) => {
+  const [isExpanded, setIsExpanded] = useLocalStorage<boolean>('isSidebarExpanded', false)
 
   const { pathname } = useLocation()
 
@@ -37,7 +42,7 @@ export const Sidebar: FC = () => {
         gap={8}
         marginTop={12}
       >
-        {parentMenu.map((item, index) => (
+        {menu.map((item, index) => (
           <Link
             as={ReactRouterLink}
             key={index}

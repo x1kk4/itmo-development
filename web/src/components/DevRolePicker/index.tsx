@@ -1,5 +1,5 @@
 import { ROLE } from '@/router/types'
-import { useAuthContext } from '@/utils/AuthContext'
+import { useAuthContext } from '@/utils/contexts/AuthContext'
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { FC } from 'react'
 import { MdPermIdentity } from 'react-icons/md'
@@ -12,7 +12,11 @@ const role = {
 }
 
 const DevRolePicker: FC = () => {
-  const { user, changeRole } = useAuthContext()
+  const { user, authGuest, authParent, authCoach } = useAuthContext()
+
+  if (!user) {
+    return null
+  }
 
   return (
     <Menu>
@@ -26,9 +30,9 @@ const DevRolePicker: FC = () => {
         {role[user.role]}
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => changeRole(ROLE.UNAUTHORIZED)}>{role[ROLE.UNAUTHORIZED]}</MenuItem>
-        <MenuItem onClick={() => changeRole(ROLE.PARENT)}>{role[ROLE.PARENT]}</MenuItem>
-        {/* <MenuItem onClick={() => changeRole(ROLE.COACH)}>Тренер</MenuItem> */}
+        <MenuItem onClick={authGuest}>{role[ROLE.UNAUTHORIZED]}</MenuItem>
+        <MenuItem onClick={authParent}>{role[ROLE.PARENT]}</MenuItem>
+        <MenuItem onClick={authCoach}>Тренер</MenuItem>
         {/* <MenuItem onClick={() => changeRole(ROLE.MANAGER)}>Менеджер</MenuItem> */}
       </MenuList>
     </Menu>

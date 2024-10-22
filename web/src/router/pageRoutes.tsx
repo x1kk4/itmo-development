@@ -10,6 +10,9 @@ import { DashboardPage } from 'pages/dashboard'
 import { SchedulePage } from 'pages/schedule'
 import { BranchesPage } from 'pages/branches'
 import { SubscriptionPage } from 'pages/subscription'
+import { SessionsPage } from 'pages/sessions'
+import { JournalPage } from '@/pages/journal/[id]'
+import { SalaryPage } from '@/pages/salary'
 
 type TPageRoute = RouteProps & {
   allowedRoles: ROLE[]
@@ -20,7 +23,7 @@ const pageRoutes: TPageRoute[] = [
   {
     path: routes.landing,
     element: <LandingPage />,
-    allowedRoles: [ROLE.UNAUTHORIZED, ROLE.PARENT, ROLE.COACH, ROLE.MANAGER],
+    allowedRoles: [ROLE.UNAUTHORIZED],
     layout: LAYOUT.LANDING,
   },
   {
@@ -58,6 +61,24 @@ const pageRoutes: TPageRoute[] = [
     element: <SubscriptionPage />,
     allowedRoles: [ROLE.PARENT],
     layout: LAYOUT.PARENT,
+  },
+  {
+    path: routes.sessions,
+    element: <SessionsPage />,
+    allowedRoles: [ROLE.COACH],
+    layout: LAYOUT.COACH,
+  },
+  {
+    path: routes.journal,
+    element: <JournalPage />,
+    allowedRoles: [ROLE.COACH],
+    layout: LAYOUT.COACH,
+  },
+  {
+    path: routes.salary,
+    element: <SalaryPage />,
+    allowedRoles: [ROLE.COACH],
+    layout: LAYOUT.COACH,
   },
 ]
 

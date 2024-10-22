@@ -5,7 +5,7 @@ import { FC } from 'react'
 const SignUpPage: FC = () => {
   return (
     <Box>
-      <Auth />
+      <Auth title='Регистрация' />
     </Box>
   )
 }
