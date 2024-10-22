@@ -7,7 +7,7 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 
 const DEFAULT_PARENT_ID = 2
 
-const DEFAULT_COACH_ID = 1
+const DEFAULT_COACH_ID = 5
 
 export type TAuthContextShape = {
   user: TUser | null

@@ -1,12 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Sessions } from '@/views/Sessions'
 import { FC } from 'react'
 
-const SessionsPage: FC = () => {
-  return (
-    <Box>
-      <p>Sessions</p>
-    </Box>
-  )
-}
+const SessionsPage: FC = () => <Sessions />
 
 export { SessionsPage }

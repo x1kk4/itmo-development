@@ -1,12 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Salary } from '@/views/Salary'
 import { FC } from 'react'
 
-const SalaryPage: FC = () => {
-  return (
-    <Box>
-      <p>SalaryPage</p>
-    </Box>
-  )
-}
+const SalaryPage: FC = () => <Salary />
 
 export { SalaryPage }
