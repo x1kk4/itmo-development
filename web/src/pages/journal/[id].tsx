@@ -1,12 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Journal } from '@/views/Journal'
 import { FC } from 'react'
 
-const JournalPage: FC = () => {
-  return (
-    <Box>
-      <p>JournalPage</p>
-    </Box>
-  )
-}
+const JournalPage: FC = () => <Journal />
 
 export { JournalPage }

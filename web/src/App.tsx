@@ -8,6 +8,7 @@ import { layout } from './layouts'
 import { redirects } from './router/redirects'
 import { ROLE } from './router/types'
 import { ParentProvider } from './utils/contexts/ParentContext'
+import { CoachProvider } from './utils/contexts/CoachContext'
 
 const App: FC = () => {
   const { user } = useAuthContext()
@@ -54,6 +55,10 @@ const App: FC = () => {
           {routes}
         </ParentProvider>
       )
+    }
+
+    if (user.role === ROLE.COACH) {
+      return <CoachProvider coachId={user.id}>{routes}</CoachProvider>
     }
 
     return routes

@@ -67,6 +67,22 @@ export const updateTrainingSession = async (id: number, data: TUpdateTrainingSes
   return res.data
 }
 
+export type TGetTrainingSessionsByIdsResponse = TTrainingSession[]
+
+export const getTrainingSessionsByIds = async (ids?: number[]) => {
+  if (ids) {
+    const res = await api.put<TGetTrainingSessionsByIdsResponse>(
+      '/training_sessions/batch-retrieve/',
+      {
+        ids,
+      },
+    )
+    return res.data
+  }
+
+  return null
+}
+
 export type TGetClientResponse = Omit<TParent, 'role'>
 
 export const getClient = async (id: number) => {
