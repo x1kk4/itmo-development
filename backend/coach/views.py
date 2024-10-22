@@ -1,48 +1,17 @@
-# coach/views.py
 from rest_framework import viewsets
-from coach.models import Coach, TrainingSession
-from coach.serializers import CoachSerializer, TrainingSessionSerializer
-
-class CoachViewSet(viewsets.ModelViewSet):
-    queryset = Coach.objects.all()
-    serializer_class = CoachSerializer
-
-class TrainingSessionViewSet(viewsets.ModelViewSet):
-    queryset = TrainingSession.objects.all()
-    serializer_class = TrainingSessionSerializer
-
-
-from django.http import HttpResponse
-
-def home(request):
-    message = """
-    <h1>Welcome to the API</h1>
-    <p>Please visit <a href='/api/v1/swagger/'>Swagger documentation</a> to explore the API.</p>
-    """
-    return HttpResponse(message)
-from rest_framework import viewsets
-from coach.models import Coach, TrainingSession
-from coach.serializers import CoachSerializer, TrainingSessionSerializer
-
-class CoachViewSet(viewsets.ModelViewSet):
-    queryset = Coach.objects.all()
-    serializer_class = CoachSerializer
-
-class TrainingSessionViewSet(viewsets.ModelViewSet):
-    queryset = TrainingSession.objects.all()
-    serializer_class = TrainingSessionSerializer
-
-
-from django.http import HttpResponse
-
-def home(request):
-    message = """
-    <h1>Welcome to the API</h1>
-    <p>Please visit <a href='/api/v1/swagger/'>Swagger documentation</a> to explore the API.</p>
-    """
-    return HttpResponse(message)
-
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from django.db.models import Q
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse
+import json
+
+from coach.models import Coach, TrainingSession
+from coach.serializers import CoachSerializer, TrainingSessionSerializer
+
+class CoachViewSet(viewsets.ModelViewSet):
+    queryset = Coach.objects.all()
+    serializer_class = CoachSerializer
 
 class TrainingSessionViewSet(viewsets.ModelViewSet):
     queryset = TrainingSession.objects.all()
@@ -72,15 +41,9 @@ class TrainingSessionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(sessions, many=True)
         return Response(serializer.data)
 
-
-        
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from coach.views import TrainingSessionViewSet
-
-router = DefaultRouter()
-router.register(r'training_sessions', TrainingSessionViewSet)
-
-urlpatterns = [
-    path('', include(router.urls)),
-]
+def home(request):
+    message = """
+    <h1>Welcome to the API</h1>
+    <p>Please visit <a href='/api/v1/swagger/'>Swagger documentation</a> to explore the API.</p>
+    """
+    return HttpResponse(message)
