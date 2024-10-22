@@ -17,14 +17,14 @@ class TrainingSessionSerializer(serializers.ModelSerializer):
     attendees = serializers.SlugRelatedField(
         many=True,
         queryset=Child.objects.all(),
-        slug_field='name',
+        slug_field='id',
         required=False  
     )
 
     children_list = serializers.SlugRelatedField(
         many=True,
         queryset=Child.objects.all(),
-        slug_field='name',
+        slug_field='id',
         required=False  
     )
 
