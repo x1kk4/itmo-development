@@ -11,22 +11,34 @@ export type TBranch = {
   image: string
 }
 
-export type TGetBrahcnesResponse = TBranch[]
+export type TGetBranchesResponse = TBranch[]
 
 export const getBranches = async () => {
-  const res = await api.get<TGetBrahcnesResponse>('/branches')
+  const res = await api.get<TGetBranchesResponse>('/branches')
   return res.data
+}
+
+export type TGetBranchResponse = TBranch
+
+export const getBranch = async (id?: number) => {
+  if (id) {
+    const res = await api.get<TGetBranchesResponse>(`/branches/${id}`)
+    return res.data
+  }
+
+  return null
 }
 
 export type TTrainingSession = {
   id: number
-  attendees: string[]
+  attendees: number[]
   date: string
   start_time: string
   end_time: string
   coach: number
   branch: number
   group_level: TGroupLevel
+  children_list: number[]
 }
 
 export type TGetTrainingSessionsResponse = TTrainingSession[]
@@ -34,6 +46,17 @@ export type TGetTrainingSessionsResponse = TTrainingSession[]
 export const getTrainingSessions = async () => {
   const res = await api.get<TGetTrainingSessionsResponse>('/training_sessions')
   return res.data
+}
+
+export type TGetTrainingSessionResponse = TTrainingSession
+
+export const getTrainingSession = async (id?: number) => {
+  if (id) {
+    const res = await api.get<TGetTrainingSessionResponse>(`/training_sessions/${id}`)
+    return res.data
+  }
+
+  return null
 }
 
 export type TGetClientResponse = Omit<TParent, 'role'>
@@ -53,9 +76,13 @@ export const updateClient = async (id: number, data: TUpdateClientRequest) => {
 
 export type TGetCoachResponse = Omit<TCoach, 'role'>
 
-export const getCoach = async (id: number) => {
-  const res = await api.get<TGetCoachResponse>(`/coaches/${id}`)
-  return res.data
+export const getCoach = async (id?: number) => {
+  if (id) {
+    const res = await api.get<TGetCoachResponse>(`/coaches/${id}`)
+    return res.data
+  }
+
+  return null
 }
 
 export type TGetChildrenResponse = TChildren

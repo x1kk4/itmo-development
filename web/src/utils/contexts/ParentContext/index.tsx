@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useMemo, useState } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react'
 import { TChildren, TSubscription } from './types'
 import { useChildren } from '@/utils/hooks/useChildren'
 import { useChildrens } from '@/utils/hooks/useChildrens'
@@ -7,6 +7,7 @@ import { useSubscription } from '@/utils/hooks/useSubscription'
 export type TParentContextShape = {
   parentId: number
   childs: TChildren[]
+  isChildsLoading: boolean
   setSelectedChildren: Dispatch<SetStateAction<number | null>>
   selectedChildrenData?: TChildren
   subscriptionData?: TSubscription
@@ -23,19 +24,24 @@ export type TParentProviderProps = {
 
 const ParentProvider = (props: TParentProviderProps) => {
   const { parentId, children, childrenIds, subscriptionId } = props
-  const [selectedChildren, setSelectedChildren] = useState<number | null>(1)
+  const [selectedChildren, setSelectedChildren] = useState<number | null>(null)
 
   const { data: subscriptionData, isLoading: isSubscriptionDataLoading } =
     useSubscription(subscriptionId)
 
-  const { data: childsData } = useChildrens(childrenIds)
+  const { data: childsData, isLoading: isChildsDataLoading } = useChildrens(childrenIds)
   const { data: selectedChildrenData } = useChildren(selectedChildren)
+
+  useEffect(() => {
+    setSelectedChildren(childrenIds[0])
+  }, [childrenIds])
 
   const value: TParentContextShape = useMemo(() => {
     if (!childsData) {
       return {
         parentId,
         childs: [],
+        isChildsLoading: isChildsDataLoading,
         setSelectedChildren,
         selectedChildrenData,
         subscriptionData,
@@ -45,6 +51,7 @@ const ParentProvider = (props: TParentProviderProps) => {
     return {
       parentId,
       childs: childsData,
+      isChildsLoading: isChildsDataLoading,
       setSelectedChildren,
       selectedChildrenData,
       subscriptionData,
@@ -53,6 +60,7 @@ const ParentProvider = (props: TParentProviderProps) => {
   }, [
     parentId,
     childsData,
+    isChildsDataLoading,
     setSelectedChildren,
     selectedChildrenData,
     subscriptionData,

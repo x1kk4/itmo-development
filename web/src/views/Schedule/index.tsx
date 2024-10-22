@@ -11,21 +11,34 @@ import { convertToEventTime } from '@/helpers/convertToEventTime'
 import { useParentContext } from '@/utils/contexts/ParentContext'
 import { TGroupLevel, groupLevel } from '@/utils/contexts/ParentContext/types'
 
+export type TExtendedEvent = Event & {
+  id: number
+  level: TGroupLevel
+  coach: number
+  branch: number
+  timeSlot: string
+}
+
 dayjs.locale('ru')
 
 const localizer = dayjsLocalizer(dayjs)
 
 const Schedule: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [selectedEvent, setSelectedEvent] = useState<TExtendedEvent | null>(null)
 
   const { selectedChildrenData } = useParentContext()
 
   const { data: eventsData, isLoading } = useTrainingSessions()
 
-  const events = useMemo(() => {
+  const events: TExtendedEvent[] = useMemo(() => {
+    if (!eventsData) {
+      return []
+    }
+
     return eventsData
       ?.filter((event) => event.branch === selectedChildrenData?.branch)
+      .filter((event) => event.group_level === selectedChildrenData?.group_level)
       .map((event) => ({
         id: event.id,
         start: convertToEventTime(event.date, event.start_time),
@@ -50,12 +63,12 @@ const Schedule: FC = () => {
     [],
   )
 
-  const handleEventClick = (event: Event) => {
+  const handleEventClick = (event: TExtendedEvent) => {
     setSelectedEvent(event)
     onOpen()
   }
 
-  const eventPropGetter = (event: Event & { level: TGroupLevel }) => {
+  const eventPropGetter = (event: TExtendedEvent) => {
     let color = '#4299e1'
 
     if (event.level === 'Beginner') {

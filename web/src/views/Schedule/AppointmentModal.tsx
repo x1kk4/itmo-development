@@ -6,17 +6,44 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
 } from '@chakra-ui/react'
-import { FC } from 'react'
-import { type Event } from 'react-big-calendar'
+import { FC, useMemo } from 'react'
+import { TExtendedEvent } from '.'
+import { useCoach } from '@/utils/hooks/useCoach'
+import { useBranch } from '@/utils/hooks/useBranch'
+import { useParentContext } from '@/utils/contexts/ParentContext'
+import { useTrainingSession } from '@/utils/hooks/useTrainingSession'
 
 type TAppointmentModalProps = {
   isOpen: boolean
   onClose: () => void
-  event: Event | null
+  event: TExtendedEvent | null
 }
 
 const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }) => {
+  const { selectedChildrenData } = useParentContext()
+
+  const { data: coachData } = useCoach(event?.coach)
+  const { data: branchData } = useBranch(event?.branch)
+  const { data: eventData } = useTrainingSession(event?.id)
+
+  const isChildrenAlreadyInList: boolean = useMemo(() => {
+    if (!selectedChildrenData?.id) {
+      return false
+    }
+
+    if (eventData?.children_list.includes(selectedChildrenData?.id)) {
+      return true
+    }
+
+    return false
+  }, [eventData, selectedChildrenData])
+
+  if (!event) {
+    return null
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -26,10 +53,13 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
       <ModalContent>
         <ModalHeader>Запись на тренировку</ModalHeader>
         <ModalBody>
-          {event ? (
+          {!isChildrenAlreadyInList ? (
             <>
-              <p>Start: {event.start?.toLocaleString()}</p>
-              <p>End: {event.end?.toLocaleString()}</p>
+              <Text>Ребенок: {selectedChildrenData?.name}</Text>
+              <Text>Начало: {event.start?.toLocaleString('ru')}</Text>
+              <Text>Конец: {event.end?.toLocaleString('ru')}</Text>
+              <Text>Тренер: {coachData?.name}</Text>
+              <Text>Филиал: {branchData?.name}</Text>
             </>
           ) : null}
         </ModalBody>
@@ -38,7 +68,7 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
             colorScheme='blue'
             onClick={onClose}
           >
-            Записаться
+            Подтвердить
           </Button>
         </ModalFooter>
       </ModalContent>

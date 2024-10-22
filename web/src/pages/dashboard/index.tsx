@@ -1,12 +1,7 @@
-import { Box } from '@chakra-ui/react'
+import { Dashboard } from '@/views/Dashboard'
+
 import { FC } from 'react'
 
-const DashboardPage: FC = () => {
-  return (
-    <Box>
-      <p>Dashboard</p>
-    </Box>
-  )
-}
+const DashboardPage: FC = () => <Dashboard />
 
 export { DashboardPage }

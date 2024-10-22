@@ -5,7 +5,7 @@ import { useClient } from '@/utils/hooks/useClient'
 import { useCoach } from '@/utils/hooks/useCoach'
 import { useLocalStorage } from '@uidotdev/usehooks'
 
-const DEFAULT_PARENT_ID = 1
+const DEFAULT_PARENT_ID = 2
 
 const DEFAULT_COACH_ID = 1
 
