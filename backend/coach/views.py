@@ -51,12 +51,29 @@ class TrainingSessionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         coach_id = self.request.query_params.get('coach_id')
-        child_ids = self.request.query_params.getlist('child_ids')  # 获取多个child_ids
+        child_ids = self.request.query_params.getlist('child_ids')
         if coach_id:
             queryset = queryset.filter(coach_id=coach_id)
         if child_ids:
             queryset = queryset.filter(attendees__id__in=child_ids)
         return queryset
+
+    @action(methods=['put'], detail=False, url_path='batch-retrieve')
+    def batch_retrieve(self, request):
+        try:
+            data = json.loads(request.body)
+            ids = data.get('ids', [])
+            if not isinstance(ids, list) or not all(isinstance(id, int) for id in ids):
+                raise ValidationError("ids must be a list of integers")
+        except (json.JSONDecodeError, ValidationError) as e:
+            return Response({'error': str(e)}, status=400)
+
+        sessions = self.queryset.filter(id__in=ids)
+        serializer = self.get_serializer(sessions, many=True)
+        return Response(serializer.data)
+
+
+        
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from coach.views import TrainingSessionViewSet
