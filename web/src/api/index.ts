@@ -59,6 +59,14 @@ export const getTrainingSession = async (id?: number) => {
   return null
 }
 
+export type TUpdateTrainingSessionRequest = Partial<TTrainingSession>
+export type TUpdateTrainingSessionResponse = TTrainingSession
+
+export const updateTrainingSession = async (id: number, data: TUpdateTrainingSessionRequest) => {
+  const res = await api.patch<TUpdateTrainingSessionResponse>(`/training_sessions/${id}/`, data)
+  return res.data
+}
+
 export type TGetClientResponse = Omit<TParent, 'role'>
 
 export const getClient = async (id: number) => {

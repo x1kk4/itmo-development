@@ -8,12 +8,13 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react'
-import { FC, useMemo } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 import { TExtendedEvent } from '.'
 import { useCoach } from '@/utils/hooks/useCoach'
 import { useBranch } from '@/utils/hooks/useBranch'
 import { useParentContext } from '@/utils/contexts/ParentContext'
 import { useTrainingSession } from '@/utils/hooks/useTrainingSession'
+import { useUpdateTrainingSession } from '@/utils/hooks/useUpdaateTrainingSession'
 
 type TAppointmentModalProps = {
   isOpen: boolean
@@ -24,9 +25,11 @@ type TAppointmentModalProps = {
 const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }) => {
   const { selectedChildrenData } = useParentContext()
 
-  const { data: coachData } = useCoach(event?.coach)
-  const { data: branchData } = useBranch(event?.branch)
-  const { data: eventData } = useTrainingSession(event?.id)
+  const { data: coachData, isLoading: isCoachLoading } = useCoach(event?.coach)
+  const { data: branchData, isLoading: isBranchLoading } = useBranch(event?.branch)
+  const { data: eventData, isLoading: isEventLoading } = useTrainingSession(event?.id)
+
+  const { mutate: updateTrainingSession } = useUpdateTrainingSession()
 
   const isChildrenAlreadyInList: boolean = useMemo(() => {
     if (!selectedChildrenData?.id) {
@@ -40,7 +43,35 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
     return false
   }, [eventData, selectedChildrenData])
 
-  if (!event) {
+  const handleSubscribe = useCallback(() => {
+    if (!eventData || !selectedChildrenData) {
+      return
+    }
+
+    updateTrainingSession({
+      id: eventData?.id,
+      data: { children_list: [...eventData.children_list, selectedChildrenData.id] },
+    })
+
+    onClose()
+  }, [eventData, selectedChildrenData, updateTrainingSession, onClose])
+
+  const handleUnsubscribe = useCallback(() => {
+    if (!eventData || !selectedChildrenData) {
+      return
+    }
+
+    updateTrainingSession({
+      id: eventData?.id,
+      data: {
+        children_list: eventData.children_list.filter((item) => item !== selectedChildrenData.id),
+      },
+    })
+
+    onClose()
+  }, [eventData, selectedChildrenData, updateTrainingSession, onClose])
+
+  if (!event || isBranchLoading || isCoachLoading || isEventLoading) {
     return null
   }
 
@@ -61,15 +92,26 @@ const AppointmentModal: FC<TAppointmentModalProps> = ({ isOpen, onClose, event }
               <Text>Тренер: {coachData?.name}</Text>
               <Text>Филиал: {branchData?.name}</Text>
             </>
-          ) : null}
+          ) : (
+            `${selectedChildrenData?.name} уже записан на эту тренировку.`
+          )}
         </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme='blue'
-            onClick={onClose}
-          >
-            Подтвердить
-          </Button>
+          {!isChildrenAlreadyInList ? (
+            <Button
+              colorScheme='blue'
+              onClick={handleSubscribe}
+            >
+              Подтвердить
+            </Button>
+          ) : (
+            <Button
+              colorScheme='red'
+              onClick={handleUnsubscribe}
+            >
+              Отменить запись
+            </Button>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
