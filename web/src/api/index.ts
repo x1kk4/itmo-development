@@ -85,9 +85,13 @@ export const getTrainingSessionsByIds = async (ids?: number[]) => {
 
 export type TGetClientResponse = Omit<TParent, 'role'>
 
-export const getClient = async (id: number) => {
-  const res = await api.get<TGetClientResponse>(`/clients/${id}`)
-  return res.data
+export const getClient = async (id?: number) => {
+  if (id) {
+    const res = await api.get<TGetClientResponse>(`/clients/${id}`)
+    return res.data
+  }
+
+  return null
 }
 
 export type TUpdateClientRequest = Partial<Omit<TParent, 'role'>>
@@ -141,7 +145,7 @@ export const updateChildren = async (id: number, data: TUpdateChildrenRequest) =
 
 export type TGetSubscriptionResponse = TSubscription
 
-export const getSubscription = async (id: number | null) => {
+export const getSubscription = async (id?: number | null) => {
   if (id) {
     const res = await api.get<TGetSubscriptionResponse>(`/subscription/${id}`)
     return res.data

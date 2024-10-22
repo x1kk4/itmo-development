@@ -19,6 +19,7 @@ export const useUpdateTrainingSession = (): UseMutationResult<
     mutationFn: ({ id, data }) => updateTrainingSession(id, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['training_session', data.id] })
+      queryClient.invalidateQueries({ queryKey: ['training_sessions'] })
     },
   })
 }
