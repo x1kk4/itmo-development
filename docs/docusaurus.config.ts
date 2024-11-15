@@ -3,8 +3,8 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "ITMO DEVELOPMENT",
-  tagline: "Mobile App development project",
+  title: "Невские Медведи",
+  tagline: "Мобильное приложение школы волейбола \"Невские медведи\"",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
