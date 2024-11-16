@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Невские Медведи",
+  title: "Невские медведи",
   tagline: "Мобильное приложение школы волейбола \"Невские медведи\"",
   favicon: "img/favicon.ico",
 
@@ -64,7 +64,7 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "Dev Docs",
+      title: "Невские медведи",
       logo: {
         alt: "My Site Logo",
         src: "img/logoo.svg",
