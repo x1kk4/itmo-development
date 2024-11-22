@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Невские медведи
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Давайте вместе откроем **приложение «Невские медведи» за 5 минут**.
 
 ## Getting Started
 
