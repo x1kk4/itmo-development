@@ -63,7 +63,7 @@ const config: Config = {
           position: "left",
           label: "Документация Невские медведи",
         },
-        { to: "/blog", position: "left" },
+        { to: "/docs", position: "left" },
         
       ],
     },
