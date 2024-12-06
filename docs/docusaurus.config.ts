@@ -63,15 +63,12 @@ const config: Config = {
           position: "left",
           label: "Документация Невские медведи",
         },
-        { to: "/blog", position: "left" },
         
       ],
     },
     footer: {
       style: "dark",
       links: [
-        
-        
       ],
       copyright: `Copyright © ${new Date().getFullYear()} itmodevelopment. Built with Docusaurus.`,
     },
