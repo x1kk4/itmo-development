@@ -1,5 +1,7 @@
 ---
-sidebar_position: 8
+title: Совместимость
+sidebar_label: Совместимость
+sidebar_position: 9
 ---
 Для доступа к приложению вам понадобится стабильное подключение к Интернету и браузер. Приложение доступно по ссылке https://itmo.website.  
 * Браузеры: Chrome, Safari, Firefox, Edge.

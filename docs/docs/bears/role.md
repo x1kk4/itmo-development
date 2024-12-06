@@ -1,5 +1,7 @@
 ---
-sidebar_position: 4
+title: Права доступа
+sidebar_label: Права доступа
+sidebar_position: 5
 ---
 ## Роли пользователей:
 ### Администратор:

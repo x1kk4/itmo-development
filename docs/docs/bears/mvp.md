@@ -1,5 +1,7 @@
 ---
-sidebar_position: 3
+title: MVP
+sidebar_label: MVP
+sidebar_position: 4
 ---
 ## Функции, включенные в MVP
 
