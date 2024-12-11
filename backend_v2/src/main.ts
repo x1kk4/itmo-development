@@ -21,7 +21,6 @@ async function bootstrap() {
         description: 'Access token in "access" header',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-        name: 'access',
         in: 'header',
       },
       'access-token',
