@@ -1,0 +1,20 @@
+enum Role {
+  PARENT @map("parent")
+  CHILDREN  @map("children")
+  COACH  @map("coach")
+  MANAGER @map("manager")
+  SUPER  @map("super")
+}
+
+model User {
+  id         Int @id @default(autoincrement())
+  role       Role
+  login      String @unique
+  password   String
+  email      String? @unique
+  phone      String? @unique
+  firstname  String?
+  surname    String?
+  middlename String?
+  refreshToken String? @unique
+}
