@@ -32,8 +32,8 @@ export class AuthController {
     const { accessToken, refreshToken, user } =
       await this.authService.signIn(userDto);
 
-    res.header('access', `Bearer ${accessToken}`);
-    res.header('refresh', `Bearer ${refreshToken}`);
+    res.header('Authorization', `Bearer ${accessToken}`);
+    res.header('Refresh', `Bearer ${refreshToken}`);
     return user;
   }
 

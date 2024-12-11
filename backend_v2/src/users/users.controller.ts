@@ -11,7 +11,10 @@ import {
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { Roles } from 'src/auth/guards/roles.decorator';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  // ApiTags
+} from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -22,7 +25,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @ApiTags('access-required')
+  // @ApiTags('access-required')
   @ApiBearerAuth('access-token')
   @Roles('PARENT')
   @UseGuards(AuthGuard)
