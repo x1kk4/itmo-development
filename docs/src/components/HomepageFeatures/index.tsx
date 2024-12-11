@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Для создания этого приложения мы используем Python, React.
+        Для создания этого приложения мы используем Python + Django, PostgreSQL, Expo + React Native, Typescript V5, Reacr Query V5 + Axios.
       </>
     ),
   },
