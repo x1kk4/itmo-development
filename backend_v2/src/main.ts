@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
-    .setTitle('Nevsky bears backend api')
+    .setTitle('Nevsky Bears Backend API')
     .setVersion('v2')
     .addBearerAuth(
       {
