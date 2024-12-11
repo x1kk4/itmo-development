@@ -18,6 +18,12 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
+COPY package.json ./
+COPY prisma ./prisma
+
+COPY --from=builder /app/dist ./dist
 
 COPY package.json ./
 
