@@ -3,8 +3,10 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
+COPY prisma ./prisma
+
 RUN npm install
-RUN npm run prisma:generate:prod
+RUN npm run prisma:generate
 
 COPY . .
 
