@@ -18,7 +18,11 @@ async function bootstrap() {
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup(
+    process.env.PREFIX ? `${process.env.PREFIX}/swagger` : 'swagger',
+    app,
+    documentFactory,
+  );
 
   app.use(cookieParser());
 
