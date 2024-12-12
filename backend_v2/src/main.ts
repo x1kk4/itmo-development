@@ -25,17 +25,6 @@ async function bootstrap() {
       },
       'access-token',
     )
-    // .addBearerAuth(
-    //   {
-    //     type: 'http',
-    //     description: 'Refresh token in "refresh" header',
-    //     scheme: 'bearer',
-    //     bearerFormat: 'JWT',
-    //     name: 'refresh',
-    //     in: 'header',
-    //   },
-    //   'refresh-token',
-    // )
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

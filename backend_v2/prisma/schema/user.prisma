@@ -1,9 +1,9 @@
 enum Role {
-  PARENT @map("parent")
-  CHILDREN  @map("children")
-  COACH  @map("coach")
-  MANAGER @map("manager")
-  SUPER  @map("super")
+  PARENT
+  CHILDREN
+  COACH
+  MANAGER
+  SUPER
 }
 
 model User {
@@ -17,4 +17,9 @@ model User {
   surname    String?
   middlename String?
   refreshToken String? @unique
+
+  trainingSessions TrainingSession[]
+
+  enrolledSessions    EnrolledUsers[]
+  attendedSessions    SessionAttendees[]
 }

@@ -1,0 +1,38 @@
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model EnrolledUsers {
+  user              User            @relation(fields: [userId], references: [id])
+  userId            Int
+  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId Int
+
+  @@id([userId, trainingSessionId])
+}
+
+model SessionAttendees {
+  user              User            @relation(fields: [userId], references: [id])
+  userId            Int
+  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId Int
+
+  @@id([userId, trainingSessionId])
+}
+
+model TrainingSession {
+  id              Int @id @default(autoincrement())
+  groupLevel      Level
+  startDate       DateTime
+  endDate         DateTime
+
+  enrolled        EnrolledUsers[]
+  attendees       SessionAttendees[]
+
+  coachId         Int
+  coach           User @relation(fields: [coachId], references: [id])
+  branchId        Int
+  branch          Branch @relation(fields: [branchId], references: [id])
+}
