@@ -7,6 +7,8 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   app.setGlobalPrefix(process.env.PREFIX ?? '');
 
   app.useGlobalPipes(new ValidationPipe());
