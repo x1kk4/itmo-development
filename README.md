@@ -3,7 +3,8 @@
 ## URLs:
 
 - Web: https://itmo.website
-- API Docs: https://itmo.website/api/v1/swagger
+- Mobile (web build): https://itmo.website/mobile
+- API Docs: https://itmo.website/api/v2/swagger
 
 ## Dev links:
 
