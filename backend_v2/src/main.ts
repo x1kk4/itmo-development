@@ -10,6 +10,8 @@ async function bootstrap() {
   app.enableCors({
     origin: ['https://itmo.website', 'http://localhost:8081'],
     credentials: true,
+    allowedHeaders: ['authorization', 'refresh'],
+    exposedHeaders: ['authorization', 'refresh'],
   });
 
   app.setGlobalPrefix(process.env.PREFIX ?? '');
