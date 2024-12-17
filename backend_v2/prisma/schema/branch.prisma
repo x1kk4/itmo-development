@@ -2,10 +2,10 @@ model Branch {
   id              Int @id @default(autoincrement())
   name            String @unique
   location        String @unique
-  workingStart   DateTime
-  workingEnd     DateTime
-  contactPhone   String
-  contactEmail   String
+  workingStart    DateTime
+  workingEnd      DateTime
+  contactPhone    String
+  contactEmail    String
   photos          String[]
 
   trainingSessions TrainingSession[]

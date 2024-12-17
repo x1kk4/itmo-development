@@ -1,0 +1,128 @@
+{
+  "Component": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "comp",
+    "body": [
+      "import { FC } from 'react'",
+      "",
+      "type T${1}Props = {${3}}",
+      "",
+      "const ${1}: FC<T${1}Props> = ({ ${4} }) => {",
+      "\treturn (",
+      "\t\t<${2}>",
+      "\t\t\t<p>${1}</p>",
+      "\t\t</${2}>",
+      "\t)",
+      "}",
+      "",
+      "export { ${1} }"
+    ],
+    "description": "Expands the typed functional component exported by default"
+  },
+
+  "Console info": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "log",
+    "body": ["console.info($1)", "$2"],
+    "description": "Log output to console"
+  },
+
+  "Import": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "imp",
+    "body": ["import { ${2} } from \"${1}\""],
+    "description": "Import module"
+  },
+
+  "Arrow function": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "arr",
+    "body": ["const ${1} = (${2}) => {${3}}"],
+    "description": "Expands the arrow function"
+  },
+
+  "useEffect hook": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "ue",
+    "body": "use${1}Effect(() => {\n\t${2}\n}, [${3}])",
+    "description": "Expands the useEffect hook"
+  },
+
+  "useState hook": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "us",
+    "body": "const [${1}, set${1/(.*)/${1:/capitalize}/}] = use${4}State<${2}>(${3})",
+    "description": "Expands typed useState hook"
+  },
+
+  "Type definition": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "t",
+    "body": ["type T${1} = {${2}}"]
+  },
+
+  "Export type definition": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "et",
+    "body": ["export type T${1} = {${2}}"]
+  },
+
+  "className": {
+    "scope": "typescript, typescriptreact, javascript, javascriptreact",
+    "prefix": "cn",
+    "body": ["className={$1}"],
+    "description": "className"
+  },
+
+  "Context": {
+    "scope": "typescriptreact",
+    "prefix": "cont",
+    "body": [
+      "import React, { useContext, useMemo } from \"react\"",
+      "",
+      "export type T${1:Name}ContextShape = {",
+      "  ${2:types},",
+      "}",
+      "const ${1:Name}Context = React.createContext<T${1:Name}ContextShape>({",
+      "  ${3:value},",
+      "} as T${1:Name}ContextShape)",
+      "",
+      "export type T${1:Name}ProviderProps = {",
+      "  children: React.ReactNode",
+      "}",
+      "",
+      "const ${1:Name}Provider = (props: T${1:Name}ProviderProps) => {",
+      "  const {",
+      "    children,",
+      "  } = props",
+      "",
+      "  const value: T${1:Name}ContextShape = useMemo(() => ({}), [])",
+      "",
+      "  return (",
+      "    <${1:Name}Context.Provider",
+      "      value={value}",
+      "    >",
+      "      {children}",
+      "    </${1:Name}Context.Provider>",
+      "  )",
+      "}",
+      "",
+      "const use${1:Name}Context = () => {",
+      "  const context = useContext(${1:Name}Context)",
+      "",
+      "  if (!context || !Object.keys(context).length) {",
+      "    throw new Error(\"use${1:Name}Context was used outside of its Provider\")",
+      "  }",
+      "",
+      "  return context",
+      "}",
+      "",
+      "export {",
+      "  ${1:Name}Context,",
+      "  use${1:Name}Context,",
+      "  ${1:Name}Provider,",
+      "}"
+    ],
+    "description": "Unwrap raw DYOR context"
+  }
+}
