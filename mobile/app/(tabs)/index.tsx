@@ -54,8 +54,8 @@ export default function HomeScreen() {
         <Button
           onPress={() =>
             mutate({
-              login: '',
-              password: '',
+              login: 'username123',
+              password: 'Password@123',
             })
           }
           title='Логин'

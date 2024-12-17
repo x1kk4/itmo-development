@@ -6,6 +6,7 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 api.interceptors.request.use(
@@ -25,7 +26,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    const incomingHeaders = response.headers
+    const incomingHeaders = response.headers['authorization']
 
     console.log(incomingHeaders)
     // get headers and set them to storage here
