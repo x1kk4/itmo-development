@@ -1,51 +1,50 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
+  // Post,
+  // Body,
+  // Patch,
   Param,
-  Delete,
+  // Delete,
+  SerializeOptions,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { Roles } from 'src/auth/guards/roles.decorator';
 import {
   ApiBearerAuth,
   // ApiTags
 } from '@nestjs/swagger';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: any) {
-    return this.usersService.create(createUserDto);
-  }
+  // @Post()
+  // async create(@Body() createUserDto: any) {
+  //   return this.usersService.create(createUserDto);
+  // }
 
-  // @ApiTags('access-required')
   @ApiBearerAuth('access-token')
-  @Roles('PARENT')
   @UseGuards(AuthGuard)
   @Get()
-  findAll() {
+  async findAll() {
     return this.usersService.findAll();
   }
 
+  @SerializeOptions({ type: UserResponseDto })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: any) {
-    return this.usersService.update(+id, updateUserDto);
-  }
+  // @Patch(':id')
+  // async update(@Param() id: string, @Body() updateUserDto: any) {
+  //   return this.usersService.update(+id, updateUserDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
-  }
+  // @Patch('/ban/:id')
+  // ban
 }

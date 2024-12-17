@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'prisma/prisma.service';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { SignInRequestDto } from './dto/sign-in/request.dto';
 import { SignUpRequestDto } from './dto/sign-up/request.dto';
 
@@ -106,14 +106,23 @@ export class AuthService {
   }
 
   async signUp(data: SignUpRequestDto) {
-    const candidate = await this.prisma.user.findUnique({
+    const candidate = await this.prisma.user.findFirst({
       where: {
-        login: data.login,
+        OR: [
+          {
+            login: data.login,
+          },
+          {
+            email: data.email,
+          },
+        ],
       },
     });
 
     if (candidate) {
-      throw new BadRequestException('User with such login already exists');
+      throw new BadRequestException(
+        'User with such login or email already exists',
+      );
     }
 
     const hashPassword = await bcrypt.hash(data.password, 5);
@@ -121,11 +130,31 @@ export class AuthService {
     const user = await this.prisma.user.create({
       data: {
         ...data,
+        role: Role.PARENT,
         password: hashPassword,
       },
     });
 
-    return this.generateToken(user, 'access');
+    const [accessToken, refreshToken] = await Promise.all([
+      this.generateToken(user, 'access'),
+      this.generateToken(user, 'refresh'),
+    ]);
+
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
+  }
+
+  async me(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
   }
 
   async logout(userId: number): Promise<{ message: string }> {
@@ -133,6 +162,7 @@ export class AuthService {
       where: { id: userId },
       data: { refreshToken: null },
     });
-    return { message: 'Logout successful' };
+
+    return;
   }
 }

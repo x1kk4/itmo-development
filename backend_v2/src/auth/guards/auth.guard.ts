@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_KEY } from './roles.decorator';
+import { ROLES_KEY } from '../decorators/roles.decorator';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthService } from '../auth.service';
 
@@ -47,6 +47,8 @@ export class AuthGuard implements CanActivate {
           );
 
           if (payload.id) {
+            req.userId = payload.id;
+
             if (!requiredRoles) {
               return true;
             }
@@ -78,6 +80,8 @@ export class AuthGuard implements CanActivate {
         });
 
         if (payload.id && user.refreshToken === refreshToken) {
+          req.userId = payload.id;
+
           const newAccessToken = await this.authService.generateToken(
             payload,
             'access',
