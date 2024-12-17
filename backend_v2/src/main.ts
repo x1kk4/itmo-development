@@ -10,7 +10,6 @@ async function bootstrap() {
   app.enableCors({
     origin: ['https://itmo.website', 'http://localhost:8081'],
     credentials: true,
-    allowedHeaders: '*',
     exposedHeaders: ['authorization', 'refresh'],
   });
 
