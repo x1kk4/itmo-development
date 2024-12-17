@@ -27,6 +27,8 @@ export class AuthGuard implements CanActivate {
         [context.getHandler(), context.getClass()],
       );
 
+      console.log(requiredRoles.length);
+
       const req = context.switchToHttp().getRequest();
       const res = context.switchToHttp().getResponse();
 
@@ -49,7 +51,7 @@ export class AuthGuard implements CanActivate {
           if (payload.id) {
             req.userId = payload.id;
 
-            if (!requiredRoles) {
+            if (!requiredRoles.length) {
               return true;
             }
 
@@ -105,7 +107,7 @@ export class AuthGuard implements CanActivate {
           res.setHeader('access', `Bearer ${newAccessToken}`);
           res.setHeader('refresh', `Bearer ${newRefreshToken}`);
 
-          if (!requiredRoles) {
+          if (!requiredRoles.length) {
             return true;
           }
 

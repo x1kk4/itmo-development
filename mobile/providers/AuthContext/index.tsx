@@ -1,3 +1,4 @@
+import { useMe } from '@/api/hooks/auth/useMe'
 import { TUser } from '@/api/types'
 import React, { useContext, useMemo } from 'react'
 
@@ -13,6 +14,8 @@ export type TAuthProviderProps = {
 
 const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
+
+  const { data: me } = useMe()
 
   const value: TAuthContextShape = useMemo(() => ({}), [])
 

@@ -56,6 +56,7 @@ export class AuthController {
     return user;
   }
 
+  @SerializeOptions({ type: UserResponseDto })
   @Roles()
   @UseGuards(AuthGuard)
   @Get('/me')

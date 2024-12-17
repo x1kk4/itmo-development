@@ -1,8 +1,10 @@
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const api = axios.create({
   timeout: 10000,
   baseURL: 'https://itmo.website/api/v2',
+  // baseURL: 'http://localhost:3000/api/v2',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,11 +12,14 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use(
-  (config) => {
-    const headers = config.headers
+  async (config) => {
+    const authorization = await AsyncStorage.getItem('authorization')
+    const refresh = await AsyncStorage.getItem('refresh')
 
-    console.log(headers)
-    // set headers from storage here
+    if (authorization && refresh) {
+      config.headers.authorization = authorization
+      config.headers.refresh = refresh
+    }
 
     return config
   },
@@ -25,11 +30,13 @@ api.interceptors.request.use(
 )
 
 api.interceptors.response.use(
-  (response) => {
-    const incomingHeaders = response.headers['authorization']
+  async (response) => {
+    const { authorization, refresh } = response.headers
 
-    console.log(incomingHeaders)
-    // get headers and set them to storage here
+    if (authorization && refresh) {
+      await AsyncStorage.setItem('authorization', authorization)
+      await AsyncStorage.setItem('refresh', refresh)
+    }
 
     return response
   },
