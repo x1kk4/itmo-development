@@ -80,3 +80,8 @@ export type TSubscription = {
   session_count: number
   client: number
 }
+
+export enum STORAGE_KEYS {
+  AUTHORIZATION = 'authorization',
+  REFRESH = 'refresh',
+}

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { STORAGE_KEYS } from './types'
 
 export const api = axios.create({
   timeout: 10000,
@@ -13,8 +14,10 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const authorization = await AsyncStorage.getItem('authorization')
-    const refresh = await AsyncStorage.getItem('refresh')
+    const [authorization, refresh] = await AsyncStorage.multiGet([
+      STORAGE_KEYS.AUTHORIZATION,
+      STORAGE_KEYS.REFRESH,
+    ])
 
     if (authorization && refresh) {
       config.headers.authorization = authorization
@@ -34,8 +37,10 @@ api.interceptors.response.use(
     const { authorization, refresh } = response.headers
 
     if (authorization && refresh) {
-      await AsyncStorage.setItem('authorization', authorization)
-      await AsyncStorage.setItem('refresh', refresh)
+      await AsyncStorage.multiSet([
+        [STORAGE_KEYS.AUTHORIZATION, authorization],
+        [STORAGE_KEYS.REFRESH, refresh],
+      ])
     }
 
     return response
