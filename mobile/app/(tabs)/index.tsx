@@ -5,9 +5,11 @@ import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { useSignIn } from '@/api/hooks/auth/useSignIn'
+import { useAuthContext } from '@/providers/AuthContext'
 
 export default function HomeScreen() {
   const { mutate } = useSignIn()
+  const { user } = useAuthContext()
 
   return (
     <ParallaxScrollView
@@ -60,6 +62,7 @@ export default function HomeScreen() {
           }
           title='Логин'
         />
+        {user ? <ThemedText>{user.login}</ThemedText> : <ThemedText>unauthorized</ThemedText>}
       </ThemedView>
     </ParallaxScrollView>
   )

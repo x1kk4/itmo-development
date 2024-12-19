@@ -3,7 +3,7 @@ import { TUser } from '@/api/types'
 import React, { useContext, useMemo } from 'react'
 
 export type TAuthContextShape = {
-  user: TUser
+  user: TUser | null
 }
 
 const AuthContext = React.createContext<TAuthContextShape>({} as TAuthContextShape)
@@ -17,7 +17,12 @@ const AuthProvider = (props: TAuthProviderProps) => {
 
   const { data: me } = useMe()
 
-  const value: TAuthContextShape = useMemo(() => ({}), [])
+  const value: TAuthContextShape = useMemo(
+    () => ({
+      user: me ?? null,
+    }),
+    [me],
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
