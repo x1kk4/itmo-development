@@ -1,9 +1,9 @@
-import { useSignIn } from '@/api/hooks/auth/useSignIn'
+import { useAuthContext } from '@/providers/AuthContext'
 import { Link } from 'expo-router'
 import { Button, StyleSheet, TextInput, View } from 'react-native'
 
 export default function SignIn() {
-  const { mutate } = useSignIn()
+  const { signIn } = useAuthContext()
 
   return (
     <View style={styles.container}>
@@ -18,13 +18,13 @@ export default function SignIn() {
       <Button
         title='Войти'
         onPress={() =>
-          mutate({
+          signIn({
             login: 'username123',
             password: 'Password@123',
           })
         }
       />
-      <Link href={'/sign-up'}>Зарегистриооват</Link>
+      <Link href={'/sign-up'}>Зарегистриооваться</Link>
     </View>
   )
 }

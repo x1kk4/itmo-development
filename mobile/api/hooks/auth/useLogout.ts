@@ -7,12 +7,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { STORAGE_KEYS } from '@/api/types'
 import { queryClient } from '@/providers'
 
-export const useLogout = (): UseMutationResult<void, AxiosError> => {
+export const useLogout = (): UseMutationResult<void, AxiosError, void> => {
   return useMutation({
     mutationFn: v2.logout,
     onSuccess: async () => {
       await AsyncStorage.multiRemove([STORAGE_KEYS.AUTHORIZATION, STORAGE_KEYS.REFRESH])
-      queryClient.invalidateQueries({ queryKey: ['me'] })
+      queryClient.resetQueries({ queryKey: ['me'] })
     },
     // onError: (error) => {},
   })

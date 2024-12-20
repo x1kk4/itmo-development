@@ -4,10 +4,10 @@ import { HelloWave } from '@/components/HelloWave'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
-import { useLogout } from '@/api/hooks/auth/useLogout'
+import { useAuthContext } from '@/providers/AuthContext'
 
 export default function DashboardScreen() {
-  const { mutate: logout } = useLogout()
+  const { logout } = useAuthContext()
 
   return (
     <ParallaxScrollView
@@ -53,7 +53,7 @@ export default function DashboardScreen() {
       <ThemedView>
         <Button
           title='Выйти'
-          onPress={() => logout({})}
+          onPress={() => logout()}
         />
       </ThemedView>
     </ParallaxScrollView>
