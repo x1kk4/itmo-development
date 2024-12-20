@@ -11,7 +11,7 @@ import {
 
 // auth
 
-export type TUserResponse = TUser
+export type TUserResponse = TUser | null
 
 export type TSignInRequest = Pick<TUser, 'login'> & {
   password: string

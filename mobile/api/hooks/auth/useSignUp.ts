@@ -1,4 +1,5 @@
 import { TSignUpRequest, TUserResponse, v2 } from '@/api'
+import { queryClient } from '@/providers'
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 
 import { AxiosError } from 'axios'
@@ -8,7 +9,9 @@ export const useSignUp = (): UseMutationResult<TUserResponse, AxiosError, TSignU
     mutationFn: (data: TSignUpRequest) => {
       return v2.signIn(data)
     },
-    // onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['me'] })
+    },
     // onError: (error) => {},
   })
 }

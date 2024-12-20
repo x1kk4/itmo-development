@@ -37,6 +37,7 @@ export type TChildren = {
   parent: number
   email: string
   login: string
+  role: ROLE.CHILDREN
 }
 
 export type TParent = {
