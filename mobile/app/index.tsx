@@ -34,10 +34,14 @@ export default function SignIn() {
       >
         Войти
       </Button>
-      <Link href={'/sign-up'}>
+      <Link
+        href={'/sign-up'}
+        asChild
+      >
         <Button
           width={'100%'}
           themeInverse
+          style={{ textDecoration: 'none' }}
         >
           Зарегистрироваться
         </Button>

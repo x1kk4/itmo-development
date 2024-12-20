@@ -29,16 +29,20 @@ export default function SignUp() {
           signUp({
             login: 'username123',
             password: 'Password@123',
-            email: 'email',
+            email: 'email@gmail.com',
           })
         }
       >
         Зарегистрироваться
       </Button>
-      <Link href={'/'}>
+      <Link
+        href={'/'}
+        asChild
+      >
         <Button
           width={'100%'}
           themeInverse
+          style={{ textDecoration: 'none' }}
         >
           Войти
         </Button>
