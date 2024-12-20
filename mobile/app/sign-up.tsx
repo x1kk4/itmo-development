@@ -1,47 +1,48 @@
 import { useAuthContext } from '@/providers/AuthContext'
 import { Link } from 'expo-router'
-import { Button, TextInput, View, StyleSheet } from 'react-native'
+import { Button, Input, YStack, Image } from 'tamagui'
 
 export default function SignUp() {
   const { signUp } = useAuthContext()
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder='Имя пользователя'
+    <YStack
+      gap='$2'
+      flex={1}
+      justifyContent='center'
+      padding='$4'
+    >
+      <Image
+        source={require('../assets/images/logo.png')}
+        width={94}
+        height={126}
+        alignSelf={'center'}
+        marginBottom='$4'
       />
-      <TextInput
-        style={styles.input}
-        placeholder='Пароль'
-      />
+      <Input placeholder='Имя пользователя' />
+      <Input placeholder='Электронная почта' />
+      <Input placeholder='Пароль' />
       <Button
-        title='Войти'
+        marginTop='$5'
+        theme={'accent'}
         onPress={() =>
           signUp({
-            login: 'someUser',
-            password: 'somePassword',
-            email: 'someemail@email.com',
+            login: 'username123',
+            password: 'Password@123',
+            email: 'email',
           })
         }
-      />
-      <Link href={'/'}>Зарегистриооваться</Link>
-    </View>
+      >
+        Зарегистрироваться
+      </Button>
+      <Link href={'/'}>
+        <Button
+          width={'100%'}
+          themeInverse
+        >
+          Войти
+        </Button>
+      </Link>
+    </YStack>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    gap: 12,
-  },
-
-  input: {
-    height: 40,
-    marginLeft: 12,
-    marginRight: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-})

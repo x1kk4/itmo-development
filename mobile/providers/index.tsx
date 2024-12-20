@@ -1,4 +1,5 @@
 import {
+  DarkTheme,
   // DarkTheme,
   DefaultTheme,
   ThemeProvider,
@@ -8,17 +9,26 @@ import { FC, PropsWithChildren } from 'react'
 // import { useColorScheme } from 'react-native'
 import { AuthProvider } from './AuthContext'
 
+import { TamaguiProvider } from 'tamagui'
+
+import { tamaguiConfig } from '../tamagui.config'
+import { useColorScheme } from 'react-native'
+
 export const queryClient = new QueryClient()
 
 const Providers: FC<PropsWithChildren> = ({ children }) => {
-  // const colorScheme = useColorScheme()
+  const colorScheme = useColorScheme()
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}> */}
-      <ThemeProvider value={DefaultTheme}>
-        <AuthProvider>{children}</AuthProvider>
-      </ThemeProvider>
+      <TamaguiProvider
+        config={tamaguiConfig}
+        defaultTheme={colorScheme!}
+      >
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
+      </TamaguiProvider>
     </QueryClientProvider>
   )
 }
