@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 ARG EXPO_TOKEN
-ENV EXPO_TOKEN ${EXPO_TOKEN}
+ENV EXPO_TOKEN=${EXPO_TOKEN:-$EXPO_TOKEN}
 
 RUN if [ -n "$EXPO_TOKEN" ]; then \
     echo "Token provided, length: ${#EXPO_TOKEN}" && \
