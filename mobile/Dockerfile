@@ -2,7 +2,7 @@ FROM node:20 AS build
 
 WORKDIR /app
 
-RUN npm install -g eas-cli@latest
+RUN npm install -g eas-cli
 
 COPY package.json ./
 RUN npm install
