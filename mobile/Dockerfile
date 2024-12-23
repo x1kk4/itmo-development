@@ -2,6 +2,8 @@ FROM node:20-alpine as build
 
 WORKDIR /app
 
+RUN npm install -g eas-cli@latest
+
 COPY package.json ./
 RUN npm install
 
