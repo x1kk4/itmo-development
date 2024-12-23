@@ -7,6 +7,16 @@ RUN npm install
 
 COPY . .
 
+ARG EXPO_TOKEN
+RUN if [ -n "$EXPO_TOKEN" ]; then \
+    echo "Logging in to EAS..." && \
+    eas login --non-interactive --token $EXPO_TOKEN && \
+    echo "Creating EAS update..." && \
+    eas update --auto --non-interactive --message "Docker build $(date +%Y-%m-%d_%H-%M-%S)" || \
+    echo "EAS update failed" \
+    ; fi
+
+
 RUN npm run build:web
 
 RUN npm run prepare:web
