@@ -14,6 +14,9 @@ RUN npm install
 
 COPY . .
 
+ARG EXPO_TOKEN
+ENV EXPO_TOKEN=$EXPO_TOKEN
+
 RUN if [ -n "$EXPO_TOKEN" ]; then \
     echo "Token found (length: ${#EXPO_TOKEN})" && \
     echo "Running EAS update..." && \
