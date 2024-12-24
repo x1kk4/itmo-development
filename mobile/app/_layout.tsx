@@ -9,10 +9,9 @@ import { useMe } from '@/api/hooks/auth/useMe'
 import { SafeAreaView, Platform } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
 
-import { AnimatePresence, Theme, YStack, useTheme } from 'tamagui'
+import { AnimatePresence, YStack, useTheme } from 'tamagui'
 import { LoadingScreen } from '@/ui/LoadingScreen'
 import { useMinLoadingTime } from '@/hooks/useMinLoadingTime'
-import { useThemeContext } from '@/providers/ThemeContext'
 
 export const REDIRECTS = {
   auth: '/',
@@ -52,8 +51,7 @@ const AuthLayout = () => {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { theme } = useThemeContext()
-  const tamaguiTheme = useTheme()
+  const theme = useTheme()
 
   const isShowLoading = useMinLoadingTime(isLoading && !user)
 
@@ -73,11 +71,9 @@ const AuthLayout = () => {
 
   if (Platform.OS === 'ios') {
     return (
-      <Theme key={theme}>
+      <>
         <AnimatePresence>{isShowLoading && <LoadingScreen />}</AnimatePresence>
         <YStack
-          // animation={'medium'}
-          // enterStyle={{ opacity: 0 }}
           backgroundColor={'$background'}
           flex={1}
         >
@@ -87,7 +83,7 @@ const AuthLayout = () => {
                 headerShown: false,
                 animation: 'default',
                 contentStyle: {
-                  backgroundColor: tamaguiTheme.background.val,
+                  backgroundColor: theme.background.val,
                 },
               }}
             >
@@ -97,12 +93,12 @@ const AuthLayout = () => {
             </Stack>
           </SafeAreaView>
         </YStack>
-      </Theme>
+      </>
     )
   }
 
   return (
-    <Theme key={theme}>
+    <>
       <AnimatePresence>{isShowLoading && <LoadingScreen />}</AnimatePresence>
       <YStack
         backgroundColor={'$background'}
@@ -113,7 +109,7 @@ const AuthLayout = () => {
             headerShown: false,
             animation: 'default',
             contentStyle: {
-              backgroundColor: tamaguiTheme.background.val,
+              backgroundColor: theme.background.val,
             },
           }}
         >
@@ -122,6 +118,6 @@ const AuthLayout = () => {
           <Stack.Screen name='home' />
         </Stack>
       </YStack>
-    </Theme>
+    </>
   )
 }

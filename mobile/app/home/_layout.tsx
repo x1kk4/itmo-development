@@ -2,27 +2,32 @@ import React from 'react'
 
 import { Stack } from 'expo-router'
 import { useAuthContext } from '@/providers/AuthContext'
-import { useTheme } from 'tamagui'
+import { Theme, useTheme } from 'tamagui'
+import { useThemeContext } from '@/providers/ThemeContext'
 
 export default function HomeLayout() {
   const { user } = useAuthContext()
-  const theme = useTheme()
+
+  const { theme } = useThemeContext()
+  const tamaguiTheme = useTheme()
 
   if (!user) {
     return null
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {
-          backgroundColor: theme.background.val,
-        },
-      }}
-    >
-      <Stack.Screen name='(tabs)' />
-      <Stack.Screen name='profile' />
-    </Stack>
+    <Theme key={theme}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: tamaguiTheme.background.val,
+          },
+        }}
+      >
+        <Stack.Screen name='(tabs)' />
+        <Stack.Screen name='profile' />
+      </Stack>
+    </Theme>
   )
 }
