@@ -1,10 +1,12 @@
 import { useAuthContext } from '@/providers/AuthContext'
-import { Link } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { Button, Input, Image } from 'tamagui'
 import { Screen } from '@/ui/Screen'
 
 export default function SignUp() {
   const { signUp } = useAuthContext()
+
+  const router = useRouter()
 
   return (
     <Screen
@@ -36,18 +38,14 @@ export default function SignUp() {
       >
         Зарегистрироваться
       </Button>
-      <Link
-        href={'/'}
-        asChild
+      <Button
+        onPress={() => router.back()}
+        width={'100%'}
+        themeInverse
+        style={{ textDecoration: 'none' }}
       >
-        <Button
-          width={'100%'}
-          themeInverse
-          style={{ textDecoration: 'none' }}
-        >
-          Войти
-        </Button>
-      </Link>
+        Войти
+      </Button>
     </Screen>
   )
 }

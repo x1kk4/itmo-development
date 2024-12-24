@@ -30,6 +30,7 @@ export default function TabsLayout() {
           height: 60,
         },
         tabBarActiveTintColor: theme.accentColor.val,
+        animation: 'shift',
 
         header: ({ route }) => (
           <Header
@@ -42,8 +43,8 @@ export default function TabsLayout() {
             <Heading>{TAB_NAMES[route.name as keyof typeof TAB_NAMES]}</Heading>
             <Avatar circular>
               <Avatar.Image
-                accessibilityLabel='Cam'
-                src='https://images.unsplash.com/photo-1548142813-c348350df52b?&w=150&h=150&dpr=2&q=80'
+                accessibilityLabel='Segun'
+                src='https://avatars.githubusercontent.com/u/6916170?v=4'
               />
               <Avatar.Fallback />
             </Avatar>

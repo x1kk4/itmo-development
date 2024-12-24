@@ -1,15 +1,15 @@
 import { useFonts } from 'expo-font'
-import { Href, Slot, usePathname, useRouter } from 'expo-router'
+import { Href, Slot, Stack, usePathname, useRouter } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
 import { Providers } from '@/providers'
 import { useMe } from '@/api/hooks/auth/useMe'
-import { ActivityIndicator, StyleSheet, Text, SafeAreaView, Platform } from 'react-native'
+import { SafeAreaView, Platform } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
 
-import { View, YStack, useTheme } from 'tamagui'
+import { YStack, useTheme } from 'tamagui'
 
 export const REDIRECTS = {
   auth: '/',
@@ -65,17 +65,9 @@ const AuthLayout = () => {
     //eslint-disable-next-line
   }, [isLoading, user])
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator
-          size='large'
-          color='#6200EE'
-        />
-        <Text>Loading...</Text>
-      </View>
-    )
-  }
+  // if (isLoading) {
+  //   return null
+  // }
 
   if (Platform.OS === 'ios') {
     return (
@@ -84,7 +76,19 @@ const AuthLayout = () => {
         flex={1}
       >
         <SafeAreaView style={{ flex: 1 }}>
-          <Slot />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'default',
+              contentStyle: {
+                backgroundColor: theme.background.val,
+              },
+            }}
+          >
+            <Stack.Screen name='index' />
+            <Stack.Screen name='sign-up' />
+            <Stack.Screen name='home' />
+          </Stack>
         </SafeAreaView>
       </YStack>
     )
@@ -92,11 +96,3 @@ const AuthLayout = () => {
 
   return <Slot />
 }
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
