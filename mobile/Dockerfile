@@ -20,14 +20,17 @@ ENV EXPO_TOKEN=${EXPO_TOKEN}
 RUN if [ -n "$EXPO_TOKEN" ]; then \
     echo "Token found (length: ${#EXPO_TOKEN})" && \
     echo "Running EAS update..." && \
-    EXPO_TOKEN=$EXPO_TOKEN eas update --auto --message "Docker build $(date +%Y-%m-%d_%H-%M-%S)" --json 2>&1 || { \
-    echo "EAS update failed with error: $?" && \
+    ERROR_OUTPUT=$(EXPO_TOKEN=$EXPO_TOKEN eas update --auto --message "Docker build $(date +%Y-%m-%d_%H-%M-%S)" --json 2>&1) || { \
+    echo "EAS update failed with error:" && \
+    echo "$ERROR_OUTPUT" && \
+    echo "Exit code: $?" && \
     exit 1; \
     } \
     ; else \
     echo "No EXPO_TOKEN provided in environment" && \
     exit 1; \
     fi
+
 
 
 RUN npm run build:web
