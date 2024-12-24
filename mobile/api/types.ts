@@ -85,4 +85,5 @@ export type TSubscription = {
 export enum STORAGE_KEYS {
   AUTHORIZATION = 'authorization',
   REFRESH = 'refresh',
+  THEME = 'theme',
 }

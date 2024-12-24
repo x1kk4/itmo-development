@@ -1,13 +1,14 @@
 import { useAuthContext } from '@/providers/AuthContext'
+import { Screen } from '@/ui/Screen'
 import { Link } from 'expo-router'
 
-import { Button, Image, Input, YStack } from 'tamagui'
+import { Button, Image, Input } from 'tamagui'
 
 export default function SignIn() {
   const { signIn } = useAuthContext()
 
   return (
-    <YStack
+    <Screen
       gap='$2'
       flex={1}
       justifyContent='center'
@@ -46,6 +47,6 @@ export default function SignIn() {
           Зарегистрироваться
         </Button>
       </Link>
-    </YStack>
+    </Screen>
   )
 }

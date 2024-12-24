@@ -1,28 +1,14 @@
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { StyleSheet, Image, Platform } from 'react-native'
-
-import { Collapsible } from '@/components/Collapsible'
-import { ExternalLink } from '@/components/ExternalLink'
-import ParallaxScrollView from '@/components/ParallaxScrollView'
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+// import { StyleSheet, Image, Platform } from 'react-native'
+import { Screen } from '@/ui/Screen'
+import { View, Text } from 'tamagui'
 
 export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <Ionicons
-          size={310}
-          name='code-slash'
-          style={styles.headerImage}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type='title'>Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
+    <Screen>
+      <View>
+        <Text>Explore</Text>
+      </View>
+      {/* <ThemedText>This app includes example code to help you get started.</ThemedText>
       <Collapsible title='File-based routing'>
         <ThemedText>
           This app has two screens:{' '}
@@ -93,20 +79,7 @@ export default function TabTwoScreen() {
             </ThemedText>
           ),
         })}
-      </Collapsible>
-    </ParallaxScrollView>
+      </Collapsible> */}
+    </Screen>
   )
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-})

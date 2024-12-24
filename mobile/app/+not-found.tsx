@@ -1,22 +1,20 @@
 import { Link, Stack } from 'expo-router'
 import { StyleSheet } from 'react-native'
-
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import { View, Text } from 'tamagui'
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <ThemedView style={styles.container}>
-        <ThemedText type='subtitle'>Такого экрана не существует...</ThemedText>
+      <View style={styles.container}>
+        <Text>Такого экрана не существует...</Text>
         <Link
           href='/'
           style={styles.link}
         >
-          <ThemedText type='link'>На главную</ThemedText>
+          <Text>На главную</Text>
         </Link>
-      </ThemedView>
+      </View>
     </>
   )
 }
