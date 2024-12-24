@@ -1,12 +1,16 @@
 import { Screen } from '@/ui/Screen'
-import { View, Text } from 'tamagui'
+
+import Lottie from 'lottie-react-native'
 
 export default function MapScreen() {
   return (
     <Screen>
-      <View>
-        <Text>Карта</Text>
-      </View>
+      <Lottie
+        source={require('@/lottie/hussle-bear.json')}
+        style={{ width: '100%', height: '100%' }}
+        autoPlay
+        loop
+      />
     </Screen>
   )
 }

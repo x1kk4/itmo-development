@@ -3,8 +3,8 @@ import {
   TUpdateTrainingSessionResponse,
   updateTrainingSession,
 } from '@/api'
-import { queryClient } from '@/main'
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { queryClient } from '..'
 
 export const useUpdateTrainingSession = (): UseMutationResult<
   TUpdateTrainingSessionResponse,

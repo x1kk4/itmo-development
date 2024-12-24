@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { STORAGE_KEYS } from '@/api/types'
-import { queryClient } from '@/providers'
+import { queryClient } from '..'
 
 export const useLogout = (): UseMutationResult<void, AxiosError, void> => {
   return useMutation({

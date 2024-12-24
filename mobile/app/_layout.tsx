@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font'
-import { Href, Slot, Stack, usePathname, useRouter } from 'expo-router'
+import { Href, Stack, usePathname, useRouter } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
@@ -9,7 +9,10 @@ import { useMe } from '@/api/hooks/auth/useMe'
 import { SafeAreaView, Platform } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
 
-import { YStack, useTheme } from 'tamagui'
+import { AnimatePresence, Theme, YStack, useTheme } from 'tamagui'
+import { LoadingScreen } from '@/ui/LoadingScreen'
+import { useMinLoadingTime } from '@/hooks/useMinLoadingTime'
+import { useThemeContext } from '@/providers/ThemeContext'
 
 export const REDIRECTS = {
   auth: '/',
@@ -49,7 +52,10 @@ const AuthLayout = () => {
   const router = useRouter()
   const pathname = usePathname()
 
-  const theme = useTheme()
+  const { theme } = useThemeContext()
+  const tamaguiTheme = useTheme()
+
+  const isShowLoading = useMinLoadingTime(isLoading && !user)
 
   // auth autoredirects logic
   useEffect(() => {
@@ -65,34 +71,57 @@ const AuthLayout = () => {
     //eslint-disable-next-line
   }, [isLoading, user])
 
-  // if (isLoading) {
-  //   return null
-  // }
-
   if (Platform.OS === 'ios') {
     return (
-      <YStack
-        backgroundColor={theme.background.val}
-        flex={1}
-      >
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              animation: 'default',
-              contentStyle: {
-                backgroundColor: theme.background.val,
-              },
-            }}
-          >
-            <Stack.Screen name='index' />
-            <Stack.Screen name='sign-up' />
-            <Stack.Screen name='home' />
-          </Stack>
-        </SafeAreaView>
-      </YStack>
+      <Theme key={theme}>
+        <AnimatePresence>{isShowLoading && <LoadingScreen />}</AnimatePresence>
+        <YStack
+          // animation={'medium'}
+          // enterStyle={{ opacity: 0 }}
+          backgroundColor={'$background'}
+          flex={1}
+        >
+          <SafeAreaView style={{ flex: 1 }}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                animation: 'default',
+                contentStyle: {
+                  backgroundColor: tamaguiTheme.background.val,
+                },
+              }}
+            >
+              <Stack.Screen name='index' />
+              <Stack.Screen name='sign-up' />
+              <Stack.Screen name='home' />
+            </Stack>
+          </SafeAreaView>
+        </YStack>
+      </Theme>
     )
   }
 
-  return <Slot />
+  return (
+    <Theme key={theme}>
+      <AnimatePresence>{isShowLoading && <LoadingScreen />}</AnimatePresence>
+      <YStack
+        backgroundColor={'$background'}
+        flex={1}
+      >
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'default',
+            contentStyle: {
+              backgroundColor: tamaguiTheme.background.val,
+            },
+          }}
+        >
+          <Stack.Screen name='index' />
+          <Stack.Screen name='sign-up' />
+          <Stack.Screen name='home' />
+        </Stack>
+      </YStack>
+    </Theme>
+  )
 }

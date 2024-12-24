@@ -3,6 +3,8 @@ import { Screen } from '@/ui/Screen'
 import { Computer, Moon, Sun } from '@tamagui/lucide-icons'
 import { Group, Button, XGroup, Text } from 'tamagui'
 
+import Lottie from 'lottie-react-native'
+
 export default function SettingsScreen() {
   const { theme, setTheme, isSystem } = useThemeContext()
 
@@ -47,6 +49,12 @@ export default function SettingsScreen() {
           </Button>
         </Group.Item>
       </XGroup>
+      <Lottie
+        source={require('@/lottie/flex-dancing.json')}
+        style={{ width: '80%', height: '80%', alignSelf: 'center' }}
+        autoPlay
+        loop
+      />
     </Screen>
   )
 }

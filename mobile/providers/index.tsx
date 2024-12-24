@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { FC, PropsWithChildren } from 'react'
 import { AuthProvider } from './AuthContext'
 
@@ -10,8 +10,7 @@ import { StatusBar } from 'expo-status-bar'
 import { Platform } from 'react-native'
 
 import { tamaguiConfig } from '../tamagui.config'
-
-export const queryClient = new QueryClient()
+import { queryClient } from '@/api/hooks'
 
 const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
   const { theme } = useThemeContext()
@@ -27,6 +26,7 @@ const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
       <TamaguiProvider
         config={tamaguiConfig}
         defaultTheme={theme}
+        // key={theme}
       >
         <AuthProvider>{children}</AuthProvider>
       </TamaguiProvider>

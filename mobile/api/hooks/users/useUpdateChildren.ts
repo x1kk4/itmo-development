@@ -1,6 +1,7 @@
 import { TUpdateChildrenRequest, TUpdateChildrenResponse, updateChildren } from '@/api'
-import { queryClient } from '@/main'
+
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { queryClient } from '..'
 
 export const useUpdateChildren = (): UseMutationResult<
   TUpdateChildrenResponse,

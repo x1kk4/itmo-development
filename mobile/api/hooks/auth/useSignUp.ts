@@ -1,8 +1,9 @@
 import { TSignUpRequest, TUserResponse, v2 } from '@/api'
-import { queryClient } from '@/providers'
+
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 
 import { AxiosError } from 'axios'
+import { queryClient } from '..'
 
 export const useSignUp = (): UseMutationResult<TUserResponse, AxiosError, TSignUpRequest> => {
   return useMutation({

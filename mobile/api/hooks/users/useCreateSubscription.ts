@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import { createSubscription, TCreateSubscriptionResponse } from '@/api'
-import { queryClient } from '@/main'
+import { queryClient } from '..'
 
 export const useCreateSubscription = (): UseMutationResult<
   TCreateSubscriptionResponse,

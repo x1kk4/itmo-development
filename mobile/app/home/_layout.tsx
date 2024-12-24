@@ -22,6 +22,7 @@ export default function HomeLayout() {
       }}
     >
       <Stack.Screen name='(tabs)' />
+      <Stack.Screen name='profile' />
     </Stack>
   )
 }

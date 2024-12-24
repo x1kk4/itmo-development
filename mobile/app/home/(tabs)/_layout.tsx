@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/providers/AuthContext'
-import { Tabs } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import React from 'react'
 import { LayoutDashboard, ListCollapse, MapPin, Settings } from '@tamagui/lucide-icons'
 import { Avatar, Header, Heading, useTheme } from 'tamagui'
@@ -13,6 +13,8 @@ export const TAB_NAMES = {
 
 export default function TabsLayout() {
   const { user } = useAuthContext()
+
+  const router = useRouter()
 
   const theme = useTheme()
 
@@ -34,14 +36,19 @@ export default function TabsLayout() {
 
         header: ({ route }) => (
           <Header
-            backgroundColor={'$background'}
+            backgroundColor={theme.background.val}
             padding={'$3'}
             flexDirection={'row'}
             alignItems={'center'}
             justifyContent={'space-between'}
           >
             <Heading>{TAB_NAMES[route.name as keyof typeof TAB_NAMES]}</Heading>
-            <Avatar circular>
+            <Avatar
+              circular
+              onPress={() => {
+                router.push('/home/profile')
+              }}
+            >
               <Avatar.Image
                 accessibilityLabel='Segun'
                 src='https://avatars.githubusercontent.com/u/6916170?v=4'
@@ -57,7 +64,7 @@ export default function TabsLayout() {
         options={{
           title: 'Главная',
           tabBarIcon: ({ focused }) => (
-            <LayoutDashboard color={focused ? theme.accentColor.val : theme.color.val} />
+            <LayoutDashboard color={focused ? '$accentColor' : '$color'} />
           ),
         }}
       />
@@ -65,18 +72,14 @@ export default function TabsLayout() {
         name='schedule'
         options={{
           title: 'Расписание',
-          tabBarIcon: ({ focused }) => (
-            <ListCollapse color={focused ? theme.accentColor.val : theme.color.val} />
-          ),
+          tabBarIcon: ({ focused }) => <ListCollapse color={focused ? '$accentColor' : '$color'} />,
         }}
       />
       <Tabs.Screen
         name='map'
         options={{
           title: 'Карта',
-          tabBarIcon: ({ focused }) => (
-            <MapPin color={focused ? theme.accentColor.val : theme.color.val} />
-          ),
+          tabBarIcon: ({ focused }) => <MapPin color={focused ? '$accentColor' : '$color'} />,
         }}
       />
 
@@ -84,9 +87,7 @@ export default function TabsLayout() {
         name='settings'
         options={{
           title: 'Настройки',
-          tabBarIcon: ({ focused }) => (
-            <Settings color={focused ? theme.accentColor.val : theme.color.val} />
-          ),
+          tabBarIcon: ({ focused }) => <Settings color={focused ? '$accentColor' : '$color'} />,
         }}
       />
     </Tabs>
