@@ -1,23 +1,91 @@
+import { useAuthContext } from '@/providers/AuthContext'
 import { Tabs } from 'expo-router'
 import React from 'react'
+import { LayoutDashboard, ListCollapse, MapPin, Settings } from '@tamagui/lucide-icons'
+import { Avatar, Header, Heading, useTheme } from 'tamagui'
 
-export default function TabLayout() {
+export const TAB_NAMES = {
+  dashboard: 'Главная',
+  schedule: 'Расписание',
+  map: 'Школы',
+  settings: 'Настройки',
+}
+
+export default function TabsLayout() {
+  const { user } = useAuthContext()
+
+  const theme = useTheme()
+
+  if (!user) {
+    return null
+  }
+
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: theme.background.val,
+          borderTopColor: theme.borderColor.val,
+          paddingTop: 5,
+          height: 60,
+        },
+        tabBarActiveTintColor: theme.accentColor.val,
+
+        header: ({ route }) => (
+          <Header
+            backgroundColor={'$background'}
+            padding={'$3'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+          >
+            <Heading>{TAB_NAMES[route.name as keyof typeof TAB_NAMES]}</Heading>
+            <Avatar circular>
+              <Avatar.Image
+                accessibilityLabel='Cam'
+                src='https://images.unsplash.com/photo-1548142813-c348350df52b?&w=150&h=150&dpr=2&q=80'
+              />
+              <Avatar.Fallback />
+            </Avatar>
+          </Header>
+        ),
       }}
     >
       <Tabs.Screen
         name='dashboard'
         options={{
           title: 'Главная',
+          tabBarIcon: ({ focused }) => (
+            <LayoutDashboard color={focused ? theme.accentColor.val : theme.color.val} />
+          ),
         }}
       />
       <Tabs.Screen
-        name='explore'
+        name='schedule'
+        options={{
+          title: 'Расписание',
+          tabBarIcon: ({ focused }) => (
+            <ListCollapse color={focused ? theme.accentColor.val : theme.color.val} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='map'
+        options={{
+          title: 'Карта',
+          tabBarIcon: ({ focused }) => (
+            <MapPin color={focused ? theme.accentColor.val : theme.color.val} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name='settings'
         options={{
           title: 'Настройки',
+          tabBarIcon: ({ focused }) => (
+            <Settings color={focused ? theme.accentColor.val : theme.color.val} />
+          ),
         }}
       />
     </Tabs>

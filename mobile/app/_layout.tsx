@@ -6,8 +6,10 @@ import 'react-native-reanimated'
 
 import { Providers } from '@/providers'
 import { useMe } from '@/api/hooks/auth/useMe'
-import { ActivityIndicator, View, StyleSheet, Text } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, SafeAreaView, Platform } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
+
+import { View, YStack, useTheme } from 'tamagui'
 
 export const REDIRECTS = {
   auth: '/',
@@ -47,6 +49,8 @@ const AuthLayout = () => {
   const router = useRouter()
   const pathname = usePathname()
 
+  const theme = useTheme()
+
   // auth autoredirects logic
   useEffect(() => {
     if (!isLoading) {
@@ -70,6 +74,19 @@ const AuthLayout = () => {
         />
         <Text>Loading...</Text>
       </View>
+    )
+  }
+
+  if (Platform.OS === 'ios') {
+    return (
+      <YStack
+        backgroundColor={theme.background075.val}
+        flex={1}
+      >
+        <SafeAreaView style={{ flex: 1 }}>
+          <Slot />
+        </SafeAreaView>
+      </YStack>
     )
   }
 

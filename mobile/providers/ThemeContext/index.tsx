@@ -7,7 +7,8 @@ export type AppTheme = NonNullable<ColorSchemeName>
 
 export type TThemeContextShape = {
   theme: AppTheme
-  setTheme: (theme: AppTheme) => void
+  isSystem: boolean
+  setTheme: (theme: AppTheme | 'system') => void
 }
 const ThemeContext = React.createContext<TThemeContextShape>({} as TThemeContextShape)
 
@@ -21,6 +22,7 @@ const ThemeProvider = (props: TThemeProviderProps) => {
   const systemColorScheme = useColorScheme()
 
   const [theme, setTheme] = useState<AppTheme>(systemColorScheme ?? 'light')
+  const [isSystem, setIsSystem] = useState<boolean>(false)
 
   const getStorageTheme = useCallback(async () => {
     const theme = await AsyncStorage.getItem(STORAGE_KEYS.THEME)
@@ -41,6 +43,7 @@ const ThemeProvider = (props: TThemeProviderProps) => {
         // console.log(systemColorScheme)
 
         setTheme(systemColorScheme)
+        setIsSystem(true)
       }
     }
 
@@ -53,11 +56,13 @@ const ThemeProvider = (props: TThemeProviderProps) => {
       if (newTheme !== 'system') {
         await AsyncStorage.setItem(STORAGE_KEYS.THEME, newTheme)
         setTheme(newTheme)
+        setIsSystem(false)
         return
       }
 
       await AsyncStorage.removeItem(STORAGE_KEYS.THEME)
       setTheme(systemColorScheme ?? 'light')
+      setIsSystem(true)
 
       //eslint-disable-next-line
     },
@@ -68,8 +73,9 @@ const ThemeProvider = (props: TThemeProviderProps) => {
     return {
       theme,
       setTheme: setThemeExternal,
+      isSystem,
     }
-  }, [theme, setThemeExternal])
+  }, [theme, setThemeExternal, isSystem])
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
