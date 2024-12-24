@@ -17,6 +17,14 @@ COPY . .
 ARG EXPO_TOKEN
 ENV EXPO_TOKEN=${EXPO_TOKEN}
 
+RUN apt-get update && apt-get install -y git && \
+    git init && \
+    git config --global user.email "docker@build.com" && \
+    git config --global user.name "Docker Build" && \
+    git add . && \
+    git commit -m "Initial commit"
+
+
 RUN if [ -n "$EXPO_TOKEN" ]; then \
     echo "Token found (length: ${#EXPO_TOKEN})" && \
     echo "Running EAS update..." && \
