@@ -6,6 +6,9 @@ import { ThemeProvider as DynamicTheme, useThemeContext } from './ThemeContext'
 
 import { TamaguiProvider } from 'tamagui'
 
+import { StatusBar } from 'expo-status-bar'
+import { Platform } from 'react-native'
+
 import { tamaguiConfig } from '../tamagui.config'
 
 export const queryClient = new QueryClient()
@@ -15,6 +18,12 @@ const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar
+        style={theme === 'dark' ? 'light' : 'dark'}
+        animated={true}
+        // backgroundColor={theme === 'dark' ? 'black' : 'white'} // android
+        translucent={Platform.OS === 'android'}
+      />
       <TamaguiProvider
         config={tamaguiConfig}
         defaultTheme={theme}

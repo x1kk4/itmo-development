@@ -80,7 +80,7 @@ const AuthLayout = () => {
   if (Platform.OS === 'ios') {
     return (
       <YStack
-        backgroundColor={theme.background075.val}
+        backgroundColor={theme.background.val}
         flex={1}
       >
         <SafeAreaView style={{ flex: 1 }}>
