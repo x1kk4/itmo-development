@@ -1,4 +1,4 @@
-import Lottie from 'lottie-react-native'
+import { Lottie } from './Lottie'
 import { Screen } from './Screen'
 
 export const LoadingScreen = () => {

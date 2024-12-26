@@ -1,11 +1,18 @@
-import { useFonts } from 'expo-font'
+// import { useFonts } from 'expo-font'
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_900Black,
+  useFonts,
+} from '@expo-google-fonts/inter'
 import { Href, Stack, usePathname, useRouter } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
 import { Providers } from '@/providers'
-import { useMe } from '@/api/hooks/auth/useMe'
 import { SafeAreaView, Platform } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
 
@@ -23,7 +30,11 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Inter: Inter_400Regular,
+    'Inter-Medium': Inter_500Medium,
+    'Inter-SemiBold': Inter_600SemiBold,
+    'Inter-Bold': Inter_700Bold,
+    'Inter-Black': Inter_900Black,
   })
 
   useEffect(() => {
@@ -44,16 +55,14 @@ export default function RootLayout() {
 }
 
 const AuthLayout = () => {
-  const { isLoading } = useMe()
-
-  const { user } = useAuthContext()
+  const { user, isLoading } = useAuthContext()
 
   const router = useRouter()
   const pathname = usePathname()
 
   const theme = useTheme()
 
-  const isShowLoading = useMinLoadingTime(isLoading && !user)
+  const isShowLoading = useMinLoadingTime(isLoading)
 
   // auth autoredirects logic
   useEffect(() => {
@@ -62,8 +71,6 @@ const AuthLayout = () => {
         if (!pathname.startsWith('/home')) {
           router.replace(REDIRECTS.dashboard)
         }
-      } else if (pathname !== REDIRECTS.auth) {
-        router.replace(REDIRECTS.auth)
       }
     }
     //eslint-disable-next-line

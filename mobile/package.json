@@ -21,7 +21,9 @@
     "config": "./tamagui.config.ts"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
+    "@lottiefiles/dotlottie-react": "^0.6.5",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
     "@tamagui/animations-react-native": "^1.120.2",

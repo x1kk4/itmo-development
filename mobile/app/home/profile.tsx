@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/providers/AuthContext'
+import { Lottie } from '@/ui/Lottie'
 import { Screen } from '@/ui/Screen'
 
-import Lottie from 'lottie-react-native'
 import { Button } from 'tamagui'
 
 export default function ProfileScreen() {
@@ -11,12 +11,17 @@ export default function ProfileScreen() {
     <Screen>
       <Lottie
         source={require('@/lottie/running-skeleton.json')}
-        style={{ width: '80%', height: '80%', alignSelf: 'center' }}
+        style={{ width: '70%', height: '70%', alignSelf: 'center' }}
         autoPlay
         loop
       />
 
-      <Button onPress={() => logout()}>Выйти</Button>
+      <Button
+        backgroundColor={'red'}
+        onPress={() => logout()}
+      >
+        Выйти
+      </Button>
     </Screen>
   )
 }

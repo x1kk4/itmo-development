@@ -11,6 +11,8 @@ export type TAuthContextShape = {
   signIn: (data: TSignInRequest) => void
   signUp: (data: TSignUpRequest) => void
   logout: () => void
+  isLoading: boolean
+  isFetched: boolean
 }
 
 const AuthContext = React.createContext<TAuthContextShape>({} as TAuthContextShape)
@@ -22,7 +24,7 @@ export type TAuthProviderProps = {
 const AuthProvider = (props: TAuthProviderProps) => {
   const { children } = props
 
-  const { data: me } = useMe()
+  const { data: me, isLoading, isFetched } = useMe()
   const { mutate: signIn } = useSignIn()
   const { mutate: signUp } = useSignUp()
   const { mutate: logout } = useLogout()
@@ -33,8 +35,10 @@ const AuthProvider = (props: TAuthProviderProps) => {
       signIn,
       signUp,
       logout,
+      isLoading,
+      isFetched,
     }),
-    [me, signIn, signUp, logout],
+    [me, signIn, signUp, logout, isLoading, isFetched],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

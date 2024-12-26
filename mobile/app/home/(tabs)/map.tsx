@@ -1,6 +1,5 @@
+import { Lottie } from '@/ui/Lottie'
 import { Screen } from '@/ui/Screen'
-
-import Lottie from 'lottie-react-native'
 
 export default function MapScreen() {
   return (

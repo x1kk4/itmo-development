@@ -68,6 +68,7 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name='schedule'
         options={{
@@ -75,6 +76,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => <ListCollapse color={focused ? '$accentColor' : '$color'} />,
         }}
       />
+
       <Tabs.Screen
         name='map'
         options={{

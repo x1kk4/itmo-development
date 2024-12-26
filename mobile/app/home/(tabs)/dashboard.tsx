@@ -1,7 +1,6 @@
+import { Lottie } from '@/ui/Lottie'
 import { Screen } from '@/ui/Screen'
 import { Text, View } from 'tamagui'
-
-import Lottie from 'lottie-react-native'
 
 export default function DashboardScreen() {
   return (
@@ -9,6 +8,7 @@ export default function DashboardScreen() {
       <View>
         <Text>Добро пожаловать!</Text>
       </View>
+
       <Lottie
         source={require('@/lottie/bad-boy.json')}
         style={{ width: '80%', height: '80%', alignSelf: 'center' }}

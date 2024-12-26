@@ -1,9 +1,11 @@
 import React from 'react'
+import { Redirect } from 'expo-router'
 
 import { Stack } from 'expo-router'
 import { useAuthContext } from '@/providers/AuthContext'
 import { Theme, useTheme } from 'tamagui'
 import { useThemeContext } from '@/providers/ThemeContext'
+import { REDIRECTS } from '../_layout'
 
 export default function HomeLayout() {
   const { user } = useAuthContext()
@@ -12,7 +14,7 @@ export default function HomeLayout() {
   const tamaguiTheme = useTheme()
 
   if (!user) {
-    return null
+    return <Redirect href={REDIRECTS.auth} />
   }
 
   return (
@@ -26,7 +28,14 @@ export default function HomeLayout() {
         }}
       >
         <Stack.Screen name='(tabs)' />
-        <Stack.Screen name='profile' />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: 'Профиль',
+          }}
+          name='profile'
+        />
       </Stack>
     </Theme>
   )
