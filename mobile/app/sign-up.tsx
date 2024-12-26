@@ -28,6 +28,7 @@ export default function SignUp() {
       <Button
         marginTop='$5'
         theme={'accent'}
+        color={'white'}
         onPress={() =>
           signUp({
             login: 'username123',
