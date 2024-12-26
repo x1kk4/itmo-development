@@ -1,10 +1,8 @@
 import { useThemeContext } from '@/providers/ThemeContext'
+// import { Lottie } from '@/ui/Lottie'
 import { Screen } from '@/ui/Screen'
 import { Computer, Moon, Sun } from '@tamagui/lucide-icons'
 import { Group, Button, XGroup, Text } from 'tamagui'
-
-import Lottie from 'lottie-react-native'
-import { Platform } from 'react-native'
 
 export default function SettingsScreen() {
   const { theme, setTheme, isSystem } = useThemeContext()
@@ -50,14 +48,13 @@ export default function SettingsScreen() {
           </Button>
         </Group.Item>
       </XGroup>
-      {/* {Platform.OS !== 'web' && (
-        <Lottie
-          source={require('@/lottie/flex-dancing.json')}
-          style={{ width: '80%', height: '80%', alignSelf: 'center' }}
-          autoPlay
-          loop
-        />
-      )} */}
+
+      {/* <Lottie
+        source={require('@/lottie/flex-dancing.json')}
+        style={{ width: '80%', height: '80%', alignSelf: 'center' }}
+        autoPlay
+        loop
+      /> */}
     </Screen>
   )
 }
