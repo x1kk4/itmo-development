@@ -7,16 +7,20 @@ import {
   Param,
   // Delete,
   SerializeOptions,
-  UseGuards,
+  // UseGuards,
   ParseIntPipe,
+  Query,
+  // DefaultValuePipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import {
-  ApiBearerAuth,
-  // ApiTags
-} from '@nestjs/swagger';
+// import { AuthGuard } from 'src/auth/guards/auth.guard';
+// import {
+// ApiBearerAuth,
+// ApiTags
+// ApiQuery,
+// } from '@nestjs/swagger';
 import { UserResponseDto } from './dto/user-response.dto';
+import { UsersRequestDto } from './dto/get-users/request.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,16 +31,20 @@ export class UsersController {
   //   return this.usersService.create(createUserDto);
   // }
 
-  @ApiBearerAuth('access-token')
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth('access-token')
+  // @UseGuards(AuthGuard)
+  @SerializeOptions({ type: UserResponseDto })
   @Get()
-  async findAll() {
-    return this.usersService.findAll();
+  async getMany(@Query() query: UsersRequestDto) {
+    return this.usersService.getManyWithPaginationAndFilters(
+      query.page,
+      query.limit,
+    );
   }
 
   @SerializeOptions({ type: UserResponseDto })
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
 

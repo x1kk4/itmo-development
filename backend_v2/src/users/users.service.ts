@@ -10,8 +10,19 @@ export class UsersService {
   //   return 'This action adds a new user';
   // }
 
-  findAll() {
-    return `This action returns all users`;
+  async getManyWithPaginationAndFilters(page: number, limit: number) {
+    const offset = (page - 1) * limit;
+
+    const users = await this.prisma.user.findMany({
+      skip: offset,
+      take: limit,
+    });
+
+    if (users.length) {
+      return users;
+    }
+
+    throw new NotFoundException('Users not found');
   }
 
   async findOne(id: number) {
