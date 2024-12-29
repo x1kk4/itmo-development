@@ -7,7 +7,7 @@ import { Avatar, Header, Heading, useTheme } from 'tamagui'
 export const TAB_NAMES = {
   dashboard: 'Главная',
   schedule: 'Расписание',
-  map: 'Школы',
+  navigator: 'Навигатор',
   settings: 'Настройки',
 }
 
@@ -78,9 +78,9 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name='map'
+        name='navigator'
         options={{
-          title: 'Карта',
+          title: 'Навигатор',
           tabBarIcon: ({ focused }) => <MapPin color={focused ? '$accentColor' : '$color'} />,
         }}
       />

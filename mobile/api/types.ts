@@ -87,3 +87,5 @@ export enum STORAGE_KEYS {
   REFRESH = 'refresh',
   THEME = 'theme',
 }
+
+export type TQueryPagination = { page?: number; limit?: number }

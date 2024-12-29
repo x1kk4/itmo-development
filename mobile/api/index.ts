@@ -1,17 +1,9 @@
 import { api } from './client'
-import {
-  TBranch,
-  TChildren,
-  TCoach,
-  TParent,
-  TSubscription,
-  TTrainingSession,
-  TUser,
-} from './types'
+import { TBranch, TQueryPagination, TTrainingSession, TUser } from './types'
 
 // auth
 
-export type TUserResponse = TUser | null
+export type TUserResponse = TUser
 
 export type TSignInRequest = Pick<TUser, 'login'> & {
   password: string
@@ -39,112 +31,115 @@ const logout = async () => {
   return res.data
 }
 
-// export
+export type TUsersResponse = TUserResponse[]
+
+const getManyUsers = async (data: TQueryPagination) => {
+  const res = await api.get<TUsersResponse>('/users', {
+    params: data,
+  })
+  return res.data
+}
+
+const getUserById = async (id: number) => {
+  const res = await api.get<TUserResponse>(`/users/${id}`)
+  return res.data
+}
 
 export type TGetBranchesResponse = TBranch[]
 
-const getBranches = async () => {
-  const res = await api.get<TGetBranchesResponse>('/branches')
-  return res.data
-}
+// const getBranches = async () => {
+//   const res = await api.get<TGetBranchesResponse>('/branches')
+//   return res.data
+// }
 
-export type TGetBranchResponse = TBranch
+// export type TGetBranchResponse = TBranch
 
-const getBranch = async (id: number) => {
-  const res = await api.get<TGetBranchesResponse>(`/branches/${id}`)
-  return res.data
-}
+// const getBranch = async (id: number) => {
+//   const res = await api.get<TGetBranchesResponse>(`/branches/${id}`)
+//   return res.data
+// }
 
 export type TGetTrainingSessionsResponse = TTrainingSession[]
 
-const getTrainingSessions = async () => {
-  const res = await api.get<TGetTrainingSessionsResponse>('/training_sessions')
-  return res.data
-}
+// const getTrainingSessions = async () => {
+//   const res = await api.get<TGetTrainingSessionsResponse>('/training_sessions')
+//   return res.data
+// }
 
-export type TGetTrainingSessionResponse = TTrainingSession
+// export type TGetTrainingSessionResponse = TTrainingSession
 
-const getTrainingSession = async (id: number) => {
-  const res = await api.get<TGetTrainingSessionResponse>(`/training_sessions/${id}`)
-  return res.data
-}
+// const getTrainingSession = async (id: number) => {
+//   const res = await api.get<TGetTrainingSessionResponse>(`/training_sessions/${id}`)
+//   return res.data
+// }
 
-export type TUpdateTrainingSessionRequest = Partial<TTrainingSession>
-export type TUpdateTrainingSessionResponse = TTrainingSession
+// export type TUpdateTrainingSessionRequest = Partial<TTrainingSession>
+// export type TUpdateTrainingSessionResponse = TTrainingSession
 
-export type TGetTrainingSessionsByIdsResponse = TTrainingSession[]
+// export type TGetTrainingSessionsByIdsResponse = TTrainingSession[]
 
-const getTrainingSessionsByIds = async (ids: number[]) => {
-  const res = await api.put<TGetTrainingSessionsByIdsResponse>(
-    '/training_sessions/batch-retrieve/',
-    {
-      ids,
-    },
-  )
-  return res.data
-}
+// const getTrainingSessionsByIds = async (ids: number[]) => {
+//   const res = await api.put<TGetTrainingSessionsByIdsResponse>(
+//     '/training_sessions/batch-retrieve/',
+//     {
+//       ids,
+//     },
+//   )
+//   return res.data
+// }
 
-export type TGetClientResponse = Omit<TParent, 'role'>
+// export type TGetCoachResponse = Omit<TCoach, 'role'>
 
-const getClient = async (id: number) => {
-  const res = await api.get<TGetClientResponse>(`/clients/${id}`)
-  return res.data
-}
+// const getCoach = async (id?: number) => {
+//   const res = await api.get<TGetCoachResponse>(`/coaches/${id}`)
+//   return res.data
+// }
 
-export type TUpdateClientResponse = Omit<TParent, 'role'>
+// export type TGetChildrenResponse = TChildren
 
-export type TGetCoachResponse = Omit<TCoach, 'role'>
+// const getChildren = async (id: number) => {
+//   const res = await api.get<TGetChildrenResponse>(`/children/${id}`)
+//   return res.data
+// }
 
-const getCoach = async (id?: number) => {
-  const res = await api.get<TGetCoachResponse>(`/coaches/${id}`)
-  return res.data
-}
+// export type TGetChildrensResponse = TChildren[]
 
-export type TGetChildrenResponse = TChildren
+// const getChildrens = async (ids: number[]) => {
+//   if (ids) {
+//     const res = await api.put<TGetChildrensResponse>('/children/batch-retrieve/', { ids })
+//     return res.data
+//   }
 
-const getChildren = async (id: number) => {
-  const res = await api.get<TGetChildrenResponse>(`/children/${id}`)
-  return res.data
-}
+//   return null
+// }
 
-export type TGetChildrensResponse = TChildren[]
+// export type TUpdateChildrenRequest = Partial<TChildren>
+// export type TUpdateChildrenResponse = TChildren
 
-const getChildrens = async (ids: number[]) => {
-  if (ids) {
-    const res = await api.put<TGetChildrensResponse>('/children/batch-retrieve/', { ids })
-    return res.data
-  }
+// const updateChildren = async (id: number, data: TUpdateChildrenRequest) => {
+//   const res = await api.patch<TUpdateChildrenResponse>(`/children/${id}/`, data)
+//   return res.data
+// }
 
-  return null
-}
+// export type TGetSubscriptionResponse = TSubscription
 
-export type TUpdateChildrenRequest = Partial<TChildren>
-export type TUpdateChildrenResponse = TChildren
+// const getSubscription = async (id: number | null) => {
+//   const res = await api.get<TGetSubscriptionResponse>(`/subscription/${id}`)
+//   return res.data
+// }
 
-const updateChildren = async (id: number, data: TUpdateChildrenRequest) => {
-  const res = await api.patch<TUpdateChildrenResponse>(`/children/${id}/`, data)
-  return res.data
-}
+// const createSubscription = async (client: number) => {
+//   const res = await api.post<TGetSubscriptionResponse>('/subscription/', { client })
+//   return res.data
+// }
 
-export type TGetSubscriptionResponse = TSubscription
+// export type TUpdateSubscriptionRequest = Partial<TSubscription>
+// export type TUpdateSubscriptionResponse = TSubscription
 
-const getSubscription = async (id: number | null) => {
-  const res = await api.get<TGetSubscriptionResponse>(`/subscription/${id}`)
-  return res.data
-}
-
-const createSubscription = async (client: number) => {
-  const res = await api.post<TGetSubscriptionResponse>('/subscription/', { client })
-  return res.data
-}
-
-export type TUpdateSubscriptionRequest = Partial<TSubscription>
-export type TUpdateSubscriptionResponse = TSubscription
-
-const updateSubscription = async (id: number, data: TUpdateSubscriptionRequest) => {
-  const res = await api.patch<TUpdateSubscriptionResponse>(`/subscription/${id}/`, data)
-  return res.data
-}
+// const updateSubscription = async (id: number, data: TUpdateSubscriptionRequest) => {
+//   const res = await api.patch<TUpdateSubscriptionResponse>(`/subscription/${id}/`, data)
+//   return res.data
+// }
 
 export const v2 = {
   // auth
@@ -154,7 +149,8 @@ export const v2 = {
   logout,
 
   // users
+  getManyUsers,
+  getUserById,
 
   // branches
-  getBranches,
 }
