@@ -27,6 +27,11 @@ export class UserResponseDto implements User {
   @ApiProperty({ example: 'Альбертович' })
   middlename: string;
 
+  @ApiProperty({
+    example: 'https://avatars.githubusercontent.com/u/6916170?v=4',
+  })
+  profilePicture: string;
+
   @Exclude()
   password: string;
 

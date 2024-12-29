@@ -16,6 +16,7 @@ model User {
   firstname  String?
   surname    String?
   middlename String?
+  profilePicture String?
   refreshToken String? @unique
 
   trainingSessions TrainingSession[]
