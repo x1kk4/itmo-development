@@ -35,6 +35,7 @@ async function bootstrap() {
       },
       'access-token',
     )
+    // .addServer('https://itmo.website/')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
