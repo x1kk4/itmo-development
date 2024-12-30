@@ -6,10 +6,11 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AuthController } from './auth.controller';
 import { PrismaModule } from 'prisma/prisma.module';
+import { MinioService } from 'src/minio/minio.service';
 
 @Module({
   imports: [PrismaModule, JwtModule],
-  providers: [AuthService],
+  providers: [AuthService, MinioService],
   controllers: [AuthController],
   exports: [AuthService, JwtModule],
 })

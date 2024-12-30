@@ -12,6 +12,8 @@ import { SignInRequestDto } from './dto/sign-in/request.dto';
 import { SignUpRequestDto } from './dto/sign-up/request.dto';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'src/config';
+import { MinioService } from 'src/minio/minio.service';
+import { EditProfileRequestDto } from './dto/edit/request.dto';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +24,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService<AppConfig>,
+    private readonly minioService: MinioService,
   ) {
     this.jwtConfig = this.configService.get('jwt');
   }
@@ -163,6 +166,33 @@ export class AuthService {
     });
 
     return user;
+  }
+
+  async editProfile(userId: number, data: EditProfileRequestDto) {
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: data,
+    });
+
+    return;
+  }
+
+  async editAvatar(userId: number, picture: Express.Multer.File) {
+    await this.minioService.createBucketIfNotExists();
+    const fileUrl = await this.minioService.uploadFile(picture);
+
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        profilePicture: fileUrl,
+      },
+    });
+
+    return;
   }
 
   async logout(userId: number): Promise<{ message: string }> {
