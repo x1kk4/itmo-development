@@ -2,7 +2,8 @@ import { useAuthContext } from '@/providers/AuthContext'
 import { Tabs, useRouter } from 'expo-router'
 import React from 'react'
 import { LayoutDashboard, ListCollapse, MapPin, Settings } from '@tamagui/lucide-icons'
-import { Avatar, Header, Heading, useTheme } from 'tamagui'
+import { Header, Heading, useTheme } from 'tamagui'
+import { UserAvatar } from '@/ui/UserAvatar'
 
 export const TAB_NAMES = {
   dashboard: 'Главная',
@@ -43,18 +44,11 @@ export default function TabsLayout() {
             justifyContent={'space-between'}
           >
             <Heading>{TAB_NAMES[route.name as keyof typeof TAB_NAMES]}</Heading>
-            <Avatar
-              circular
-              onPress={() => {
-                router.push('/home/profile')
-              }}
-            >
-              <Avatar.Image
-                accessibilityLabel='Segun'
-                src='https://avatars.githubusercontent.com/u/6916170?v=4'
-              />
-              <Avatar.Fallback />
-            </Avatar>
+            <UserAvatar
+              avatarSrc={user.profilePicture}
+              fallback={user.login}
+              onPress={() => router.push('/home/profile')}
+            />
           </Header>
         ),
       }}

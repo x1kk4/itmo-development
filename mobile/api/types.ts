@@ -28,41 +28,17 @@ export type TBranch = {
   photos: string[]
 }
 
-export type TChildren = {
+export type TUser = {
   id: number
-  branch: number | null
-  name: string
-  age: number
-  groupLevel: GROUP_LEVEL
-  parent: number
-  email: string
+  role: ROLE
   login: string
-  role: ROLE.CHILDREN
-}
-
-export type TParent = {
-  role: ROLE.PARENT
-  id: number
-  children: number[]
   email: string
-  name: string
-  username: string
-  contact_info: string
-  subscription: number | null
-  login: string
+  phone: string | null
+  firstname: string | null
+  surname: string | null
+  middlename: string | null
+  profilePicture: string | null
 }
-
-export type TCoach = {
-  email: string
-  role: ROLE.COACH
-  id: number
-  name: string
-  login: string
-  salary: string
-  training_sessions: number[]
-}
-
-export type TUser = TChildren | TParent | TCoach
 
 export enum GROUP_LEVEL {
   BEGINNER = 'BEGINNER',

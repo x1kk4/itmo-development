@@ -1,12 +1,13 @@
 import { TUser } from '@/api/types'
 import { FC } from 'react'
-import { Avatar, Card, Text, View } from 'tamagui'
+import { Card, Text, View } from 'tamagui'
 import { RoleBadge } from '../RoleBadge'
 import { ArrowRight } from '@tamagui/lucide-icons'
+import { UserAvatar } from '../UserAvatar'
 
 type TUserCardProps = TUser
 
-const UserCard: FC<TUserCardProps> = ({ id, email, login, name, role }) => {
+const UserCard: FC<TUserCardProps> = ({ id, email, login, role, profilePicture }) => {
   return (
     <Card
       flexDirection={'row'}
@@ -20,13 +21,10 @@ const UserCard: FC<TUserCardProps> = ({ id, email, login, name, role }) => {
         alignItems={'flex-start'}
         gap={'$3'}
       >
-        <Avatar circular>
-          <Avatar.Image
-            accessibilityLabel='Segun'
-            src='https://avatars.githubusercontent.com/u/6916170?v=4'
-          />
-          <Avatar.Fallback />
-        </Avatar>
+        <UserAvatar
+          avatarSrc={profilePicture}
+          fallback={login}
+        />
         <View>
           <View
             flexDirection={'row'}
