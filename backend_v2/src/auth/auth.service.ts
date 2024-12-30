@@ -10,14 +10,21 @@ import { PrismaService } from 'prisma/prisma.service';
 import { Role, User } from '@prisma/client';
 import { SignInRequestDto } from './dto/sign-in/request.dto';
 import { SignUpRequestDto } from './dto/sign-up/request.dto';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from 'src/config';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly jwtConfig: AppConfig['jwt'];
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly configService: ConfigService<AppConfig>,
+  ) {
+    this.jwtConfig = this.configService.get('jwt');
+  }
 
   private async validateUser(data: SignInRequestDto) {
     try {
@@ -49,12 +56,13 @@ export class AuthService {
       {
         secret:
           type === 'access'
-            ? process.env.JWT_ACCESS_TOKEN_SECRET_KEY
-            : process.env.JWT_REFRESH_TOKEN_SECRET_KEY,
+            ? this.jwtConfig.access_secret
+            : this.jwtConfig.refresh_secret,
+
         expiresIn:
           type === 'access'
-            ? process.env.JWT_ACCESS_TOKEN_EXPIRATION
-            : process.env.JWT_REFRESH_TOKEN_EXPIRATION,
+            ? this.jwtConfig.access_expiration
+            : this.jwtConfig.refresh_expiration,
       },
     );
   }
@@ -64,8 +72,8 @@ export class AuthService {
       return this.jwtService.verify(token, {
         secret:
           type === 'access'
-            ? process.env.JWT_ACCESS_TOKEN_SECRET_KEY
-            : process.env.JWT_REFRESH_TOKEN_SECRET_KEY,
+            ? this.jwtConfig.access_secret
+            : this.jwtConfig.refresh_secret,
       });
     } catch (error) {
       throw new BadRequestException(error);

@@ -3,9 +3,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { AppConfig } from './config';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService<AppConfig>);
 
   app.enableCors({
     origin: ['https://itmo.website', 'http://localhost:8081'],
@@ -13,7 +17,7 @@ async function bootstrap() {
     exposedHeaders: ['authorization', 'refresh'],
   });
 
-  app.setGlobalPrefix(process.env.PREFIX ?? '');
+  app.setGlobalPrefix(configService.get('prefix'));
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
@@ -35,7 +39,9 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(
-    process.env.PREFIX ? `${process.env.PREFIX}/swagger` : 'swagger',
+    configService.get('prefix')
+      ? `${configService.get('prefix')}/swagger`
+      : 'swagger',
     app,
     documentFactory,
     {
@@ -45,7 +51,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(configService.get('port'));
 }
 
 bootstrap();
