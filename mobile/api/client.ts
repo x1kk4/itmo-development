@@ -4,8 +4,7 @@ import { STORAGE_KEYS } from './types'
 
 export const api = axios.create({
   timeout: 10000,
-  baseURL: 'https://itmo.website/api/v2',
-  // baseURL: 'http://localhost:3000/api/v2',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
