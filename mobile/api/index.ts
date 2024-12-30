@@ -26,9 +26,28 @@ const me = async () => {
   return res.data
 }
 
+const editProfile = async () => {
+  await api.patch('/auth/edit-profile')
+  return
+}
+
+const editAvatar = async (uri: string, mimeType: string, name: string) => {
+  const formData = new FormData()
+  formData.append('file', {
+    uri,
+    type: mimeType,
+    name: `avatar.${mimeType.split('/')[1]}`, // например 'avatar.jpeg' или 'avatar.png'
+  } as any)
+
+  await api.patch('/auth/edit-avatar', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return
+}
+
 const logout = async () => {
-  const res = await api.post('/auth/logout')
-  return res.data
+  await api.post('/auth/logout')
+  return
 }
 
 export type TUsersResponse = TUserResponse[]
@@ -147,6 +166,8 @@ export const v2 = {
   signUp,
   me,
   logout,
+  editProfile,
+  editAvatar,
 
   // users
   getManyUsers,

@@ -9,6 +9,7 @@ export const useUsers = (data: TQueryPagination): UseQueryResult<TUsersResponse,
 
   return useQuery({
     queryKey: ['users', data.page, data.limit],
+    // queryKey: ['users'],
     queryFn,
   })
 }

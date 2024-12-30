@@ -4,14 +4,16 @@ import { Avatar, Text } from 'tamagui'
 type TUserAvatarProps = {
   avatarSrc: string | null
   fallback: string
+  size?: string
   onPress?: () => void
 }
 
-const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, onPress }) => {
+const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, size, onPress }) => {
   return (
     <Avatar
       circular
       onPress={onPress}
+      size={size}
     >
       <Avatar.Image
         accessibilityLabel='Avatar'
