@@ -12,14 +12,17 @@ export default function NavigatorScreen() {
 
   const [groupedData, setGroupedData] = useState<TUser[]>([])
 
-  // const [refreshing, setRefreshing] = useState(false)
-  const { data, isLoading } = useUsers({ page, limit })
+  const { data, isLoading, refetch } = useUsers({ page, limit })
 
   useEffect(() => {
     if (data?.length) {
-      setGroupedData((prev) => [...prev, ...data])
+      if (page === 1) {
+        setGroupedData(data)
+      } else {
+        setGroupedData((prev) => [...prev, ...data])
+      }
     }
-  }, [data])
+  }, [data, page])
 
   const incrementPage = useCallback(() => {
     if (!isLoading && data?.length === limit) {
@@ -27,12 +30,10 @@ export default function NavigatorScreen() {
     }
   }, [isLoading, limit, data])
 
-  // const onRefresh = useCallback(() => {
-  //   setRefreshing(true)
-  //   setTimeout(() => {
-  //     setRefreshing(false)
-  //   }, 2000)
-  // }, [])
+  const handleRefresh = useCallback(async () => {
+    setPage(1)
+    await refetch()
+  }, [refetch])
 
   return (
     <Screen>
@@ -43,8 +44,11 @@ export default function NavigatorScreen() {
         renderItem={({ item }) => <UserCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={incrementPage}
-        onEndReachedThreshold={0.8}
         ItemSeparatorComponent={() => <View height={'$0.5'} />}
+        refreshing={isLoading}
+        onRefresh={handleRefresh}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={() => <View style={{ marginTop: 16 }} />}
       />
     </Screen>
   )
