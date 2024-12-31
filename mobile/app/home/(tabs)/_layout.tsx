@@ -4,6 +4,7 @@ import React from 'react'
 import { LayoutDashboard, ListCollapse, MapPin, Settings } from '@tamagui/lucide-icons'
 import { Header, Heading, useTheme } from 'tamagui'
 import { UserAvatar } from '@/ui/UserAvatar'
+import { Platform } from 'react-native'
 
 export const TAB_NAMES = {
   dashboard: 'Главная',
@@ -33,7 +34,7 @@ export default function TabsLayout() {
           height: 60,
         },
         tabBarActiveTintColor: theme.accentColor.val,
-        animation: 'shift',
+        animation: Platform.OS !== 'android' ? 'shift' : 'none',
 
         header: ({ route }) => (
           <Header

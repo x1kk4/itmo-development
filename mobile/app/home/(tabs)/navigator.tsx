@@ -8,7 +8,7 @@ import { View } from 'tamagui'
 
 export default function NavigatorScreen() {
   const [page, setPage] = useState<number>(1)
-  const [limit] = useState<number>(10)
+  const [limit] = useState<number>(20)
 
   const [groupedData, setGroupedData] = useState<TUser[]>([])
 

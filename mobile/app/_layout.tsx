@@ -13,7 +13,7 @@ import { useEffect } from 'react'
 import 'react-native-reanimated'
 
 import { Providers } from '@/providers'
-import { SafeAreaView, Platform } from 'react-native'
+import { Platform, SafeAreaView, StatusBar } from 'react-native'
 import { useAuthContext } from '@/providers/AuthContext'
 
 import { AnimatePresence, YStack, useTheme } from 'tamagui'
@@ -110,6 +110,7 @@ const AuthLayout = () => {
       <YStack
         backgroundColor={'$background'}
         flex={1}
+        paddingTop={Platform.OS === 'android' ? StatusBar.currentHeight : 0}
       >
         <Stack
           screenOptions={{
