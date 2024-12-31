@@ -3,7 +3,7 @@ import { Screen } from '@/ui/Screen'
 
 import * as ImagePicker from 'expo-image-picker'
 import { CameraType } from 'expo-image-picker'
-import { Button, View } from 'tamagui'
+import { Button, Heading, View, Text } from 'tamagui'
 import { UserAvatar } from '@/ui/UserAvatar'
 import { Camera, ImageUp } from '@tamagui/lucide-icons'
 import { useEditAvatar } from '@/api/hooks/auth/useEditAvatar'
@@ -57,31 +57,40 @@ export default function ProfileScreen() {
   }
 
   return (
-    <Screen justifyContent={'space-between'}>
-      <View
-        flexDirection={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Button
-          aspectRatio={1}
-          height={'$5'}
-          icon={<Camera size={'$1.5'} />}
-          onPress={takePhoto}
-        />
-        <View opacity={isPending || isLoading ? 0.2 : 1}>
-          <UserAvatar
-            avatarSrc={user.profilePicture}
-            fallback={user.login}
-            size={'$14'}
+    <Screen>
+      <View>
+        <View
+          flexDirection={'row'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Button
+            aspectRatio={1}
+            height={'$5'}
+            icon={<Camera size={'$1.5'} />}
+            onPress={takePhoto}
+          />
+          <View opacity={isPending || isLoading ? 0.2 : 1}>
+            <UserAvatar
+              avatarSrc={user.profilePicture}
+              fallback={user.login}
+              size={'$12'}
+            />
+          </View>
+          <Button
+            aspectRatio={1}
+            height={'$5'}
+            icon={<ImageUp size={'$1.5'} />}
+            onPress={pickImage}
           />
         </View>
-        <Button
-          aspectRatio={1}
-          height={'$5'}
-          icon={<ImageUp size={'$1.5'} />}
-          onPress={pickImage}
-        />
+        <Heading textAlign={'center'}>{user.login}</Heading>
+        <Text
+          color={'$accentColor'}
+          textAlign={'center'}
+        >
+          #{user.id}
+        </Text>
       </View>
     </Screen>
   )

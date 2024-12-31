@@ -34,7 +34,7 @@ export default function HomeLayout() {
         <Stack.Screen
           options={{
             headerShown: true,
-            header: ({ route }) => (
+            header: () => (
               <Header
                 backgroundColor={tamaguiTheme.background.val}
                 padding={'$3'}
