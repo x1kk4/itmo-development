@@ -32,11 +32,14 @@
     "@tamagui/config": "^1.120.2",
     "@tamagui/core": "^1.120.2",
     "@tamagui/lucide-icons": "^1.120.2",
+    "@tamagui/toast": "^1.120.2",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",
+    "burnt": "^0.12.2",
     "expo": "^52.0.0",
     "expo-constants": "~17.0.3",
     "expo-font": "~13.0.2",
+    "expo-image-picker": "~16.0.3",
     "expo-linking": "~7.0.3",
     "expo-router": "~4.0.15",
     "expo-splash-screen": "~0.29.18",
@@ -44,6 +47,7 @@
     "expo-system-ui": "~4.0.6",
     "expo-updates": "~0.26.10",
     "expo-web-browser": "~14.0.1",
+    "immer": "^10.1.1",
     "lottie-react-native": "^7.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -54,8 +58,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "15.8.0",
     "react-native-web": "~0.19.13",
-    "tamagui": "^1.120.2",
-    "expo-image-picker": "~16.0.3"
+    "tamagui": "^1.120.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

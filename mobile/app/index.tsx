@@ -1,11 +1,19 @@
+import { TSignInRequest } from '@/api'
 import { useAuthContext } from '@/providers/AuthContext'
 import { Screen } from '@/ui/Screen'
 import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { produce } from 'immer'
 
 import { Button, Image, Input } from 'tamagui'
 
 export default function SignIn() {
   const { signIn } = useAuthContext()
+
+  const [data, setData] = useState<TSignInRequest>({
+    login: '',
+    password: '',
+  })
 
   const router = useRouter()
 
@@ -23,18 +31,36 @@ export default function SignIn() {
         alignSelf={'center'}
         marginBottom='$4'
       />
-      <Input placeholder='Имя пользователя' />
-      <Input placeholder='Пароль' />
+      <Input
+        textContentType='username'
+        placeholder='Имя пользователя'
+        value={data.login}
+        onChangeText={(text) =>
+          setData(
+            produce((draft) => {
+              draft.login = text
+            }),
+          )
+        }
+      />
+      <Input
+        textContentType='password'
+        secureTextEntry
+        placeholder='Пароль'
+        value={data.password}
+        onChangeText={(text) =>
+          setData(
+            produce((draft) => {
+              draft.password = text
+            }),
+          )
+        }
+      />
       <Button
         marginTop='$5'
         theme={'accent'}
         color={'white'}
-        onPress={() =>
-          signIn({
-            login: 'username123',
-            password: 'Password@123',
-          })
-        }
+        onPress={() => signIn(data)}
       >
         Войти
       </Button>
@@ -45,6 +71,19 @@ export default function SignIn() {
         onPress={() => router.push('/sign-up')}
       >
         Зарегистрироваться
+      </Button>
+
+      <Button
+        marginTop='$5'
+        color={'white'}
+        onPress={() =>
+          signIn({
+            login: 'username123',
+            password: 'Password@123',
+          })
+        }
+      >
+        Войти (dev)
       </Button>
     </Screen>
   )

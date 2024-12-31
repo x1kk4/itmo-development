@@ -5,12 +5,14 @@ import { AuthProvider } from './AuthContext'
 import { ThemeProvider as DynamicTheme, useThemeContext } from './ThemeContext'
 
 import { TamaguiProvider } from 'tamagui'
+import { ToastProvider, ToastViewport } from '@tamagui/toast'
 
 import { StatusBar } from 'expo-status-bar'
 import { Platform } from 'react-native'
 
 import { tamaguiConfig } from '../tamagui.config'
 import { queryClient } from '@/api/hooks'
+import { Toast } from '@/ui/Toast'
 
 const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
   const { theme } = useThemeContext()
@@ -28,7 +30,18 @@ const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
         defaultTheme={theme}
         // key={theme}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <ToastProvider swipeDirection={'down'}>
+          <AuthProvider>
+            <Toast />
+            <ToastViewport
+              flexDirection='column'
+              bottom={0}
+              left={0}
+              right={0}
+            />
+            {children}
+          </AuthProvider>
+        </ToastProvider>
       </TamaguiProvider>
     </QueryClientProvider>
   )
