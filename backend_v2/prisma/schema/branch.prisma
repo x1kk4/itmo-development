@@ -2,8 +2,8 @@ model Branch {
   id              Int @id @default(autoincrement())
   name            String @unique
   location        String @unique
-  workingStart    DateTime
-  workingEnd      DateTime
+  workingStart    String
+  workingEnd      String
   contactPhone    String
   contactEmail    String
   photos          String[]

@@ -315,14 +315,51 @@ async function main() {
     },
   ];
 
-  for (const user of users) {
-    await prisma.user.upsert({
-      where: { email: user.email },
-      update: {},
-      create: user,
-    });
-  }
-  // console.log('Prisma seeded:', { alice, bob });
+  const branches = [
+    {
+      name: '1-й Верхний пер., 2',
+      location: '60.054826, 30.379982',
+      workingStart: '10:00',
+      workingEnd: '22:00',
+      contactPhone: '+79996661337',
+      contactEmail: 'verh-pereulok@nevsky-bears.ru',
+      photos: [],
+    },
+    {
+      name: 'ш. Революции, 84АБ',
+      location: '59.963156, 30.457883',
+      workingStart: '09:00',
+      workingEnd: '21:00',
+      contactPhone: '+79996661338',
+      contactEmail: 'revol-highway@nevsky-bears.ru',
+      photos: [
+        'https://avatars.mds.yandex.net/get-altay/5448678/2a0000017d380ed520715939ff36c2a5efe0/L_height',
+      ],
+    },
+    {
+      name: 'просп. Динамо, 44',
+      location: '59.968079, 30.265652',
+      workingStart: '08:00',
+      workingEnd: '20:00',
+      contactPhone: '+79996661339',
+      contactEmail: 'dynamo-prosp@nevsky-bears.ru',
+      photos: [
+        'https://avatars.mds.yandex.net/get-altay/10963815/2a0000018dead45e5a04d663321f14562b45/L_height',
+      ],
+    },
+  ];
+
+  await prisma.user.createMany({
+    data: users,
+    skipDuplicates: true,
+  });
+
+  await prisma.branch.createMany({
+    data: branches,
+    skipDuplicates: true,
+  });
+
+  console.log('Seeded.');
 }
 
 main()
