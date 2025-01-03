@@ -33,7 +33,7 @@ export default function SignIn() {
       />
       <Input
         textContentType='username'
-        placeholder='Имя пользователя'
+        placeholder='Имя пользователя или почта'
         value={data.login}
         onChangeText={(text) =>
           setData(
