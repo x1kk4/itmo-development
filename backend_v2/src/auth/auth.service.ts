@@ -31,9 +31,9 @@ export class AuthService {
 
   private async validateUser(data: SignInRequestDto) {
     try {
-      const user = await this.prisma.user.findUnique({
+      const user = await this.prisma.user.findFirstOrThrow({
         where: {
-          login: data.login,
+          OR: [{ login: data.login }, { email: data.login }],
         },
       });
 
