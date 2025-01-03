@@ -46,7 +46,7 @@ RUN npm run prepare:web
 
 FROM nginx:alpine3.20-slim
 
-COPY --from=build /app/serveDist/mobile/ /usr/share/nginx/html/
+COPY --from=build /app/serveDist/ /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
