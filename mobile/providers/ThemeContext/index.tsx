@@ -35,13 +35,10 @@ const ThemeProvider = (props: TThemeProviderProps) => {
   useEffect(() => {
     const initTheme = async () => {
       const storedTheme = await getStorageTheme()
-      // console.log(storedTheme)
 
       if (storedTheme) {
         setTheme(storedTheme as AppTheme)
       } else if (systemColorScheme) {
-        // console.log(systemColorScheme)
-
         setTheme(systemColorScheme)
         setIsSystem(true)
       }
