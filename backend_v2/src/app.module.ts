@@ -4,6 +4,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MinioService } from './minio/minio.service';
+import { BranchesModule } from './branches/branches.module';
 import config from './config';
 
 @Module({
@@ -15,6 +16,7 @@ import config from './config';
     PrismaModule,
     AuthModule,
     UsersModule,
+    BranchesModule,
   ],
   controllers: [],
   providers: [MinioService],

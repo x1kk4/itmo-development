@@ -17,28 +17,60 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { SignInRequestDto } from './dto/sign-in/request.dto';
 import { SignUpRequestDto } from './dto/sign-up/request.dto';
 import { Response } from 'express';
-import { UserResponseDto } from '../users/dto/user-response.dto';
 import { Roles } from './decorators/roles.decorator';
 import { AuthGuard } from './guards/auth.guard';
 import { CurrentUser } from './decorators/user.decorator';
 import { EditProfileRequestDto } from './dto/edit/request.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  BaseUserResponseDto,
+  UserResponseDto,
+} from 'src/dto/user-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @SerializeOptions({ type: UserResponseDto })
+  @ApiResponse({
+    status: 200,
+    type: [UserResponseDto],
+    description:
+      'Sign in via login/email & password, get tokens with headers in response ',
+    headers: {
+      Authorization: {
+        description:
+          'Bearer токен для авторизации, обновляется любым приватным запросом по истечении и при наличии валидного Refresh токена',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+      Refresh: {
+        description: 'Bearer refresh токен',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
   @HttpCode(200)
   @Post('/sign-in')
   async signIn(
-    @Res({ passthrough: true }) res: Response<UserResponseDto>,
+    @Res({ passthrough: true }) res: Response<BaseUserResponseDto>,
     @Body() data: SignInRequestDto,
   ) {
     const { accessToken, refreshToken, user } =
@@ -49,10 +81,33 @@ export class AuthController {
     return user;
   }
 
-  @SerializeOptions({ type: UserResponseDto })
+  @ApiResponse({
+    status: 201,
+    type: [UserResponseDto],
+    description:
+      'Create new user with login, email and password; get tokens via headers in response',
+    headers: {
+      Authorization: {
+        description:
+          'Bearer токен для авторизации, обновляется любым приватным запросом по истечении и при наличии валидного Refresh токена',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+      Refresh: {
+        description: 'Bearer refresh токен',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
   @Post('/sign-up')
   async signUp(
-    @Res({ passthrough: true }) res: Response<UserResponseDto>,
+    @Res({ passthrough: true }) res: Response<BaseUserResponseDto>,
     @Body() data: SignUpRequestDto,
   ) {
     const { accessToken, refreshToken, user } =
@@ -63,8 +118,13 @@ export class AuthController {
     return user;
   }
 
+  @ApiResponse({
+    status: 200,
+    type: [UserResponseDto],
+    description: 'Get user data via Authorization header',
+  })
   @ApiBearerAuth('access-token')
-  @SerializeOptions({ type: UserResponseDto })
+  @SerializeOptions({ type: BaseUserResponseDto })
   @Roles()
   @UseGuards(AuthGuard)
   @Get('/me')
@@ -72,6 +132,10 @@ export class AuthController {
     return this.authService.me(userId);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Edit profile via Authorization header',
+  })
   @ApiBearerAuth('access-token')
   @Roles()
   @UseGuards(AuthGuard)
@@ -84,6 +148,10 @@ export class AuthController {
     await this.authService.editProfile(userId, data);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Edit profile picture via Authorization header',
+  })
   @ApiBearerAuth('access-token')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -139,6 +207,11 @@ export class AuthController {
     await this.authService.editAvatar(userId, file);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Logout session via Authorization header',
+  })
+  @HttpCode(200)
   @Roles()
   @UseGuards(AuthGuard)
   @Post('/logout')

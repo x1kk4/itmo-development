@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { Role, User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
-export class UserResponseDto implements User {
+export class BaseUserResponseDto implements User {
   @ApiProperty({ example: '1' })
   id: number;
 
@@ -37,8 +37,9 @@ export class UserResponseDto implements User {
 
   @Exclude()
   refreshToken: string;
-
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
 }
+
+export class UserResponseDto extends OmitType(BaseUserResponseDto, [
+  'password',
+  'refreshToken',
+] as const) {}

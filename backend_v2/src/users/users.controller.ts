@@ -13,14 +13,18 @@ import {
   // DefaultValuePipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import {
+  UserResponseDto,
+  BaseUserResponseDto,
+} from 'src/dto/user-response.dto';
+import { PaginationDto } from 'src/dto/pagination.dto';
+import { ApiResponse } from '@nestjs/swagger';
 // import { AuthGuard } from 'src/auth/guards/auth.guard';
 // import {
 // ApiBearerAuth,
 // ApiTags
 // ApiQuery,
 // } from '@nestjs/swagger';
-import { UserResponseDto } from './dto/user-response.dto';
-import { UsersRequestDto } from './dto/get-users/request.dto';
 
 @Controller('users')
 export class UsersController {
@@ -31,18 +35,26 @@ export class UsersController {
   //   return this.usersService.create(createUserDto);
   // }
 
-  // @ApiBearerAuth('access-token')
-  // @UseGuards(AuthGuard)
-  @SerializeOptions({ type: UserResponseDto })
+  @ApiResponse({
+    status: 200,
+    type: [UserResponseDto],
+    description: 'Users list with pagination',
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
   @Get()
-  async getMany(@Query() query: UsersRequestDto) {
+  async getMany(@Query() query: PaginationDto) {
     return this.usersService.getManyWithPaginationAndFilters(
       query.page,
       query.limit,
     );
   }
 
-  @SerializeOptions({ type: UserResponseDto })
+  @ApiResponse({
+    status: 200,
+    type: UserResponseDto,
+    description: 'Single user by id',
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
