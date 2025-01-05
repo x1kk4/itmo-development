@@ -4,10 +4,13 @@ import { Card, Text, View } from 'tamagui'
 import { RoleBadge } from '../RoleBadge'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { UserAvatar } from '../UserAvatar'
+import { useRouter } from 'expo-router'
 
 type TUserCardProps = TUser
 
 const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
+  const router = useRouter()
+
   return (
     <Card
       flexDirection={'row'}
@@ -15,6 +18,7 @@ const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
       justifyContent={'space-between'}
       alignItems={'center'}
       cursor={'pointer'}
+      onPress={() => router.push(`/home/personalities/${id}`)}
     >
       <View
         flexDirection={'row'}

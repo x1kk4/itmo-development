@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { Card, Text, View } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { BranchAvatar } from '../BranchAvatar'
+import { router } from 'expo-router'
 
 type TBranchCardProps = TBranch
 
@@ -22,6 +23,7 @@ const BranchCard: FC<TBranchCardProps> = ({
       justifyContent={'space-between'}
       alignItems={'center'}
       cursor={'pointer'}
+      onPress={() => router.push(`/home/schools/${id}`)}
     >
       <View
         flexDirection={'row'}

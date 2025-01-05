@@ -37,7 +37,7 @@ const BranchAvatar: FC<TBranchAvatarProps> = ({ avatarSrc, fallback, size = '$4'
         <Text
           color={'$white1'}
           fontWeight={600}
-          fontSize={24}
+          fontSize={Number(size.slice(1)) * 5}
         >
           {fallback.slice(0, 1).toUpperCase()}
         </Text>
@@ -63,7 +63,7 @@ const BranchAvatar: FC<TBranchAvatarProps> = ({ avatarSrc, fallback, size = '$4'
         <Text
           color={'$white1'}
           fontWeight={600}
-          fontSize={24}
+          fontSize={Number(size.slice(1)) * 5}
         >
           {fallback.slice(0, 1).toUpperCase()}
         </Text>

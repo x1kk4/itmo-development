@@ -47,7 +47,10 @@ export default function HomeLayout() {
                   alignItems={'center'}
                   gap={'$4'}
                 >
-                  <ArrowLeft onPress={() => router.back()} />
+                  <ArrowLeft
+                    cursor='pointer'
+                    onPress={() => router.back()}
+                  />
                   <Heading>Профиль</Heading>
                 </View>
                 <Button
@@ -66,6 +69,16 @@ export default function HomeLayout() {
             ),
           }}
           name='profile'
+        />
+
+        <Stack.Screen
+          name='personalities/[id]'
+          options={{ presentation: 'modal' }}
+        />
+
+        <Stack.Screen
+          name='schools/[id]'
+          options={{ presentation: 'modal' }}
         />
       </Stack>
     </Theme>

@@ -36,7 +36,7 @@ const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, size = '$4', on
         <Text
           color={'$white1'}
           fontWeight={600}
-          fontSize={24}
+          fontSize={Number(size.slice(1)) * 5}
         >
           {fallback.slice(0, 1).toUpperCase()}
         </Text>
@@ -62,7 +62,7 @@ const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, size = '$4', on
         <Text
           color={'$white1'}
           fontWeight={600}
-          fontSize={24}
+          fontSize={Number(size.slice(1)) * 5}
         >
           {fallback.slice(0, 1).toUpperCase()}
         </Text>
