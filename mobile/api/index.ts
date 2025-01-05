@@ -64,7 +64,20 @@ const getUserById = async (id: number) => {
   return res.data
 }
 
+export type TGetBranchResponse = TBranch
 export type TGetBranchesResponse = TBranch[]
+
+const getManyBranches = async (data: TQueryPagination) => {
+  const res = await api.get<TGetBranchesResponse>('/branches', {
+    params: data,
+  })
+  return res.data
+}
+
+const getBranchById = async (id: number) => {
+  const res = await api.get<TGetBranchResponse>(`/branches/${id}`)
+  return res.data
+}
 
 // const getBranches = async () => {
 //   const res = await api.get<TGetBranchesResponse>('/branches')
@@ -174,4 +187,6 @@ export const v2 = {
   getUserById,
 
   // branches
+  getManyBranches,
+  getBranchById,
 }

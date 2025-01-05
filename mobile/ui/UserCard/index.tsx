@@ -7,7 +7,7 @@ import { UserAvatar } from '../UserAvatar'
 
 type TUserCardProps = TUser
 
-const UserCard: FC<TUserCardProps> = ({ id, email, login, role, profilePicture }) => {
+const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
   return (
     <Card
       flexDirection={'row'}

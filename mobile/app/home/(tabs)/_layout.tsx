@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/providers/AuthContext'
 import { Tabs, useRouter } from 'expo-router'
 import React from 'react'
-import { LayoutDashboard, ListCollapse, MapPin, Settings } from '@tamagui/lucide-icons'
+import { LayoutDashboard, ListCollapse, MapPinHouse, Settings, Users } from '@tamagui/lucide-icons'
 import { Header, Heading, useTheme } from 'tamagui'
 import { UserAvatar } from '@/ui/UserAvatar'
 import { Platform } from 'react-native'
@@ -9,7 +9,8 @@ import { Platform } from 'react-native'
 export const TAB_NAMES = {
   dashboard: 'Главная',
   schedule: 'Расписание',
-  navigator: 'Навигатор',
+  schools: 'Школы',
+  personalities: 'Люди',
   settings: 'Настройки',
 }
 
@@ -73,10 +74,18 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name='navigator'
+        name='schools'
         options={{
-          title: 'Навигатор',
-          tabBarIcon: ({ focused }) => <MapPin color={focused ? '$accentColor' : '$color'} />,
+          title: 'Школы',
+          tabBarIcon: ({ focused }) => <MapPinHouse color={focused ? '$accentColor' : '$color'} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name='personalities'
+        options={{
+          title: 'Люди',
+          tabBarIcon: ({ focused }) => <Users color={focused ? '$accentColor' : '$color'} />,
         }}
       />
 

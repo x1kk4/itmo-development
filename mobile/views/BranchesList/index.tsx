@@ -1,6 +1,6 @@
-import { useUsers } from '@/api/hooks/users/useUsers'
-import { TUser } from '@/api/types'
-import { UserCard } from '@/ui/UserCard'
+import { useBranches } from '@/api/hooks/branches/useBranches'
+import { TBranch } from '@/api/types'
+import { BranchCard } from '@/ui/BranchCard'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 import { View } from 'tamagui'
@@ -9,9 +9,9 @@ const BranchesList: FC = () => {
   const [page, setPage] = useState<number>(1)
   const [limit] = useState<number>(20)
 
-  const [groupedData, setGroupedData] = useState<TUser[]>([])
+  const [groupedData, setGroupedData] = useState<TBranch[]>([])
 
-  const { data, isLoading, refetch } = useUsers({ page, limit })
+  const { data, isLoading, refetch } = useBranches({ page, limit })
 
   useEffect(() => {
     if (data?.length) {
@@ -39,7 +39,7 @@ const BranchesList: FC = () => {
       showsVerticalScrollIndicator={false}
       nestedScrollEnabled={false}
       data={groupedData}
-      renderItem={({ item }) => <UserCard {...item} />}
+      renderItem={({ item }) => <BranchCard {...item} />}
       keyExtractor={(item) => item.id.toString()}
       onEndReached={incrementPage}
       ItemSeparatorComponent={() => <View height={'$0.5'} />}

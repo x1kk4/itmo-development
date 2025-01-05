@@ -26,6 +26,8 @@ export type TBranch = {
   contactPhone: string
   contactEmail: string
   photos: string[]
+
+  trainingSessions?: TTrainingSession[]
 }
 
 export type TUser = {
