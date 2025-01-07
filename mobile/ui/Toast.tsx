@@ -5,7 +5,7 @@ import { YStack } from 'tamagui'
 const Toast: FC = () => {
   const currentToast = useToastState()
 
-  console.log(currentToast)
+  // console.log(currentToast)
 
   if (!currentToast || currentToast.isHandledNatively) return null
   return (

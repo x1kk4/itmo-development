@@ -347,6 +347,21 @@ async function main() {
         'https://avatars.mds.yandex.net/get-altay/10963815/2a0000018dead45e5a04d663321f14562b45/L_height',
       ],
     },
+    {
+      name: 'пер. Челиева, 13В',
+      location: '59.889178, 30.477655',
+      workingStart: '08:00',
+      workingEnd: '20:00',
+      contactPhone: '+79996661339',
+      contactEmail: 'dynamo-prosp@nevsky-bears.ru',
+      photos: [
+        'https://avatars.mds.yandex.net/get-altay/4379646/2a00000190cb6179799826ed4c580adb913f/L_height',
+        'https://avatars.mds.yandex.net/get-altay/9686455/2a00000189a2fa6c49f764512aaa17124c26/L_height',
+        'https://avatars.mds.yandex.net/get-altay/10350441/2a0000018deac27e8026e3f662553769062a/L_height',
+        'https://avatars.mds.yandex.net/get-altay/10834132/2a0000018e0a843651a42e001100b8511f9b/L_height',
+        'https://avatars.mds.yandex.net/get-altay/4699294/2a0000017b7c7706e33656bd36104e221904/L_height',
+      ],
+    },
   ];
 
   await prisma.user.createMany({
