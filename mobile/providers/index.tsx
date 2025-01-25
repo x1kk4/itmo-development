@@ -34,10 +34,9 @@ const ProvidersWithoutDynamicTheme: FC<PropsWithChildren> = ({ children }) => {
           <AuthProvider>
             <Toast />
             <ToastViewport
-              flexDirection='column'
-              bottom={0}
-              left={0}
-              right={0}
+              bottom={'$4'}
+              left={'$2'}
+              right={'$2'}
             />
             {children}
           </AuthProvider>

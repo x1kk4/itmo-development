@@ -7,6 +7,8 @@ import { FC } from 'react'
 import { Platform } from 'react-native'
 import { Heading, View } from 'tamagui'
 import { Screen } from '@/ui/Screen'
+import { Phone } from '@/ui/Phone'
+import { Email } from '@/ui/Email'
 
 const User: FC = () => {
   const { id } = useLocalSearchParams()
@@ -22,7 +24,7 @@ const User: FC = () => {
   return (
     <Screen
       paddingVertical={'$3'}
-      gap={'$6'}
+      gap={'$4'}
     >
       <View
         flexDirection={'column'}
@@ -41,23 +43,29 @@ const User: FC = () => {
           size={'$12'}
         />
         <Heading>{user.login}</Heading>
-        <Heading
-          fontSize={20}
-          marginBottom={'$1'}
-          textAlign={'center'}
-        >
-          {user.surname ?? ''} {user.firstname ?? ''} {user.middlename ?? ''}
-        </Heading>
+        {(user.surname || user.firstname || user.middlename) && (
+          <Heading
+            fontSize={20}
+            lineHeight={20}
+            marginTop={'$3'}
+            marginBottom={'$4'}
+            textAlign={'center'}
+          >
+            {user.surname ?? ''} {user.firstname ?? ''} {user.middlename ?? ''}
+          </Heading>
+        )}
         <RoleBadge
           role={user.role}
           size='large'
         />
       </View>
-      {/* <View>
-        <Text>
-          
-        </Text>
-      </View> */}
+      <View>
+        <Heading fontSize={18}>Контакты</Heading>
+        <View gap={'$2'}>
+          {user.phone && <Phone phone={user.phone} />}
+          <Email email={user.email} />
+        </View>
+      </View>
     </Screen>
   )
 }

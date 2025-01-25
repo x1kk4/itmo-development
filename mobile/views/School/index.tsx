@@ -9,6 +9,8 @@ import { Image } from 'expo-image'
 
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel'
 import { FC, useMemo, useRef } from 'react'
+import { Email } from '@/ui/Email'
+import { Phone } from '@/ui/Phone'
 
 const width = Dimensions.get('window').width
 
@@ -41,7 +43,7 @@ const School: FC = () => {
           borderTopEndRadius={Platform.OS === 'ios' ? 10 : 0}
           borderTopStartRadius={Platform.OS === 'ios' ? 10 : 0}
         >
-          <Text>Нет изображений</Text>
+          <Text fontSize={18}>Нет изображений</Text>
         </View>
       )
     }
@@ -108,7 +110,7 @@ const School: FC = () => {
   return (
     <Screen
       paddingVertical={Platform.OS === 'ios' ? 0 : '$3'}
-      gap={'$6'}
+      gap={'$4'}
     >
       <View
         flexDirection={'column'}
@@ -125,7 +127,14 @@ const School: FC = () => {
 
         {imageSet}
 
-        <Heading>{branch.name}</Heading>
+        <Heading marginTop={'$3'}>{branch.name}</Heading>
+      </View>
+      <View>
+        <Heading fontSize={18}>Контакты</Heading>
+        <View gap={'$2'}>
+          <Phone phone={branch.contactPhone} />
+          <Email email={branch.contactEmail} />
+        </View>
       </View>
     </Screen>
   )
