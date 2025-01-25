@@ -10,7 +10,7 @@ export class SignUpRequestDto {
   @MinLength(8)
   password: string;
 
-  @ApiProperty({ example: 'user@example.com', required: false })
+  @ApiProperty({ example: 'user@example.com' })
   @IsEmail()
   email: string;
 }
