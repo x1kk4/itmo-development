@@ -66,4 +66,7 @@ export enum STORAGE_KEYS {
   THEME = 'theme',
 }
 
-export type TQueryPagination = { page?: number; limit?: number }
+export type TQueryPagination = {
+  page?: number
+  limit?: number
+}

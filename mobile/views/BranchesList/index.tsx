@@ -30,7 +30,10 @@ const BranchesList: FC = () => {
 
   const [groupedData, setGroupedData] = useState<TBranch[]>([])
 
-  const { data, isLoading, refetch } = useBranches({ page, limit }, isPermissionsResolved)
+  const { data, isLoading, refetch } = useBranches(
+    { page, limit, latitude: location?.coords.latitude, longitude: location?.coords.longitude },
+    isPermissionsResolved,
+  )
 
   useEffect(() => {
     if (data?.length) {

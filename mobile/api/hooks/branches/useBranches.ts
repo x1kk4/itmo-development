@@ -1,9 +1,9 @@
-import { TGetBranchesResponse, v2 } from '@/api'
-import { TQueryPagination } from '@/api/types'
+import { TGetBranchesRequest, TGetBranchesResponse, v2 } from '@/api'
+
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 
 export const useBranches = (
-  data: TQueryPagination,
+  data: TGetBranchesRequest,
   isEnabled: boolean,
 ): UseQueryResult<TGetBranchesResponse, Error> => {
   const queryFn = () => {
@@ -11,7 +11,7 @@ export const useBranches = (
   }
 
   return useQuery({
-    queryKey: ['branches', data.page, data.limit],
+    queryKey: ['branches', data.page, data.limit, data.latitude, data.longitude],
     queryFn,
     enabled: isEnabled,
   })
