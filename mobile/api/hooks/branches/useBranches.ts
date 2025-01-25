@@ -4,6 +4,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 
 export const useBranches = (
   data: TQueryPagination,
+  isEnabled: boolean,
 ): UseQueryResult<TGetBranchesResponse, Error> => {
   const queryFn = () => {
     return v2.getManyBranches(data)
@@ -12,5 +13,6 @@ export const useBranches = (
   return useQuery({
     queryKey: ['branches', data.page, data.limit],
     queryFn,
+    enabled: isEnabled,
   })
 }

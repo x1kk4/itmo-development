@@ -1,11 +1,16 @@
 import { TBranch } from '@/api/types'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Card, Text, View } from 'tamagui'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { BranchAvatar } from '../BranchAvatar'
 import { router } from 'expo-router'
+import * as Location from 'expo-location'
+import { getDistance } from 'geolib'
+import { prettifyDistance } from '@/utils/geo'
 
-type TBranchCardProps = TBranch
+type TBranchCardProps = TBranch & {
+  deviceLocation: Location.LocationObject | null
+}
 
 const BranchCard: FC<TBranchCardProps> = ({
   id,
@@ -15,7 +20,33 @@ const BranchCard: FC<TBranchCardProps> = ({
   contactPhone,
   contactEmail,
   photos,
+  location,
+  deviceLocation,
 }) => {
+  const distance = useMemo(() => {
+    if (deviceLocation) {
+      return (
+        <Text
+          fontSize={14}
+          fontWeight={500}
+          marginTop={'$3'}
+        >
+          {prettifyDistance(
+            getDistance(
+              { latitude: location.split(', ')[0], longitude: location.split(', ')[1] },
+              {
+                latitude: deviceLocation?.coords.latitude,
+                longitude: deviceLocation.coords.longitude,
+              },
+            ),
+          )}
+        </Text>
+      )
+    }
+
+    return null
+  }, [location, deviceLocation])
+
   return (
     <Card
       flexDirection={'row'}
@@ -61,6 +92,8 @@ const BranchCard: FC<TBranchCardProps> = ({
           >
             {contactEmail}
           </Text>
+
+          {distance}
         </View>
       </View>
 
