@@ -6,6 +6,10 @@ model Branch {
   workingEnd      String
   contactPhone    String
   contactEmail    String
+  contactTelegram String?
+  yaMapsLink      String? @unique
+  twogisLink      String? @unique
+  gMapsLink       String? @unique
   photos          String[]
 
   trainingSessions TrainingSession[]

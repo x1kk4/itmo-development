@@ -2,19 +2,22 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsPhoneNumber, MaxLength } from 'class-validator';
 
 export class EditProfileRequestDto {
-  @ApiProperty({ example: '+79219211337' })
+  @ApiProperty({ example: '+79219211337', required: false })
   @IsPhoneNumber()
-  phone: string;
+  phone: string | null;
 
-  @ApiProperty({ example: 'Валерий' })
-  @MaxLength(32)
-  firstname: string;
+  @ApiProperty({ example: '@gregjs', required: false })
+  telegram: string | null;
 
-  @ApiProperty({ example: 'Жмышенко' })
+  @ApiProperty({ example: 'Валерий', required: false })
   @MaxLength(32)
-  surname: string;
+  firstname: string | null;
 
-  @ApiProperty({ example: 'Альбертович' })
+  @ApiProperty({ example: 'Жмышенко', required: false })
   @MaxLength(32)
-  middlename: string;
+  surname: string | null;
+
+  @ApiProperty({ example: 'Альбертович', required: false })
+  @MaxLength(32)
+  middlename: string | null;
 }

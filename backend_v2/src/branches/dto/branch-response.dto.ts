@@ -23,12 +23,28 @@ export class BranchResponseDto implements Branch {
   @ApiProperty({ example: 'verh-pereulok@nevsky-bears.ru' })
   contactEmail: string;
 
+  @ApiProperty({ example: '@gregjs', required: false })
+  contactTelegram: string | null;
+
   @ApiProperty({
     example: [
       'https://avatars.mds.yandex.net/get-altay/5448678/2a0000017d380ed520715939ff36c2a5efe0/L_height',
     ],
+    required: false,
   })
   photos: string[];
+
+  @ApiProperty({ example: 'https://yandex.ru/maps/YOUR_LINK', required: false })
+  yaMapsLink: string | null;
+
+  @ApiProperty({ example: 'https://2gis.ru/YOUR_LINK', required: false })
+  twogisLink: string | null;
+
+  @ApiProperty({
+    example: 'https://www.google.com/maps/YOUR_LINK',
+    required: false,
+  })
+  gMapsLink: string | null;
 
   constructor(partial: Partial<Branch>) {
     Object.assign(this, partial);

@@ -12,25 +12,29 @@ export class BaseUserResponseDto implements User {
   @ApiProperty({ example: 'username123' })
   login: string;
 
-  @ApiProperty({ example: 'user@example.com' })
-  email: string;
+  @ApiProperty({ example: 'user@example.com', required: false })
+  email: string | null;
 
-  @ApiProperty({ example: '+79219211337' })
-  phone: string;
+  @ApiProperty({ example: '+79219211337', required: false })
+  phone: string | null;
 
-  @ApiProperty({ example: 'Валерий' })
-  firstname: string;
+  @ApiProperty({ example: '@gregjs', required: false })
+  telegram: string | null;
 
-  @ApiProperty({ example: 'Жмышенко' })
-  surname: string;
+  @ApiProperty({ example: 'Валерий', required: false })
+  firstname: string | null;
 
-  @ApiProperty({ example: 'Альбертович' })
-  middlename: string;
+  @ApiProperty({ example: 'Жмышенко', required: false })
+  surname: string | null;
+
+  @ApiProperty({ example: 'Альбертович', required: false })
+  middlename: string | null;
 
   @ApiProperty({
     example: 'https://avatars.githubusercontent.com/u/6916170?v=4',
+    required: false,
   })
-  profilePicture: string;
+  profilePicture: string | null;
 
   @Exclude()
   password: string;
