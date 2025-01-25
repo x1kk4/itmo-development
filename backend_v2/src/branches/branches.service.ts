@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
+import { orderByDistance } from 'geolib';
+import { Branch } from '@prisma/client';
 
 @Injectable()
 export class BranchesService {
@@ -9,15 +11,42 @@ export class BranchesService {
   //   return 'This action adds a new branch';
   // }
 
-  async getManyWithPaginationAndFilters(page: number, limit: number) {
+  async getManyWithPaginationAndFilters(
+    page: number,
+    limit: number,
+    latitude?: number,
+    longitude?: number,
+  ) {
     const offset = (page - 1) * limit;
 
-    const branches = await this.prisma.branch.findMany({
-      skip: offset,
-      take: limit,
-    });
+    let branches: Branch[];
 
-    if (branches.length) {
+    if (latitude & longitude) {
+      const allBranches = await this.prisma.branch.findMany();
+
+      const ordered = orderByDistance(
+        { latitude, longitude },
+        allBranches.map((branch) => ({
+          latitude: branch.location.split(', ')[0],
+          longitude: branch.location.split(', ')[1],
+        })),
+      );
+
+      branches = ordered
+        .map((location: { latitude: string; longitude: string }) =>
+          allBranches.find(
+            (branch) => location.latitude === branch.location.split(', ')[0],
+          ),
+        )
+        .slice(offset, page * limit);
+    } else {
+      branches = await this.prisma.branch.findMany({
+        skip: offset,
+        take: limit,
+      });
+    }
+
+    if (branches && branches.length) {
       return branches;
     }
 

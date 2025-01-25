@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { BranchesService } from './branches.service';
 import { BranchResponseDto } from './dto/branch-response.dto';
-import { PaginationDto } from 'src/dto/pagination.dto';
 import { ApiResponse } from '@nestjs/swagger';
+import { BranchesFilterDto } from './dto/branches-filter.dto';
 
 @Controller('branches')
 export class BranchesController {
@@ -27,10 +27,12 @@ export class BranchesController {
   })
   @SerializeOptions({ type: BranchResponseDto })
   @Get()
-  async getMany(@Query() query: PaginationDto) {
+  async getMany(@Query() query: BranchesFilterDto) {
     return this.branchesService.getManyWithPaginationAndFilters(
       query.page,
       query.limit,
+      query.latitude,
+      query.longitude,
     );
   }
 
