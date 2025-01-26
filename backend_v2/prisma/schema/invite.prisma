@@ -1,0 +1,4 @@
+model Invite {
+    id       Int @id @default(autoincrement())
+    isUsed   Boolean @default(false)
+}

@@ -7,6 +7,8 @@ export interface AppConfig {
     access_expiration: string;
     refresh_secret: string;
     refresh_expiration: string;
+    invite_secret: string;
+    invite_expiration: string;
   };
   minio: {
     endpoint: string;
@@ -27,6 +29,8 @@ export default (): AppConfig =>
       access_expiration: process.env.JWT_ACCESS_TOKEN_EXPIRATION ?? '1h',
       refresh_secret: process.env.JWT_REFRESH_TOKEN_SECRET_KEY,
       refresh_expiration: process.env.JWT_REFRESH_TOKEN_EXPIRATION ?? '14d',
+      invite_secret: process.env.JWT_INVITE_CODE_SECRET_KEY,
+      invite_expiration: process.env.JWT_INVITE_CODE_EXPIRATION ?? '30m',
     },
     minio: {
       endpoint: process.env.MINIO_ENDPOINT,

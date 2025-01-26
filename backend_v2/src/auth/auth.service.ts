@@ -14,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'src/config';
 import { MinioService } from 'src/minio/minio.service';
 import { EditProfileRequestDto } from './dto/edit/request.dto';
+import { SignUpByInviteRequestDto } from './dto/sign-up-by-invite/request.dto';
 
 @Injectable()
 export class AuthService {
@@ -143,6 +144,106 @@ export class AuthService {
         ...data,
         role: Role.PARENT,
         password: hashPassword,
+      },
+    });
+
+    const [accessToken, refreshToken] = await Promise.all([
+      this.generateToken(user, 'access'),
+      this.generateToken(user, 'refresh'),
+    ]);
+
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
+  }
+
+  async signUpByInvite(data: SignUpByInviteRequestDto) {
+    let payload: {
+      inviteId: number;
+      inviterId: number | null;
+      role: Role;
+    };
+
+    try {
+      payload = this.jwtService.verify(data.code, {
+        secret: this.jwtConfig.invite_secret,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new BadRequestException('Bad invitation code');
+    }
+
+    const invitation = await this.prisma.invite.findUnique({
+      where: {
+        id: payload.inviteId,
+      },
+    });
+
+    if (invitation.isUsed) {
+      throw new BadRequestException('Invitation code already used');
+    }
+
+    const candidate = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            login: data.login,
+          },
+          {
+            email: data.email,
+          },
+        ],
+      },
+    });
+
+    if (candidate) {
+      throw new BadRequestException(
+        'User with such login or email already exists',
+      );
+    }
+
+    let inviter: User;
+
+    if (payload.inviterId) {
+      inviter = await this.prisma.user.findUnique({
+        where: {
+          id: payload.inviterId,
+        },
+      });
+    }
+
+    const hashPassword = await bcrypt.hash(data.password, 5);
+
+    const user = await this.prisma.user.create({
+      data: {
+        login: data.login,
+        email: data.email,
+        role: payload.role,
+        password: hashPassword,
+      },
+    });
+
+    if (inviter.role === Role.PARENT && user.role === Role.CHILDREN) {
+      await this.prisma.parentChild.create({
+        data: {
+          parent: {
+            connect: { id: inviter.id },
+          },
+          child: {
+            connect: { id: user.id },
+          },
+        },
+      });
+    }
+
+    await this.prisma.invite.update({
+      where: {
+        id: payload.inviteId,
+      },
+      data: {
+        isUsed: true,
       },
     });
 

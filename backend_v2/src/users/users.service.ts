@@ -1,14 +1,22 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { Role } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { AppConfig } from 'src/config';
 
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly jwtConfig: AppConfig['jwt'];
 
-  // create(createUserDto: any) {
-  //   return 'This action adds a new user';
-  // }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService<AppConfig>,
+  ) {
+    this.jwtConfig = this.configService.get('jwt');
+  }
 
   async getManyWithPaginationAndFilters(page: number, limit: number) {
     const offset = (page - 1) * limit;
@@ -39,7 +47,47 @@ export class UsersService {
     throw new NotFoundException('User with such id does not exist');
   }
 
-  // update(id: number, updateUserDto: any) {
-  //   return `This action updates a #${id} user`;
-  // }
+  async inviteChildren(inviterId: number) {
+    const { id: inviteId } = await this.prisma.invite.create({});
+
+    const payload = {
+      inviteId,
+      inviterId,
+      role: Role.CHILDREN,
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: this.jwtConfig.invite_secret,
+      expiresIn: this.jwtConfig.invite_expiration,
+    });
+  }
+
+  async inviteCoach() {
+    const { id: inviteId } = await this.prisma.invite.create({});
+    const payload = {
+      inviteId,
+      inviterId: null,
+      role: Role.COACH,
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: this.jwtConfig.invite_secret,
+      expiresIn: this.jwtConfig.invite_expiration,
+    });
+  }
+
+  async inviteManager() {
+    const { id: inviteId } = await this.prisma.invite.create({});
+
+    const payload = {
+      inviteId,
+      inviterId: null,
+      role: Role.MANAGER,
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: this.jwtConfig.invite_secret,
+      expiresIn: this.jwtConfig.invite_expiration,
+    });
+  }
 }

@@ -6,22 +6,38 @@ enum Role {
   SUPER
 }
 
-model User {
-  id         Int @id @default(autoincrement())
-  role       Role
-  login      String @unique
-  password   String
-  email      String? @unique
-  phone      String? @unique
-  telegram   String? @unique
-  firstname  String?
-  surname    String?
-  middlename String?
-  profilePicture String?
-  refreshToken String? @unique
+model ParentChild {
+  parent      User @relation("ParentChildren", fields: [parentId], references: [id])
+  parentId    Int
+  child       User @relation("ChildParents", fields: [childId], references: [id])
+  childId     Int
 
-  trainingSessions TrainingSession[]
-
-  enrolledSessions    EnrolledUsers[]
-  attendedSessions    SessionAttendees[]
+  @@id([parentId, childId])
 }
+
+model User {
+  id              Int @id @default(autoincrement())
+  role            Role
+  login           String @unique
+  password        String?
+  email           String? @unique
+  phone           String? @unique
+  telegram        String? @unique
+  firstname       String?
+  surname         String?
+  middlename      String?
+  profilePicture  String?
+  refreshToken    String? @unique
+
+  // PARENT & CHILDREN relation
+  parentChildRelations    ParentChild[] @relation("ParentChildren")
+  childrenRelations       ParentChild[] @relation("ChildParents")
+
+  // only for COACH
+  trainingSessions        TrainingSession[]
+
+  // only for CHILDREN
+  enrolledSessions        EnrolledUsers[]
+  attendedSessions        SessionAttendees[]
+}
+

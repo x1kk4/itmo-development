@@ -37,6 +37,7 @@ import {
   BaseUserResponseDto,
   UserResponseDto,
 } from 'src/dto/user-response.dto';
+import { SignUpByInviteRequestDto } from './dto/sign-up-by-invite/request.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -51,14 +52,14 @@ export class AuthController {
     headers: {
       Authorization: {
         description:
-          'Bearer токен для авторизации, обновляется любым приватным запросом по истечении и при наличии валидного Refresh токена',
+          'Bearer token for authorization, updates with any private request after lifetime ends and with valid refresh token',
         schema: {
           type: 'string',
           example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         },
       },
       Refresh: {
-        description: 'Bearer refresh токен',
+        description: 'Bearer refresh token',
         schema: {
           type: 'string',
           example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
@@ -85,18 +86,18 @@ export class AuthController {
     status: 201,
     type: [UserResponseDto],
     description:
-      'Create new user with login, email and password; get tokens via headers in response',
+      'Create new user with login, email and password; get tokens via headers in response. Public sign-up interface (only for creation users with PARENT role)',
     headers: {
       Authorization: {
         description:
-          'Bearer токен для авторизации, обновляется любым приватным запросом по истечении и при наличии валидного Refresh токена',
+          'Bearer token for authorization, updates with any private request after lifetime ends and with valid refresh token',
         schema: {
           type: 'string',
           example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         },
       },
       Refresh: {
-        description: 'Bearer refresh токен',
+        description: 'Bearer refresh token',
         schema: {
           type: 'string',
           example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
@@ -108,10 +109,47 @@ export class AuthController {
   @Post('/sign-up')
   async signUp(
     @Res({ passthrough: true }) res: Response<BaseUserResponseDto>,
-    @Body() data: SignUpRequestDto,
+    @Body() body: SignUpRequestDto,
   ) {
     const { accessToken, refreshToken, user } =
-      await this.authService.signUp(data);
+      await this.authService.signUp(body);
+
+    res.header('Authorization', `Bearer ${accessToken}`);
+    res.header('Refresh', `Bearer ${refreshToken}`);
+    return user;
+  }
+
+  @ApiResponse({
+    status: 201,
+    type: [UserResponseDto],
+    description:
+      'Create new user with login, email and password; get tokens via headers in response. Works only with invitation code that was received from another user. Needs to create NOT PARENT role users.',
+    headers: {
+      Authorization: {
+        description:
+          'Bearer token for authorization, updates with any private request after lifetime ends and with valid refresh token',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+      Refresh: {
+        description: 'Bearer refresh token',
+        schema: {
+          type: 'string',
+          example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
+  @Post('/sign-up-by-invite')
+  async signUpByInvite(
+    @Res({ passthrough: true }) res: Response<BaseUserResponseDto>,
+    @Body() body: SignUpByInviteRequestDto,
+  ) {
+    const { accessToken, refreshToken, user } =
+      await this.authService.signUpByInvite(body);
 
     res.header('Authorization', `Bearer ${accessToken}`);
     res.header('Refresh', `Bearer ${refreshToken}`);

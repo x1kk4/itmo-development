@@ -1,16 +1,12 @@
 import {
   Controller,
   Get,
-  // Post,
-  // Body,
-  // Patch,
   Param,
-  // Delete,
   SerializeOptions,
-  // UseGuards,
   ParseIntPipe,
   Query,
-  // DefaultValuePipe,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -18,8 +14,11 @@ import {
   BaseUserResponseDto,
 } from 'src/dto/user-response.dto';
 import { PaginationDto } from 'src/dto/pagination.dto';
-import { ApiResponse } from '@nestjs/swagger';
-// import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from 'src/auth/decorators/user.decorator';
 // import {
 // ApiBearerAuth,
 // ApiTags
@@ -29,11 +28,6 @@ import { ApiResponse } from '@nestjs/swagger';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  // @Post()
-  // async create(@Body() createUserDto: any) {
-  //   return this.usersService.create(createUserDto);
-  // }
 
   @ApiResponse({
     status: 200,
@@ -60,11 +54,39 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  // @Patch(':id')
-  // async update(@Param() id: string, @Body() updateUserDto: any) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @ApiResponse({
+    description:
+      'Create invitation code for CHILDREN. Endpoint can be called by an authorized user with any role other than CHILDREN.',
+  })
+  @ApiBearerAuth('access-token')
+  @Roles(Role.SUPER, Role.MANAGER, Role.COACH, Role.PARENT)
+  @UseGuards(AuthGuard)
+  @Post('invite-children')
+  async inviteChildren(@CurrentUser() userId: number) {
+    return this.usersService.inviteChildren(userId);
+  }
 
-  // @Patch('/ban/:id')
-  // ban
+  @ApiResponse({
+    description:
+      'Create invitation code for COACH. Endpoint can be called by an authorized user with SUPER or MANAGER roles.',
+  })
+  @ApiBearerAuth('access-token')
+  @Roles(Role.SUPER, Role.MANAGER)
+  @UseGuards(AuthGuard)
+  @Post('invite-coach')
+  async inviteCoach() {
+    return this.usersService.inviteCoach();
+  }
+
+  @ApiResponse({
+    description:
+      'Create invitation code for MANAGER. Endpoint can be called by an authorized user with SUPER role.',
+  })
+  @ApiBearerAuth('access-token')
+  @Roles(Role.SUPER)
+  @UseGuards(AuthGuard)
+  @Post('invite-manager')
+  async inviteManager() {
+    return this.usersService.inviteManager();
+  }
 }
