@@ -7,8 +7,6 @@ import { useCallback, useState } from 'react'
 import { produce } from 'immer'
 import { useSignUpByInvite } from '@/api/hooks/auth/useSignUpByInvite'
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZpdGVJZCI6MjIsImludml0ZXJJZCI6MSwicm9sZSI6IkNISUxEUkVOIiwiaWF0IjoxNzM3ODY2NjcxLCJleHAiOjE3Mzc4Njg0NzF9.5-3D04l_OQxs-hP0IFaaLJQYjxXOT7QwQOFk5x-8JHE
-
 export default function SignUp() {
   const { signUp } = useAuthContext()
   const { mutate: signUpByInvite } = useSignUpByInvite()
