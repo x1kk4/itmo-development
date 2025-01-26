@@ -23,9 +23,13 @@ export type TBranch = {
   location: string
   workingStart: string
   workingEnd: string
+  contactTelegram: string | null
   contactPhone: string
   contactEmail: string
   photos: string[]
+  yaMapsLink: string | null
+  twogisLink: string | null
+  gMapsLink: string | null
 
   trainingSessions?: TTrainingSession[]
 }
@@ -36,6 +40,7 @@ export type TUser = {
   login: string
   email: string
   phone: string | null
+  telegram: string | null
   firstname: string | null
   surname: string | null
   middlename: string | null

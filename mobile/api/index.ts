@@ -21,6 +21,13 @@ const signUp = async (data: TSignUpRequest) => {
   return res.data
 }
 
+export type TSignUpByInviteRequest = TSignUpRequest & { code: string }
+
+const signUpByInvite = async (data: TSignUpByInviteRequest) => {
+  const res = await api.post<TUserResponse>('/auth/sign-up-by-invite', data)
+  return res.data
+}
+
 const me = async () => {
   const res = await api.get<TUserResponse>('/auth/me')
   return res.data
@@ -61,6 +68,23 @@ const getManyUsers = async (data: TQueryPagination) => {
 
 const getUserById = async (id: number) => {
   const res = await api.get<TUserResponse>(`/users/${id}`)
+  return res.data
+}
+
+export type TInviteResponse = string
+
+const inviteChildren = async () => {
+  const res = await api.post<TInviteResponse>('/users/invite-children')
+  return res.data
+}
+
+const inviteCoach = async () => {
+  const res = await api.post<TInviteResponse>('/users/invite-coach')
+  return res.data
+}
+
+const inviteManager = async () => {
+  const res = await api.post<TInviteResponse>('/users/invite-manager')
   return res.data
 }
 
@@ -182,6 +206,7 @@ export const v2 = {
   // auth
   signIn,
   signUp,
+  signUpByInvite,
   me,
   logout,
   editProfile,
@@ -190,6 +215,9 @@ export const v2 = {
   // users
   getManyUsers,
   getUserById,
+  inviteChildren,
+  inviteCoach,
+  inviteManager,
 
   // branches
   getManyBranches,
