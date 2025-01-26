@@ -1,16 +1,16 @@
+import React, { useCallback, useState } from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useAuthContext } from '@/providers/AuthContext'
 import { useRouter } from 'expo-router'
 import { Button, Input, Image } from 'tamagui'
 import { Screen } from '@/ui/Screen'
 import { TSignUpByInviteRequest } from '@/api'
-import { useCallback, useState } from 'react'
 import { produce } from 'immer'
 import { useSignUpByInvite } from '@/api/hooks/auth/useSignUpByInvite'
 
 export default function SignUp() {
   const { signUp } = useAuthContext()
   const { mutate: signUpByInvite } = useSignUpByInvite()
-
   const [data, setData] = useState<TSignUpByInviteRequest>({
     login: '',
     email: '',
@@ -30,84 +30,96 @@ export default function SignUp() {
   }, [data, signUp, signUpByInvite])
 
   return (
-    <Screen
-      gap='$2'
-      flex={1}
-      justifyContent='center'
-      padding='$4'
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid
+      extraScrollHeight={50}
     >
-      <Image
-        source={require('../assets/images/logo.png')}
-        width={94}
-        height={126}
-        alignSelf={'center'}
-        marginBottom='$4'
-      />
-      <Input
-        textContentType='username'
-        placeholder='Имя пользователя'
-        value={data.login}
-        onChangeText={(text) =>
-          setData(
-            produce((draft) => {
-              draft.login = text
-            }),
-          )
-        }
-      />
-      <Input
-        textContentType='emailAddress'
-        placeholder='Электронная почта'
-        value={data.email}
-        onChangeText={(text) =>
-          setData(
-            produce((draft) => {
-              draft.email = text
-            }),
-          )
-        }
-      />
-      <Input
-        textContentType='password'
-        secureTextEntry
-        placeholder='Пароль'
-        value={data.password}
-        onChangeText={(text) =>
-          setData(
-            produce((draft) => {
-              draft.password = text
-            }),
-          )
-        }
-      />
-      <Input
-        placeholder='Ваш код приглашения (при наличии)'
-        value={data.code}
-        onChangeText={(text) =>
-          setData(
-            produce((draft) => {
-              draft.code = text
-            }),
-          )
-        }
-      />
+      <Screen
+        gap='$2'
+        flex={1}
+        justifyContent='center'
+        padding='$4'
+      >
+        <Image
+          source={require('../assets/images/logo.png')}
+          width={94}
+          height={126}
+          alignSelf={'center'}
+          marginBottom='$4'
+        />
 
-      <Button
-        marginTop='$5'
-        theme={'accent'}
-        color={'white'}
-        onPress={handleSubmit}
-      >
-        Зарегистрироваться
-      </Button>
-      <Button
-        onPress={() => router.back()}
-        width={'100%'}
-        themeInverse
-        style={{ textDecoration: 'none' }}
-      >
-        Войти
-      </Button>
-    </Screen>
+        <Input
+          textContentType='username'
+          placeholder='Имя пользователя'
+          value={data.login}
+          onChangeText={(text) =>
+            setData(
+              produce((draft) => {
+                draft.login = text
+              }),
+            )
+          }
+        />
+
+        <Input
+          textContentType='emailAddress'
+          placeholder='Электронная почта'
+          value={data.email}
+          onChangeText={(text) =>
+            setData(
+              produce((draft) => {
+                draft.email = text
+              }),
+            )
+          }
+        />
+
+        <Input
+          textContentType='password'
+          secureTextEntry
+          placeholder='Пароль'
+          value={data.password}
+          onChangeText={(text) =>
+            setData(
+              produce((draft) => {
+                draft.password = text
+              }),
+            )
+          }
+        />
+
+        <Input
+          placeholder='Ваш код приглашения (при наличии)'
+          value={data.code}
+          onChangeText={(text) =>
+            setData(
+              produce((draft) => {
+                draft.code = text
+              }),
+            )
+          }
+        />
+
+        <Button
+          marginTop='$5'
+          theme={'accent'}
+          color={'white'}
+          onPress={handleSubmit}
+        >
+          Зарегистрироваться
+        </Button>
+
+        <Button
+          onPress={() => router.back()}
+          width={'100%'}
+          themeInverse
+          style={{ textDecoration: 'none' }}
+        >
+          Войти
+        </Button>
+      </Screen>
+    </KeyboardAwareScrollView>
   )
 }

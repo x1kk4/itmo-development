@@ -14,6 +14,7 @@ export default function ProfileScreen() {
   const { mutate: changeAvatar, isPending } = useEditAvatar()
 
   const takePhoto = async () => {
+    console.log('photo...')
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ['images'],
       cameraType: CameraType.front,

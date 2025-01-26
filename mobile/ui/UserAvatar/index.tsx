@@ -20,7 +20,7 @@ const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, size = '$4', on
         >
           <Avatar.Image
             accessibilityLabel='Avatar'
-            src={avatarSrc ?? ''}
+            src={avatarSrc}
           />
         </Avatar>
       )
@@ -52,7 +52,7 @@ const UserAvatar: FC<TUserAvatarProps> = ({ avatarSrc, fallback, size = '$4', on
     >
       <Avatar.Image
         accessibilityLabel='Avatar'
-        src={avatarSrc ?? ''}
+        src={avatarSrc ?? undefined}
       />
       <Avatar.Fallback
         backgroundColor={'$accentBackground'}

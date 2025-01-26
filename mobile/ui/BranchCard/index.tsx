@@ -62,7 +62,7 @@ const BranchCard: FC<TBranchCardProps> = ({
         gap={'$3'}
       >
         <BranchAvatar
-          avatarSrc={photos[0] ?? ''}
+          avatarSrc={photos[0] ?? undefined}
           fallback={name}
         />
         <View>
