@@ -4,6 +4,7 @@ import { UserCard } from '@/ui/UserCard'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 import { View } from 'tamagui'
+import { Invites } from './Invites'
 
 const UsersList: FC = () => {
   const [page, setPage] = useState<number>(1)
@@ -46,7 +47,7 @@ const UsersList: FC = () => {
       refreshing={isLoading}
       onRefresh={handleRefresh}
       onEndReachedThreshold={0.5}
-      ListHeaderComponent={() => <View style={{ marginTop: 4 }} />}
+      ListHeaderComponent={() => <Invites />}
       ListFooterComponent={() => <View style={{ marginTop: 16 }} />}
     />
   )

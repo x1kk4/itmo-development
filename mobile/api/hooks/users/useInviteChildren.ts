@@ -1,9 +1,11 @@
 import { TInviteResponse, v2 } from '@/api'
+import * as Clipboard from 'expo-clipboard'
 
 import { useToastController } from '@tamagui/toast'
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 
 import { AxiosError } from 'axios'
+import { getInviteString } from '@/utils/invite'
 
 export const useInviteChildren = (): UseMutationResult<TInviteResponse, AxiosError> => {
   const toast = useToastController()
@@ -12,8 +14,9 @@ export const useInviteChildren = (): UseMutationResult<TInviteResponse, AxiosErr
     mutationFn: () => {
       return v2.inviteChildren()
     },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ['me'] })
+    onSuccess: async (code) => {
+      await Clipboard.setStringAsync(getInviteString(code))
+      toast.show('Приглашение скопировано в буфер обмена')
     },
     onError: () => {
       toast.show('Ошибка')
