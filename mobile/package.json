@@ -16,6 +16,8 @@
     "build:dev:ios": "eas build --profile development --platform ios",
     "build:dev:ios:simulator": "eas build --profile simulator --platform ios",
     "build:dev:android": "eas build --profile development --platform android",
+    "build:preview:ios": "eas build --profile preview --platform ios",
+    "build:preview:android": "eas build --profile preview --platform android",
     "generate-themes": "tamagui generate-themes ./theme-builder.ts ./theme-output.ts"
   },
   "jest": {
