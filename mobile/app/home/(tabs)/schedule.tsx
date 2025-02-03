@@ -6,7 +6,7 @@ export default function ScheduleScreen() {
   return (
     <Screen>
       <View>
-        <Text>Расписание</Text>
+        <Text>Тренировки</Text>
       </View>
 
       <Lottie

@@ -8,7 +8,7 @@ import { Platform } from 'react-native'
 
 export const TAB_NAMES = {
   dashboard: 'Главная',
-  schedule: 'Расписание',
+  schedule: 'Тренировки',
   schools: 'Школы',
   personalities: 'Люди',
   settings: 'Настройки',
@@ -68,7 +68,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name='schedule'
         options={{
-          title: 'Расписание',
+          title: 'Тренировки',
           tabBarIcon: ({ focused }) => <ListCollapse color={focused ? '$accentColor' : '$color'} />,
         }}
       />
