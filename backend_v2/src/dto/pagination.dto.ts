@@ -14,4 +14,8 @@ export class PaginationDto {
   @Type(() => Number)
   @Min(1, { message: 'Limit must be greater than or equal to 1' })
   limit?: number = 5;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  search?: string;
 }

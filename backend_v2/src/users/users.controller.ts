@@ -19,11 +19,6 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-// import {
-// ApiBearerAuth,
-// ApiTags
-// ApiQuery,
-// } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +27,7 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     type: [UserResponseDto],
-    description: 'Users list with pagination',
+    description: 'Users list with pagination & search filter',
   })
   @SerializeOptions({ type: BaseUserResponseDto })
   @Get()
@@ -40,6 +35,7 @@ export class UsersController {
     return this.usersService.getManyWithPaginationAndFilters(
       query.page,
       query.limit,
+      query.search,
     );
   }
 

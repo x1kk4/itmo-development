@@ -7,21 +7,50 @@ import { Branch } from '@prisma/client';
 export class BranchesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // create(createBranchDto: CreateBranchDto) {
-  //   return 'This action adds a new branch';
-  // }
-
   async getManyWithPaginationAndFilters(
     page: number,
     limit: number,
     latitude?: number,
     longitude?: number,
+    search?: string,
   ) {
     const offset = (page - 1) * limit;
 
     let branches: Branch[];
 
-    if (latitude & longitude) {
+    const searchFields = [
+      'name',
+      'contactPhone',
+      'contactEmail',
+      'contactTelegram',
+    ];
+
+    let where;
+
+    if (search) {
+      if (
+        search.split(' ').length === 1 &&
+        search[0] !== '+' &&
+        !isNaN(Number(search))
+      ) {
+        where = {
+          id: Number(search),
+        };
+      } else {
+        where = {
+          AND: search.split(' ').map((word) => ({
+            OR: searchFields.map((field) => ({
+              [field]: {
+                contains: word,
+                mode: 'insensitive',
+              },
+            })),
+          })),
+        };
+      }
+    }
+
+    if (latitude && longitude && !search) {
       const allBranches = await this.prisma.branch.findMany();
 
       const ordered = orderByDistance(
@@ -43,6 +72,7 @@ export class BranchesService {
       branches = await this.prisma.branch.findMany({
         skip: offset,
         take: limit,
+        where,
       });
     }
 
@@ -66,12 +96,4 @@ export class BranchesService {
 
     throw new NotFoundException('Branch with such id does not exist');
   }
-
-  // update(id: number, updateBranchDto: UpdateBranchDto) {
-  //   return `This action updates a #${id} branch`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} branch`;
-  // }
 }

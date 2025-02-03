@@ -18,12 +18,52 @@ export class UsersService {
     this.jwtConfig = this.configService.get('jwt');
   }
 
-  async getManyWithPaginationAndFilters(page: number, limit: number) {
+  async getManyWithPaginationAndFilters(
+    page: number,
+    limit: number,
+    search: string | undefined,
+  ) {
     const offset = (page - 1) * limit;
+
+    const searchFields = [
+      'login',
+      'phone',
+      'email',
+      'telegram',
+      'firstname',
+      'middlename',
+      'surname',
+    ];
+
+    let where;
+
+    if (search) {
+      if (
+        search.split(' ').length === 1 &&
+        search[0] !== '+' &&
+        !isNaN(Number(search))
+      ) {
+        where = {
+          id: Number(search),
+        };
+      } else {
+        where = {
+          AND: search.split(' ').map((word) => ({
+            OR: searchFields.map((field) => ({
+              [field]: {
+                contains: word,
+                mode: 'insensitive',
+              },
+            })),
+          })),
+        };
+      }
+    }
 
     const users = await this.prisma.user.findMany({
       skip: offset,
       take: limit,
+      where,
     });
 
     if (users.length) {

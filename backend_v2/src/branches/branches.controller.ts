@@ -33,6 +33,7 @@ export class BranchesController {
       query.limit,
       query.latitude,
       query.longitude,
+      query.search,
     );
   }
 
