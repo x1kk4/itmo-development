@@ -2,9 +2,10 @@ import { useAuthContext } from '@/providers/AuthContext'
 import { Tabs, useRouter } from 'expo-router'
 import React from 'react'
 import { LayoutDashboard, ListCollapse, MapPinHouse, Settings, Users } from '@tamagui/lucide-icons'
-import { Header, Heading, useTheme } from 'tamagui'
+import { Header, Heading, View, useTheme } from 'tamagui'
 import { UserAvatar } from '@/ui/UserAvatar'
 import { Platform } from 'react-native'
+import { Invites } from '@/views/UsersList/Invites'
 
 export const TAB_NAMES = {
   dashboard: 'Главная',
@@ -86,6 +87,28 @@ export default function TabsLayout() {
         options={{
           title: 'Люди',
           tabBarIcon: ({ focused }) => <Users color={focused ? '$accentColor' : '$color'} />,
+          header: () => (
+            <Header
+              backgroundColor={theme.background.val}
+              padding={'$3'}
+              flexDirection={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+            >
+              <View
+                flexDirection={'row'}
+                gap={'$2'}
+              >
+                <Heading>{TAB_NAMES['personalities']}</Heading>
+                <Invites />
+              </View>
+              <UserAvatar
+                avatarSrc={user.profilePicture}
+                fallback={user.login}
+                onPress={() => router.push('/home/profile')}
+              />
+            </Header>
+          ),
         }}
       />
 

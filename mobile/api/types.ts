@@ -74,4 +74,5 @@ export enum STORAGE_KEYS {
 export type TQueryPagination = {
   page?: number
   limit?: number
+  search?: string
 }

@@ -3,7 +3,9 @@ import { useInviteCoach } from '@/api/hooks/users/useInviteCoach'
 import { useInviteManager } from '@/api/hooks/users/useInviteManager'
 import { ROLE } from '@/api/types'
 import { useAuthContext } from '@/providers/AuthContext'
+import { Plus } from '@tamagui/lucide-icons'
 import { FC } from 'react'
+import { Platform } from 'react-native'
 import { Button, Popover, View } from 'tamagui'
 
 const Invites: FC = () => {
@@ -14,21 +16,24 @@ const Invites: FC = () => {
   const { mutate: inviteManager } = useInviteManager()
 
   if (!user || user.role === ROLE.CHILDREN) {
-    return <View marginTop={'$1.5'} />
+    return null
   }
 
   return (
-    <View
-      width={'100%'}
-      marginVertical={'$1.5'}
-    >
+    <View>
       <Popover placement='bottom'>
         <Popover.Trigger asChild>
-          <Button>Пригласить</Button>
+          <Button
+            height={'$3'}
+            width={Platform.OS !== 'web' ? '$3' : 'auto'}
+          >
+            <Plus />
+          </Button>
         </Popover.Trigger>
 
         <Popover.Content
-          width={'$20'}
+          marginTop={'$2'}
+          marginLeft={'$3'}
           borderWidth={1}
           borderColor='$borderColor'
           enterStyle={{ y: -10, opacity: 0 }}
@@ -42,7 +47,7 @@ const Invites: FC = () => {
               width={'100%'}
               onPress={inviteChildren}
             >
-              Учащегося
+              Пригласить учащегося
             </Button>
           </Popover.Close>
           {[ROLE.SUPER, ROLE.MANAGER].includes(user.role) && (
@@ -51,7 +56,7 @@ const Invites: FC = () => {
                 width={'100%'}
                 onPress={inviteCoach}
               >
-                Тренера
+                Пригласить тренера
               </Button>
             </Popover.Close>
           )}
@@ -61,7 +66,7 @@ const Invites: FC = () => {
                 width={'100%'}
                 onPress={inviteManager}
               >
-                Менеджера
+                Пригласить менеджера
               </Button>
             </Popover.Close>
           )}

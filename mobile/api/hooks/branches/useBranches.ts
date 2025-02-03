@@ -11,7 +11,7 @@ export const useBranches = (
   }
 
   return useQuery({
-    queryKey: ['branches', data.page, data.limit, data.latitude, data.longitude],
+    queryKey: ['branches', data.page, data.limit, data.latitude, data.longitude, data.search],
     queryFn,
     enabled: isEnabled,
   })
