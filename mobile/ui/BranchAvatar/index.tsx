@@ -20,7 +20,7 @@ const BranchAvatar: FC<TBranchAvatarProps> = ({ avatarSrc, fallback, size = '$4'
         >
           <Avatar.Image
             accessibilityLabel='Avatar'
-            src={avatarSrc ?? ''}
+            src={avatarSrc ?? undefined}
           />
         </Avatar>
       )
@@ -53,7 +53,7 @@ const BranchAvatar: FC<TBranchAvatarProps> = ({ avatarSrc, fallback, size = '$4'
     >
       <Avatar.Image
         accessibilityLabel='Avatar'
-        src={avatarSrc ?? ''}
+        src={avatarSrc ?? undefined}
       />
       <Avatar.Fallback
         backgroundColor={'$accentBackground'}
