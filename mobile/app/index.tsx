@@ -70,7 +70,7 @@ export default function SignIn() {
         themeInverse
         onPress={() => router.push('/sign-up')}
       >
-        Зарегистрироваться
+        Еще не зарегистрированы?
       </Button>
 
       <Button

@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useAuthContext } from '@/providers/AuthContext'
 import { useRouter } from 'expo-router'
 import { Button, Input, Image } from 'tamagui'
@@ -7,6 +6,7 @@ import { Screen } from '@/ui/Screen'
 import { TSignUpByInviteRequest } from '@/api'
 import { produce } from 'immer'
 import { useSignUpByInvite } from '@/api/hooks/auth/useSignUpByInvite'
+import { KeyboardAvoidingView, Platform } from 'react-native'
 
 export default function SignUp() {
   const { signUp } = useAuthContext()
@@ -30,11 +30,10 @@ export default function SignUp() {
   }, [data, signUp, signUpByInvite])
 
   return (
-    <KeyboardAwareScrollView
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1 }}
-      contentContainerStyle={{ flexGrow: 1 }}
-      enableOnAndroid
-      extraScrollHeight={50}
+      keyboardVerticalOffset={120}
     >
       <Screen
         gap='$2'
@@ -117,9 +116,9 @@ export default function SignUp() {
           themeInverse
           style={{ textDecoration: 'none' }}
         >
-          Войти
+          Уже зарегистрированы?
         </Button>
       </Screen>
-    </KeyboardAwareScrollView>
+    </KeyboardAvoidingView>
   )
 }

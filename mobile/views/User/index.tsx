@@ -4,11 +4,12 @@ import { UserAvatar } from '@/ui/UserAvatar'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { FC } from 'react'
-import { Platform } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
 import { Heading, View } from 'tamagui'
 import { Screen } from '@/ui/Screen'
 import { Phone } from '@/ui/Phone'
 import { Email } from '@/ui/Email'
+import { Telegram } from '@/ui/Telegram'
 
 const User: FC = () => {
   const { id } = useLocalSearchParams()
@@ -23,7 +24,7 @@ const User: FC = () => {
 
   return (
     <Screen
-      paddingVertical={'$3'}
+      paddingTop={'$3'}
       gap={'$4'}
     >
       <View
@@ -59,13 +60,17 @@ const User: FC = () => {
           size='large'
         />
       </View>
-      <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Heading fontSize={18}>Контакты</Heading>
-        <View gap={'$2'}>
+        <View
+          gap={'$2'}
+          paddingBottom={'$3'}
+        >
           {user.phone && <Phone phone={user.phone} />}
+          {user.telegram && <Telegram telegram={user.telegram} />}
           <Email email={user.email} />
         </View>
-      </View>
+      </ScrollView>
     </Screen>
   )
 }

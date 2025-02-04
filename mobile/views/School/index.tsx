@@ -1,16 +1,17 @@
 import { useBranch } from '@/api/hooks/branches/useBranch'
-
+import * as Linking from 'expo-linking'
 import { Screen } from '@/ui/Screen'
-import { ArrowLeft } from '@tamagui/lucide-icons'
+import { ArrowLeft, SquareArrowOutUpRight } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { Dimensions, Platform } from 'react-native'
-import { Heading, View, Text } from 'tamagui'
+import { Dimensions, Platform, ScrollView } from 'react-native'
+import { Heading, View, Text, XGroup, Button } from 'tamagui'
 import { Image } from 'expo-image'
 
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel'
-import { FC, useMemo, useRef } from 'react'
+import { FC, useCallback, useMemo, useRef } from 'react'
 import { Email } from '@/ui/Email'
 import { Phone } from '@/ui/Phone'
+import { Telegram } from '@/ui/Telegram'
 
 const width = Dimensions.get('window').width
 
@@ -103,6 +104,10 @@ const School: FC = () => {
     )
   }, [branch])
 
+  const handleNavigate = useCallback((link: string) => {
+    Linking.openURL(link)
+  }, [])
+
   if (!branch) {
     return null
   }
@@ -129,13 +134,61 @@ const School: FC = () => {
 
         <Heading marginTop={'$3'}>{branch.name}</Heading>
       </View>
-      <View>
-        <Heading fontSize={18}>Контакты</Heading>
-        <View gap={'$2'}>
-          <Phone phone={branch.contactPhone} />
-          <Email email={branch.contactEmail} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {(branch.yaMapsLink || branch.twogisLink || branch.gMapsLink) && (
+          <View>
+            <Heading fontSize={18}>Карты</Heading>
+            <XGroup marginBottom={'$3'}>
+              {branch.yaMapsLink && branch.yaMapsLink.startsWith('https') && (
+                <XGroup.Item>
+                  <Button
+                    flex={1}
+                    onPress={() => handleNavigate(branch.yaMapsLink as string)}
+                  >
+                    YaMaps
+                    <SquareArrowOutUpRight size={14} />
+                  </Button>
+                </XGroup.Item>
+              )}
+
+              {branch.twogisLink && branch.twogisLink.startsWith('https') && (
+                <XGroup.Item>
+                  <Button
+                    flex={1}
+                    onPress={() => handleNavigate(branch.twogisLink as string)}
+                  >
+                    2GIS
+                    <SquareArrowOutUpRight size={14} />
+                  </Button>
+                </XGroup.Item>
+              )}
+
+              {branch.gMapsLink && branch.gMapsLink.startsWith('https') && (
+                <XGroup.Item>
+                  <Button
+                    flex={1}
+                    onPress={() => handleNavigate(branch.gMapsLink as string)}
+                  >
+                    GMaps
+                    <SquareArrowOutUpRight size={14} />
+                  </Button>
+                </XGroup.Item>
+              )}
+            </XGroup>
+          </View>
+        )}
+        <View>
+          <Heading fontSize={18}>Контакты</Heading>
+          <View
+            gap={'$2'}
+            paddingBottom={'$3'}
+          >
+            <Phone phone={branch.contactPhone} />
+            {branch.contactTelegram && <Telegram telegram={branch.contactTelegram} />}
+            <Email email={branch.contactEmail} />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Screen>
   )
 }

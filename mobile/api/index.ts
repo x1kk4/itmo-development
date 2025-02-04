@@ -33,8 +33,12 @@ const me = async () => {
   return res.data
 }
 
-const editProfile = async () => {
-  await api.patch('/auth/edit-profile')
+export type TEditProfileRequest = Partial<
+  Pick<TUser, 'firstname' | 'middlename' | 'surname' | 'phone' | 'telegram'>
+>
+
+const editProfile = async (data: TEditProfileRequest) => {
+  await api.patch('/auth/edit-profile', data)
   return
 }
 
