@@ -39,5 +39,9 @@ model User {
   // only for CHILDREN
   enrolledSessions        EnrolledUsers[]
   attendedSessions        SessionAttendees[]
+
+
+  // allowed for CHILDREN (by parent or children), COACH, MANAGER
+  branches                BranchesUsers[]
 }
 

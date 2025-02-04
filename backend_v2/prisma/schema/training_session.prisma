@@ -33,6 +33,7 @@ model TrainingSession {
 
   coachId         Int
   coach           User @relation(fields: [coachId], references: [id])
+
   branchId        Int
   branch          Branch @relation(fields: [branchId], references: [id])
 }

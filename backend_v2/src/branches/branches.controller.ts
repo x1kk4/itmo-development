@@ -5,20 +5,21 @@ import {
   ParseIntPipe,
   SerializeOptions,
   Query,
+  UseGuards,
+  Post,
+  HttpCode,
 } from '@nestjs/common';
 import { BranchesService } from './branches.service';
 import { BranchResponseDto } from './dto/branch-response.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { BranchesFilterDto } from './dto/branches-filter.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from 'src/auth/decorators/user.decorator';
 
 @Controller('branches')
 export class BranchesController {
   constructor(private readonly branchesService: BranchesService) {}
-
-  // @Post()
-  // create(@Body() createBranchDto: CreateBranchDto) {
-  //   return this.branchesService.create(createBranchDto);
-  // }
 
   @ApiResponse({
     status: 200,
@@ -48,13 +49,37 @@ export class BranchesController {
     return this.branchesService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
-  //   return this.branchesService.update(+id, updateBranchDto);
-  // }
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    description: 'Bind user to branch',
+  })
+  @HttpCode(200)
+  @Post(':branchId/bind-user/:userId')
+  async bind(
+    @Param('branchId', ParseIntPipe) branchId: number,
+    @Param('userId', ParseIntPipe) userId: number,
+    @CurrentUser() requestorId: number,
+  ) {
+    return this.branchesService.bindUser(branchId, userId, requestorId);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.branchesService.remove(+id);
-  // }
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    description: 'Unbind user from branch',
+  })
+  @HttpCode(200)
+  @Post(':branchId/unbind-user/:userId')
+  async unbind(
+    @Param('branchId', ParseIntPipe) branchId: number,
+    @Param('userId', ParseIntPipe) userId: number,
+    @CurrentUser() requestorId: number,
+  ) {
+    return this.branchesService.unbindUser(branchId, userId, requestorId);
+  }
 }

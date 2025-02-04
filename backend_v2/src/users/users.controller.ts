@@ -24,6 +24,9 @@ import { CurrentUser } from 'src/auth/decorators/user.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     type: [UserResponseDto],
@@ -39,6 +42,9 @@ export class UsersController {
     );
   }
 
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     type: UserResponseDto,
@@ -48,6 +54,21 @@ export class UsersController {
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
+  }
+
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    type: UserResponseDto,
+    isArray: true,
+    description: "User's children by user id",
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
+  @Get(':id/children')
+  async getChildrenList(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getChildren(id);
   }
 
   @ApiResponse({

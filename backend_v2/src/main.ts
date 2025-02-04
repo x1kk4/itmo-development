@@ -29,14 +29,13 @@ async function bootstrap() {
     .addBearerAuth(
       {
         type: 'http',
-        description: 'Access token in "access" header',
+        description: 'Access token in "authorization" header',
         scheme: 'bearer',
         bearerFormat: 'JWT',
         in: 'header',
       },
       'access-token',
     )
-    // .addServer('https://itmo.website/')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

@@ -1,3 +1,12 @@
+model BranchesUsers {
+  user              User   @relation(fields: [userId], references: [id])
+  userId            Int
+  branch            Branch @relation(fields: [branchId], references: [id])
+  branchId          Int
+
+  @@id([userId, branchId])
+}
+
 model Branch {
   id              Int @id @default(autoincrement())
   name            String @unique
@@ -12,5 +21,7 @@ model Branch {
   gMapsLink       String? @unique
   photos          String[]
 
-  trainingSessions TrainingSession[]
+  trainingSessions  TrainingSession[]
+  users             BranchesUsers[]
 }
+

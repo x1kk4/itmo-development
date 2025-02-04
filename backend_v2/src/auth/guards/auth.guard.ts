@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Injectable,
   Logger,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
@@ -64,7 +65,7 @@ export class AuthGuard implements CanActivate {
         refreshBearer = refresh.split(' ')[0];
         refreshToken = refresh.split(' ')[1];
       } catch (error) {
-        throw new ForbiddenException(error);
+        throw new UnauthorizedException(error);
       }
 
       if (refreshBearer === 'Bearer' && refreshToken) {
@@ -112,11 +113,11 @@ export class AuthGuard implements CanActivate {
           return requiredRoles.includes(payload.role);
         }
 
-        throw new ForbiddenException('Forbidden');
+        throw new ForbiddenException('Bad permissions.');
       }
     } catch (error) {
       this.logger.error(error);
-      throw new ForbiddenException('Forbidden');
+      throw new UnauthorizedException('Unauthorized.');
     }
   }
 }

@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { orderByDistance } from 'geolib';
-import { Branch } from '@prisma/client';
+import { Branch, Role } from '@prisma/client';
 
 @Injectable()
 export class BranchesService {
@@ -95,5 +100,141 @@ export class BranchesService {
     }
 
     throw new NotFoundException('Branch with such id does not exist');
+  }
+
+  async bindUser(branchId: number, userId: number, requestorId: number) {
+    await this.prisma.branch
+      .findUniqueOrThrow({
+        where: {
+          id: branchId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect branch id');
+      });
+
+    const requestor = await this.prisma.user.findUnique({
+      where: {
+        id: requestorId,
+      },
+    });
+
+    if (requestor.role !== Role.PARENT) {
+      if (userId !== requestor.id) {
+        throw new ForbiddenException('Bad permissions.');
+      }
+
+      await this.prisma.branchesUsers
+        .create({
+          data: {
+            branchId,
+            userId,
+          },
+        })
+        .catch(() => {
+          throw new BadRequestException('Already binded');
+        });
+
+      return;
+    }
+
+    // PARENT logic
+    const requestorChild = await this.prisma.user.findMany({
+      where: {
+        childrenRelations: {
+          some: {
+            parentId: requestor.id,
+            childId: userId,
+          },
+        },
+      },
+    });
+
+    if (requestorChild.length === 0) {
+      throw new ForbiddenException('Bad permissions.');
+    }
+
+    await this.prisma.branchesUsers
+      .create({
+        data: {
+          branchId,
+          userId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Already binded');
+      });
+
+    return;
+  }
+
+  async unbindUser(branchId: number, userId: number, requestorId: number) {
+    await this.prisma.branch
+      .findUniqueOrThrow({
+        where: {
+          id: branchId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect branch id');
+      });
+
+    const requestor = await this.prisma.user.findUnique({
+      where: {
+        id: requestorId,
+      },
+    });
+
+    if (requestor.role !== Role.PARENT) {
+      if (userId !== requestor.id) {
+        throw new ForbiddenException('Bad permissions.');
+      }
+
+      await this.prisma.branchesUsers
+        .delete({
+          where: {
+            userId_branchId: {
+              branchId,
+              userId,
+            },
+          },
+        })
+        .catch(() => {
+          throw new BadRequestException("Can't unbind nonexistend bond");
+        });
+
+      return;
+    }
+
+    // PARENT logic
+    const requestorChild = await this.prisma.user.findMany({
+      where: {
+        childrenRelations: {
+          some: {
+            parentId: requestor.id,
+            childId: userId,
+          },
+        },
+      },
+    });
+
+    if (requestorChild.length === 0) {
+      throw new ForbiddenException('Bad permissions.');
+    }
+
+    await this.prisma.branchesUsers
+      .delete({
+        where: {
+          userId_branchId: {
+            branchId,
+            userId,
+          },
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Not binded');
+      });
+
+    return;
   }
 }
