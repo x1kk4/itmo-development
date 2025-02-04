@@ -35,6 +35,8 @@ const EditInfo: FC<TEditInfoProps> = ({ user, isLoading }) => {
       for (key in data) {
         if (data[key] !== '') {
           finalData[key] = data[key]
+        } else {
+          finalData[key] = null
         }
       }
 
