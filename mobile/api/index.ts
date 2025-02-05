@@ -120,6 +120,19 @@ const getBranchById = async (id: number) => {
   return res.data
 }
 
+export type TBindRequest = {
+  branchId: number
+  userId: number
+}
+
+const bindUserToBranch = async (req: TBindRequest) => {
+  await api.post(`/branches/${req.branchId}/bind-user/${req.userId}`)
+}
+
+const unbindUserFromBranch = async (req: TBindRequest) => {
+  await api.post(`/branches/${req.branchId}/unbind-user/${req.userId}`)
+}
+
 export type TGetTrainingSessionsResponse = TTrainingSession[]
 
 export const v2 = {
@@ -144,4 +157,6 @@ export const v2 = {
   // branches
   getManyBranches,
   getBranchById,
+  bindUserToBranch,
+  unbindUserFromBranch,
 }
