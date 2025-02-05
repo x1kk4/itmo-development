@@ -105,6 +105,24 @@ export class UsersService {
     return children;
   }
 
+  async getParents(id: number) {
+    const parents = await this.prisma.user.findMany({
+      where: {
+        parentChildRelations: {
+          some: {
+            childId: id,
+          },
+        },
+      },
+    });
+
+    if (!parents.length) {
+      throw new NotFoundException('No parents found for this user');
+    }
+
+    return parents;
+  }
+
   async inviteChildren(inviterId: number) {
     const { id: inviteId } = await this.prisma.invite.create({});
 

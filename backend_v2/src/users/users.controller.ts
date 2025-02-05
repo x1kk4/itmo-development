@@ -71,6 +71,21 @@ export class UsersController {
     return this.usersService.getChildren(id);
   }
 
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    type: UserResponseDto,
+    isArray: true,
+    description: "User's parents by user id",
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
+  @Get(':id/parents')
+  async getParents(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getParents(id);
+  }
+
   @ApiResponse({
     description:
       'Create invitation code for CHILDREN. Endpoint can be called by an authorized user with any role other than CHILDREN.',
