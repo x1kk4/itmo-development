@@ -19,6 +19,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
+import { BranchResponseDto } from 'src/branches/dto/branch-response.dto';
 
 @Controller('users')
 export class UsersController {
@@ -61,8 +62,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
-    type: UserResponseDto,
-    isArray: true,
+    type: [UserResponseDto],
     description: "User's children by user id",
   })
   @SerializeOptions({ type: BaseUserResponseDto })
@@ -76,14 +76,27 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
-    type: UserResponseDto,
-    isArray: true,
+    type: [UserResponseDto],
     description: "User's parents by user id",
   })
   @SerializeOptions({ type: BaseUserResponseDto })
   @Get(':id/parents')
   async getParents(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.getParents(id);
+  }
+
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    type: [BranchResponseDto],
+    description: "User's branches by user id",
+  })
+  @SerializeOptions({ type: BranchResponseDto })
+  @Get(':id/branches')
+  async getBranches(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getBranches(id);
   }
 
   @ApiResponse({

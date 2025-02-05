@@ -16,6 +16,10 @@ import { BranchesFilterDto } from './dto/branches-filter.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
+import {
+  BaseUserResponseDto,
+  UserResponseDto,
+} from 'src/dto/user-response.dto';
 
 @Controller('branches')
 export class BranchesController {
@@ -47,6 +51,28 @@ export class BranchesController {
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.branchesService.findOne(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: [UserResponseDto],
+    description: 'Get branch binded users',
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
+  @Get(':id/users')
+  async getUsers(@Param('id', ParseIntPipe) id: number) {
+    return this.branchesService.getBranchUsers(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: [UserResponseDto],
+    description: 'Get branch staff',
+  })
+  @SerializeOptions({ type: BaseUserResponseDto })
+  @Get(':id/staff')
+  async getStaff(@Param('id', ParseIntPipe) id: number) {
+    return this.branchesService.getBranchUsers(id, true);
   }
 
   @ApiBearerAuth('access-token')

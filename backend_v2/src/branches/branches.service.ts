@@ -237,4 +237,41 @@ export class BranchesService {
 
     return;
   }
+
+  async getBranchUsers(id: number, staff?: boolean) {
+    let users;
+
+    if (staff) {
+      users = await this.prisma.user.findMany({
+        where: {
+          AND: {
+            branches: {
+              some: {
+                branchId: id,
+              },
+            },
+            role: {
+              in: [Role.COACH, Role.MANAGER, Role.SUPER],
+            },
+          },
+        },
+      });
+    } else {
+      users = await this.prisma.user.findMany({
+        where: {
+          branches: {
+            some: {
+              branchId: id,
+            },
+          },
+        },
+      });
+    }
+
+    if (users.length) {
+      return users;
+    }
+
+    throw new NotFoundException('Users for this branch not found');
+  }
 }

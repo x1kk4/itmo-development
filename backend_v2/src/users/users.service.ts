@@ -123,6 +123,24 @@ export class UsersService {
     return parents;
   }
 
+  async getBranches(id: number) {
+    const branches = await this.prisma.branch.findMany({
+      where: {
+        users: {
+          some: {
+            userId: id,
+          },
+        },
+      },
+    });
+
+    if (!branches.length) {
+      throw new NotFoundException('No branches found for this user');
+    }
+
+    return branches;
+  }
+
   async inviteChildren(inviterId: number) {
     const { id: inviteId } = await this.prisma.invite.create({});
 
