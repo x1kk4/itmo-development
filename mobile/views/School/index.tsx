@@ -12,6 +12,7 @@ import { FC, useCallback, useMemo, useRef } from 'react'
 import { Email } from '@/ui/Email'
 import { Phone } from '@/ui/Phone'
 import { Telegram } from '@/ui/Telegram'
+import { Binding } from './Binding'
 
 const width = Dimensions.get('window').width
 
@@ -115,7 +116,7 @@ const School: FC = () => {
   return (
     <Screen
       paddingVertical={Platform.OS === 'ios' ? 0 : '$3'}
-      gap={'$4'}
+      gap={'$3'}
     >
       <View
         flexDirection={'column'}
@@ -185,6 +186,7 @@ const School: FC = () => {
             <Email email={branch.contactEmail} />
           </View>
         </View>
+        <Binding />
       </ScrollView>
     </Screen>
   )
