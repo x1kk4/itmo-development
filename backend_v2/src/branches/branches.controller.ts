@@ -53,6 +53,9 @@ export class BranchesController {
     return this.branchesService.findOne(id);
   }
 
+  @ApiBearerAuth('access-token')
+  @Roles()
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     type: [UserResponseDto],

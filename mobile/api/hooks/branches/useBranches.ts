@@ -1,4 +1,4 @@
-import { TGetBranchesRequest, TGetBranchesResponse, v2 } from '@/api'
+import { TBranchesResponse, TGetBranchesRequest, v2 } from '@/api'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 export const useBranches = (
   data: TGetBranchesRequest,
   isEnabled: boolean,
-): UseQueryResult<TGetBranchesResponse, AxiosError> => {
+): UseQueryResult<TBranchesResponse, AxiosError> => {
   const queryFn = () => {
     return v2.getManyBranches(data)
   }

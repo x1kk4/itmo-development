@@ -136,6 +136,8 @@ const School: FC = () => {
         <Heading marginTop={'$3'}>{branch.name}</Heading>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Binding />
+
         {(branch.yaMapsLink || branch.twogisLink || branch.gMapsLink) && (
           <View marginBottom={'$3'}>
             <Heading fontSize={18}>Карты</Heading>
@@ -186,7 +188,6 @@ const School: FC = () => {
             <Email email={branch.contactEmail} />
           </View>
         </View>
-        <Binding />
       </ScrollView>
     </Screen>
   )

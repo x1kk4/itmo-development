@@ -83,6 +83,11 @@ const getParentsByUserId = async (id: number) => {
   return res.data
 }
 
+const getBranchesByUserId = async (id: number) => {
+  const res = await api.get<TBranchesResponse>(`/users/${id}/branches`)
+  return res.data
+}
+
 export type TInviteResponse = string
 
 const inviteChildren = async () => {
@@ -104,19 +109,29 @@ export type TGetBranchesRequest = TQueryPagination & {
   latitude?: number
   longitude?: number
 }
-export type TGetBranchesResponse = TBranch[]
+export type TBranchesResponse = TBranch[]
 
 const getManyBranches = async (data: TGetBranchesRequest) => {
-  const res = await api.get<TGetBranchesResponse>('/branches', {
+  const res = await api.get<TBranchesResponse>('/branches', {
     params: data,
   })
   return res.data
 }
 
-export type TGetBranchResponse = TBranch
+export type TBranchResponse = TBranch
 
 const getBranchById = async (id: number) => {
-  const res = await api.get<TGetBranchResponse>(`/branches/${id}`)
+  const res = await api.get<TBranchResponse>(`/branches/${id}`)
+  return res.data
+}
+
+const getUsersByBranchId = async (id: number) => {
+  const res = await api.get<TUsersResponse>(`/branches/${id}/users`)
+  return res.data
+}
+
+const getStaffByBranchId = async (id: number) => {
+  const res = await api.get<TUsersResponse>(`/branches/${id}/staff`)
   return res.data
 }
 
@@ -150,6 +165,7 @@ export const v2 = {
   getUserById,
   getChildrenByUserId,
   getParentsByUserId,
+  getBranchesByUserId,
   inviteChildren,
   inviteCoach,
   inviteManager,
@@ -157,6 +173,8 @@ export const v2 = {
   // branches
   getManyBranches,
   getBranchById,
+  getUsersByBranchId,
+  getStaffByBranchId,
   bindUserToBranch,
   unbindUserFromBranch,
 }

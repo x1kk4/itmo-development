@@ -4,8 +4,10 @@ import { useChildren } from '@/api/hooks/users/useChildren'
 import { ROLE } from '@/api/types'
 import { useAuthContext } from '@/providers/AuthContext'
 import { useLocalSearchParams } from 'expo-router'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Button, View } from 'tamagui'
+import { ChildBinding } from './ChildBinding'
+import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 
 const ROLES_ALLOWED_SELF_BINDING = [ROLE.CHILDREN, ROLE.COACH, ROLE.MANAGER, ROLE.SUPER]
 
@@ -13,10 +15,20 @@ const Binding: FC = () => {
   const { id } = useLocalSearchParams()
 
   const { user } = useAuthContext()
+  const { data: userBranches } = useUserBranches(user?.id)
+
   const { data: children } = useChildren(user?.id, Boolean(user && user.role === ROLE.PARENT))
 
   const { mutate: bind, isPending: isBinding } = useBind()
   const { mutate: unbind, isPending: isUnbinding } = useUnbind()
+
+  const userBranchesIds = useMemo(() => {
+    if (!userBranches) {
+      return []
+    }
+
+    return userBranches.map((branch) => branch.id)
+  }, [userBranches])
 
   if (!user) {
     return null
@@ -25,18 +37,37 @@ const Binding: FC = () => {
   return (
     <View marginBottom={'$3'}>
       {ROLES_ALLOWED_SELF_BINDING.includes(user.role) ? (
-        <Button>Подписаться</Button>
+        !userBranchesIds.includes(Number(id)) ? (
+          <Button
+            theme={'accent'}
+            onPress={() => bind({ branchId: Number(id), userId: user.id })}
+            disabled={isBinding || isUnbinding}
+          >
+            Подписаться
+          </Button>
+        ) : (
+          <Button
+            color={'$white1'}
+            backgroundColor={'$red10Light'}
+            pressStyle={{
+              backgroundColor: '$red11Light',
+              borderColor: 'none',
+            }}
+            onPress={() => unbind({ branchId: Number(id), userId: user.id })}
+            disabled={isBinding || isUnbinding}
+          >
+            Отписаться
+          </Button>
+        )
       ) : (
         <View gap={'$1.5'}>
           {children &&
             children.length &&
             children.map((child) => (
-              <Button
-                justifyContent={'flex-start'}
+              <ChildBinding
                 key={child.id}
-              >
-                Подписать {child.login} {child.firstname && `(${child.firstname})`}
-              </Button>
+                {...child}
+              />
             ))}
         </View>
       )}
