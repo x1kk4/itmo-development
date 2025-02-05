@@ -364,6 +364,72 @@ async function main() {
     },
   ];
 
+  // const trainingSessions = [
+  //   {
+  //     groupLevel: Level.BEGINNER,
+  //     startDate: new Date('2025-02-10T14:00:00Z'),
+  //     endDate: new Date('2025-02-10T16:00:00Z'),
+  //     branchId: 3,
+  //     coachId: 4,
+  //   },
+  //   {
+  //     groupLevel: Level.INTERMEDIATE,
+  //     startDate: new Date('2025-02-10T17:00:00Z'),
+  //     endDate: new Date('2025-02-10T19:00:00Z'),
+  //     branchId: 3,
+  //     coachId: 4,
+  //   },
+  //   {
+  //     groupLevel: Level.ADVANCED,
+  //     startDate: new Date('2025-02-10T20:00:00Z'),
+  //     endDate: new Date('2025-02-10T22:00:00Z'),
+  //     branchId: 3,
+  //     coachId: 4,
+  //   },
+  //   {
+  //     groupLevel: Level.BEGINNER,
+  //     startDate: new Date('2025-02-10T14:00:00Z'),
+  //     endDate: new Date('2025-02-10T16:00:00Z'),
+  //     branchId: 4,
+  //     coachId: 5,
+  //   },
+  //   {
+  //     groupLevel: Level.INTERMEDIATE,
+  //     startDate: new Date('2025-02-10T17:00:00Z'),
+  //     endDate: new Date('2025-02-10T19:00:00Z'),
+  //     branchId: 4,
+  //     coachId: 5,
+  //   },
+  //   {
+  //     groupLevel: Level.ADVANCED,
+  //     startDate: new Date('2025-02-10T20:00:00Z'),
+  //     endDate: new Date('2025-02-10T22:00:00Z'),
+  //     branchId: 4,
+  //     coachId: 5,
+  //   },
+  //   {
+  //     groupLevel: Level.BEGINNER,
+  //     startDate: new Date('2025-02-10T14:00:00Z'),
+  //     endDate: new Date('2025-02-10T16:00:00Z'),
+  //     branchId: 8,
+  //     coachId: 134,
+  //   },
+  //   {
+  //     groupLevel: Level.INTERMEDIATE,
+  //     startDate: new Date('2025-02-10T17:00:00Z'),
+  //     endDate: new Date('2025-02-10T19:00:00Z'),
+  //     branchId: 8,
+  //     coachId: 134,
+  //   },
+  //   {
+  //     groupLevel: Level.ADVANCED,
+  //     startDate: new Date('2025-02-10T20:00:00Z'),
+  //     endDate: new Date('2025-02-10T22:00:00Z'),
+  //     branchId: 8,
+  //     coachId: 134,
+  //   },
+  // ];
+
   await prisma.user.createMany({
     data: users,
     skipDuplicates: true,
@@ -373,6 +439,11 @@ async function main() {
     data: branches,
     skipDuplicates: true,
   });
+
+  // await prisma.trainingSession.createMany({
+  //   data: trainingSessions,
+  //   skipDuplicates: true,
+  // });
 
   console.log('Seeded.');
 }
