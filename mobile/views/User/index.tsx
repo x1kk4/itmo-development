@@ -12,6 +12,8 @@ import { Email } from '@/ui/Email'
 import { Telegram } from '@/ui/Telegram'
 import { useChildren } from '@/api/hooks/users/useChildren'
 import { UserCard } from '@/ui/UserCard'
+import { useParents } from '@/api/hooks/users/useParents'
+import { ROLE } from '@/api/types'
 
 const User: FC = () => {
   const { id } = useLocalSearchParams()
@@ -19,7 +21,8 @@ const User: FC = () => {
   const router = useRouter()
 
   const { data: user } = useUser(Number(id))
-  const { data: children } = useChildren(Number(id))
+  const { data: children } = useChildren(Number(id), Boolean(user && user.role !== ROLE.CHILDREN))
+  const { data: parents } = useParents(Number(id), Boolean(user && user.role === ROLE.CHILDREN))
 
   if (!user) {
     return null
@@ -80,6 +83,19 @@ const User: FC = () => {
                 <UserCard
                   key={child.id}
                   {...child}
+                />
+              ))}
+            </View>
+          </View>
+        )}
+        {parents && parents.length !== 0 && (
+          <View marginVertical={'$3'}>
+            <Heading fontSize={18}>Родители</Heading>
+            <View gap={'$1.5'}>
+              {parents.map((parent) => (
+                <UserCard
+                  key={parent.id}
+                  {...parent}
                 />
               ))}
             </View>

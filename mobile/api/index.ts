@@ -78,6 +78,11 @@ const getChildrenByUserId = async (id: number) => {
   return res.data
 }
 
+const getParentsByUserId = async (id: number) => {
+  const res = await api.get<TUsersResponse>(`/users/${id}/parents`)
+  return res.data
+}
+
 export type TInviteResponse = string
 
 const inviteChildren = async () => {
@@ -131,6 +136,7 @@ export const v2 = {
   getManyUsers,
   getUserById,
   getChildrenByUserId,
+  getParentsByUserId,
   inviteChildren,
   inviteCoach,
   inviteManager,
