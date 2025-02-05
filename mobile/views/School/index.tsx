@@ -136,9 +136,9 @@ const School: FC = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         {(branch.yaMapsLink || branch.twogisLink || branch.gMapsLink) && (
-          <View>
+          <View marginBottom={'$3'}>
             <Heading fontSize={18}>Карты</Heading>
-            <XGroup marginBottom={'$3'}>
+            <XGroup>
               {branch.yaMapsLink && branch.yaMapsLink.startsWith('https') && (
                 <XGroup.Item>
                   <Button
@@ -177,12 +177,9 @@ const School: FC = () => {
             </XGroup>
           </View>
         )}
-        <View>
+        <View marginBottom={'$3'}>
           <Heading fontSize={18}>Контакты</Heading>
-          <View
-            gap={'$2'}
-            paddingBottom={'$3'}
-          >
+          <View gap={'$2'}>
             <Phone phone={branch.contactPhone} />
             {branch.contactTelegram && <Telegram telegram={branch.contactTelegram} />}
             <Email email={branch.contactEmail} />

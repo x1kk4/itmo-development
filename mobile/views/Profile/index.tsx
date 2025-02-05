@@ -19,7 +19,7 @@ const Profile: FC = () => {
       style={{ flex: 1 }}
       keyboardVerticalOffset={60}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Screen gap={'$6'}>
           <EditAvatar
             user={user}

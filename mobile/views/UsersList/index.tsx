@@ -77,7 +77,7 @@ const UsersList: FC = () => {
         renderItem={({ item }) => <UserCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={incrementPage}
-        ItemSeparatorComponent={() => <View height={'$0.5'} />}
+        ItemSeparatorComponent={() => <View paddingBottom={'$1.5'} />}
         refreshing={isLoading}
         onRefresh={handleRefresh}
         onEndReachedThreshold={0.5}

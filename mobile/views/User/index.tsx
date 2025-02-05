@@ -10,6 +10,8 @@ import { Screen } from '@/ui/Screen'
 import { Phone } from '@/ui/Phone'
 import { Email } from '@/ui/Email'
 import { Telegram } from '@/ui/Telegram'
+import { useChildren } from '@/api/hooks/users/useChildren'
+import { UserCard } from '@/ui/UserCard'
 
 const User: FC = () => {
   const { id } = useLocalSearchParams()
@@ -17,6 +19,7 @@ const User: FC = () => {
   const router = useRouter()
 
   const { data: user } = useUser(Number(id))
+  const { data: children } = useChildren(Number(id))
 
   if (!user) {
     return null
@@ -25,7 +28,7 @@ const User: FC = () => {
   return (
     <Screen
       paddingTop={'$3'}
-      gap={'$4'}
+      gap={'$3'}
     >
       <View
         flexDirection={'column'}
@@ -41,7 +44,7 @@ const User: FC = () => {
         <UserAvatar
           avatarSrc={user.profilePicture}
           fallback={user.login}
-          size={'$12'}
+          size={'$10'}
         />
         <Heading>{user.login}</Heading>
         {(user.surname || user.firstname || user.middlename) && (
@@ -49,7 +52,7 @@ const User: FC = () => {
             fontSize={20}
             lineHeight={20}
             marginTop={'$3'}
-            marginBottom={'$4'}
+            marginBottom={'$2'}
             textAlign={'center'}
           >
             {user.surname ?? ''} {user.firstname ?? ''} {user.middlename ?? ''}
@@ -61,15 +64,27 @@ const User: FC = () => {
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading fontSize={18}>Контакты</Heading>
-        <View
-          gap={'$2'}
-          paddingBottom={'$3'}
-        >
-          {user.phone && <Phone phone={user.phone} />}
-          {user.telegram && <Telegram telegram={user.telegram} />}
-          <Email email={user.email} />
+        <View>
+          <Heading fontSize={18}>Контакты</Heading>
+          <View gap={'$1.5'}>
+            {user.phone && <Phone phone={user.phone} />}
+            {user.telegram && <Telegram telegram={user.telegram} />}
+            <Email email={user.email} />
+          </View>
         </View>
+        {children && children.length !== 0 && (
+          <View marginVertical={'$3'}>
+            <Heading fontSize={18}>Дети</Heading>
+            <View gap={'$1.5'}>
+              {children.map((child) => (
+                <UserCard
+                  key={child.id}
+                  {...child}
+                />
+              ))}
+            </View>
+          </View>
+        )}
       </ScrollView>
     </Screen>
   )

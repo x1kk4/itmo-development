@@ -1,8 +1,6 @@
 import { api } from './client'
 import { TBranch, TQueryPagination, TTrainingSession, TUser } from './types'
 
-// auth
-
 export type TUserResponse = TUser
 
 export type TSignInRequest = Pick<TUser, 'login'> & {
@@ -47,7 +45,7 @@ const editAvatar = async (uri: string, mimeType: string, name: string) => {
   formData.append('file', {
     uri,
     type: mimeType,
-    name: `avatar.${mimeType.split('/')[1]}`, // например 'avatar.jpeg' или 'avatar.png'
+    name: `avatar.${mimeType.split('/')[1]}`,
   } as any)
 
   await api.patch('/auth/edit-avatar', formData, {
@@ -72,6 +70,11 @@ const getManyUsers = async (data: TQueryPagination) => {
 
 const getUserById = async (id: number) => {
   const res = await api.get<TUserResponse>(`/users/${id}`)
+  return res.data
+}
+
+const getChildrenByUserId = async (id: number) => {
+  const res = await api.get<TUsersResponse>(`/users/${id}/children`)
   return res.data
 }
 
@@ -112,99 +115,7 @@ const getBranchById = async (id: number) => {
   return res.data
 }
 
-// const getBranches = async () => {
-//   const res = await api.get<TGetBranchesResponse>('/branches')
-//   return res.data
-// }
-
-// export type TGetBranchResponse = TBranch
-
-// const getBranch = async (id: number) => {
-//   const res = await api.get<TGetBranchesResponse>(`/branches/${id}`)
-//   return res.data
-// }
-
 export type TGetTrainingSessionsResponse = TTrainingSession[]
-
-// const getTrainingSessions = async () => {
-//   const res = await api.get<TGetTrainingSessionsResponse>('/training_sessions')
-//   return res.data
-// }
-
-// export type TGetTrainingSessionResponse = TTrainingSession
-
-// const getTrainingSession = async (id: number) => {
-//   const res = await api.get<TGetTrainingSessionResponse>(`/training_sessions/${id}`)
-//   return res.data
-// }
-
-// export type TUpdateTrainingSessionRequest = Partial<TTrainingSession>
-// export type TUpdateTrainingSessionResponse = TTrainingSession
-
-// export type TGetTrainingSessionsByIdsResponse = TTrainingSession[]
-
-// const getTrainingSessionsByIds = async (ids: number[]) => {
-//   const res = await api.put<TGetTrainingSessionsByIdsResponse>(
-//     '/training_sessions/batch-retrieve/',
-//     {
-//       ids,
-//     },
-//   )
-//   return res.data
-// }
-
-// export type TGetCoachResponse = Omit<TCoach, 'role'>
-
-// const getCoach = async (id?: number) => {
-//   const res = await api.get<TGetCoachResponse>(`/coaches/${id}`)
-//   return res.data
-// }
-
-// export type TGetChildrenResponse = TChildren
-
-// const getChildren = async (id: number) => {
-//   const res = await api.get<TGetChildrenResponse>(`/children/${id}`)
-//   return res.data
-// }
-
-// export type TGetChildrensResponse = TChildren[]
-
-// const getChildrens = async (ids: number[]) => {
-//   if (ids) {
-//     const res = await api.put<TGetChildrensResponse>('/children/batch-retrieve/', { ids })
-//     return res.data
-//   }
-
-//   return null
-// }
-
-// export type TUpdateChildrenRequest = Partial<TChildren>
-// export type TUpdateChildrenResponse = TChildren
-
-// const updateChildren = async (id: number, data: TUpdateChildrenRequest) => {
-//   const res = await api.patch<TUpdateChildrenResponse>(`/children/${id}/`, data)
-//   return res.data
-// }
-
-// export type TGetSubscriptionResponse = TSubscription
-
-// const getSubscription = async (id: number | null) => {
-//   const res = await api.get<TGetSubscriptionResponse>(`/subscription/${id}`)
-//   return res.data
-// }
-
-// const createSubscription = async (client: number) => {
-//   const res = await api.post<TGetSubscriptionResponse>('/subscription/', { client })
-//   return res.data
-// }
-
-// export type TUpdateSubscriptionRequest = Partial<TSubscription>
-// export type TUpdateSubscriptionResponse = TSubscription
-
-// const updateSubscription = async (id: number, data: TUpdateSubscriptionRequest) => {
-//   const res = await api.patch<TUpdateSubscriptionResponse>(`/subscription/${id}/`, data)
-//   return res.data
-// }
 
 export const v2 = {
   // auth
@@ -219,6 +130,7 @@ export const v2 = {
   // users
   getManyUsers,
   getUserById,
+  getChildrenByUserId,
   inviteChildren,
   inviteCoach,
   inviteManager,
