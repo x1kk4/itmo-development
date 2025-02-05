@@ -1,23 +1,24 @@
-import { TUsersResponse, v2 } from '@/api'
+import { TBranchesResponse, v2 } from '@/api'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
-export const useUserBranches = (id?: number): UseQueryResult<TUsersResponse, AxiosError> => {
+export const useUserBranches = (
+  id?: number,
+  isEnabled?: boolean,
+): UseQueryResult<TBranchesResponse, AxiosError> => {
   const queryFn = async () => {
     if (!id) {
       throw new Error('User ID is required')
     }
 
-    try {
-      return await v2.getBranchesByUserId(id)
-    } catch (error) {
+    return await v2.getBranchesByUserId(id).catch(() => {
       return []
-    }
+    })
   }
 
   return useQuery({
     queryKey: ['userBranches', id],
     queryFn,
-    enabled: !!id,
+    enabled: !!id && isEnabled,
   })
 }

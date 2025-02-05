@@ -35,13 +35,14 @@ const Binding: FC = () => {
   }
 
   return (
-    <View marginBottom={'$3'}>
+    <View>
       {ROLES_ALLOWED_SELF_BINDING.includes(user.role) ? (
         !userBranchesIds.includes(Number(id)) ? (
           <Button
             theme={'accent'}
             onPress={() => bind({ branchId: Number(id), userId: user.id })}
             disabled={isBinding || isUnbinding}
+            marginBottom={'$3'}
           >
             Подписаться
           </Button>
@@ -55,21 +56,26 @@ const Binding: FC = () => {
             }}
             onPress={() => unbind({ branchId: Number(id), userId: user.id })}
             disabled={isBinding || isUnbinding}
+            marginBottom={'$3'}
           >
             Отписаться
           </Button>
         )
       ) : (
-        <View gap={'$1.5'}>
-          {children &&
-            children.length &&
-            children.map((child) => (
+        children &&
+        children?.length && (
+          <View
+            gap={'$1.5'}
+            marginBottom={'$3'}
+          >
+            {children.map((child) => (
               <ChildBinding
                 key={child.id}
                 {...child}
               />
             ))}
-        </View>
+          </View>
+        )
       )}
     </View>
   )

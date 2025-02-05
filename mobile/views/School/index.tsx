@@ -13,6 +13,8 @@ import { Email } from '@/ui/Email'
 import { Phone } from '@/ui/Phone'
 import { Telegram } from '@/ui/Telegram'
 import { Binding } from './Binding'
+import { useBranchStaff } from '@/api/hooks/branches/useBranchStaff'
+import { UserCard } from '@/ui/UserCard'
 
 const width = Dimensions.get('window').width
 
@@ -25,6 +27,8 @@ const School: FC = () => {
   const router = useRouter()
 
   const { data: branch } = useBranch(Number(id))
+
+  const { data: staff } = useBranchStaff(Number(id))
 
   const ref = useRef<ICarouselInstance>(null)
 
@@ -188,6 +192,19 @@ const School: FC = () => {
             <Email email={branch.contactEmail} />
           </View>
         </View>
+        {staff && staff.length !== 0 && (
+          <View marginBottom={'$3'}>
+            <Heading fontSize={18}>Персонал</Heading>
+            <View gap={'$1.5'}>
+              {staff.map((person) => (
+                <UserCard
+                  key={person.id}
+                  {...person}
+                />
+              ))}
+            </View>
+          </View>
+        )}
       </ScrollView>
     </Screen>
   )

@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { produce } from 'immer'
 
-import { Button, Image, Input } from 'tamagui'
+import { Button, Image, Input, View, XGroup, Text } from 'tamagui'
 
 export default function SignIn() {
   const { signIn } = useAuthContext()
@@ -73,18 +73,86 @@ export default function SignIn() {
         Еще не зарегистрированы?
       </Button>
 
-      <Button
-        marginTop='$5'
-        color={'white'}
-        onPress={() =>
-          signIn({
-            login: 'username123',
-            password: 'Password@123',
-          })
-        }
-      >
-        Войти (dev)
-      </Button>
+      <View marginTop={'$3'}>
+        <Text
+          textAlign='center'
+          color={'red'}
+        >
+          dev only sign-in by role
+        </Text>
+        <XGroup>
+          <XGroup.Item>
+            <Button
+              flex={1}
+              color={'white'}
+              onPress={() =>
+                signIn({
+                  login: 'child_test',
+                  password: '12341234',
+                })
+              }
+            >
+              Ch
+            </Button>
+          </XGroup.Item>
+          <XGroup.Item>
+            <Button
+              flex={1}
+              color={'white'}
+              onPress={() =>
+                signIn({
+                  login: 'parent_test',
+                  password: '12341234',
+                })
+              }
+            >
+              Pa
+            </Button>
+          </XGroup.Item>
+          <XGroup.Item>
+            <Button
+              flex={1}
+              color={'white'}
+              onPress={() =>
+                signIn({
+                  login: 'coach_test',
+                  password: '12341234',
+                })
+              }
+            >
+              Co
+            </Button>
+          </XGroup.Item>
+          <XGroup.Item>
+            <Button
+              flex={1}
+              color={'white'}
+              onPress={() =>
+                signIn({
+                  login: 'manager_test',
+                  password: '12341234',
+                })
+              }
+            >
+              Ma
+            </Button>
+          </XGroup.Item>
+          <XGroup.Item>
+            <Button
+              flex={1}
+              color={'white'}
+              onPress={() =>
+                signIn({
+                  login: 'super_test',
+                  password: '12341234',
+                })
+              }
+            >
+              Su
+            </Button>
+          </XGroup.Item>
+        </XGroup>
+      </View>
     </Screen>
   )
 }

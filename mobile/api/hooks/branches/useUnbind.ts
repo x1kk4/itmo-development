@@ -12,6 +12,7 @@ export const useUnbind = (): UseMutationResult<void, AxiosError, TBindRequest> =
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['userBranches'] })
+      queryClient.invalidateQueries({ queryKey: ['staff'] })
     },
   })
 }
