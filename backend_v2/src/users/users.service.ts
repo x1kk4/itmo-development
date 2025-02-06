@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from '@prisma/client';
+import { Branch, Role } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { AppConfig } from 'src/config';
 
@@ -124,15 +124,47 @@ export class UsersService {
   }
 
   async getBranches(id: number) {
-    const branches = await this.prisma.branch.findMany({
+    const user = await this.prisma.user.findUnique({
       where: {
-        users: {
-          some: {
-            userId: id,
-          },
-        },
+        id,
       },
     });
+
+    let branches: Branch[];
+
+    if (user.role === Role.PARENT) {
+      const children = await this.prisma.user.findMany({
+        where: {
+          childrenRelations: {
+            some: {
+              parentId: user.id,
+            },
+          },
+        },
+      });
+
+      branches = await this.prisma.branch.findMany({
+        where: {
+          users: {
+            some: {
+              userId: {
+                in: [...children.map((child) => child.id)],
+              },
+            },
+          },
+        },
+      });
+    } else {
+      branches = await this.prisma.branch.findMany({
+        where: {
+          users: {
+            some: {
+              userId: id,
+            },
+          },
+        },
+      });
+    }
 
     if (!branches.length) {
       throw new NotFoundException('No branches found for this user');

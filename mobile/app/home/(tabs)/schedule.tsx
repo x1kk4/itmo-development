@@ -1,20 +1,5 @@
-import { Lottie } from '@/ui/Lottie'
-import { Screen } from '@/ui/Screen'
-import { View, Text } from 'tamagui'
+import { Schedule } from '@/views/Schedule'
 
 export default function ScheduleScreen() {
-  return (
-    <Screen>
-      <View>
-        <Text>Тренировки</Text>
-      </View>
-
-      <Lottie
-        source={require('@/lottie/starina-snoop.json')}
-        style={{ width: '80%', height: '80%', alignSelf: 'center' }}
-        autoPlay
-        loop
-      />
-    </Screen>
-  )
+  return <Schedule />
 }
