@@ -26,8 +26,6 @@ const TrainingSessionCard: FC<TTrainingSessionCardProps> = ({
   const { data: coach } = useUser(coachId)
   const { data: branch } = useBranch(branchId)
 
-  console.log(startDate)
-
   return (
     <Card
       padding={'$2.5'}
