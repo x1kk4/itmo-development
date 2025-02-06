@@ -28,7 +28,8 @@ export class BranchesController {
   @ApiResponse({
     status: 200,
     type: [BranchResponseDto],
-    description: 'Branches list with pagination',
+    description:
+      'Branches list with pagination, search & location-based sorting',
   })
   @SerializeOptions({ type: BranchResponseDto })
   @Get()

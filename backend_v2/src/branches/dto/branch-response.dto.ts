@@ -45,8 +45,4 @@ export class BranchResponseDto implements Branch {
     required: false,
   })
   gMapsLink: string | null;
-
-  constructor(partial: Partial<Branch>) {
-    Object.assign(this, partial);
-  }
 }

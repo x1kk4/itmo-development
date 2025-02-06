@@ -1,4 +1,8 @@
-import { PrismaClient, Role } from '@prisma/client';
+import {
+  // Level,
+  PrismaClient,
+  Role,
+} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -364,71 +368,25 @@ async function main() {
     },
   ];
 
-  // const trainingSessions = [
-  //   {
-  //     groupLevel: Level.BEGINNER,
-  //     startDate: new Date('2025-02-10T14:00:00Z'),
-  //     endDate: new Date('2025-02-10T16:00:00Z'),
-  //     branchId: 3,
-  //     coachId: 4,
-  //   },
-  //   {
-  //     groupLevel: Level.INTERMEDIATE,
-  //     startDate: new Date('2025-02-10T17:00:00Z'),
-  //     endDate: new Date('2025-02-10T19:00:00Z'),
-  //     branchId: 3,
-  //     coachId: 4,
-  //   },
-  //   {
-  //     groupLevel: Level.ADVANCED,
-  //     startDate: new Date('2025-02-10T20:00:00Z'),
-  //     endDate: new Date('2025-02-10T22:00:00Z'),
-  //     branchId: 3,
-  //     coachId: 4,
-  //   },
-  //   {
-  //     groupLevel: Level.BEGINNER,
-  //     startDate: new Date('2025-02-10T14:00:00Z'),
-  //     endDate: new Date('2025-02-10T16:00:00Z'),
-  //     branchId: 4,
-  //     coachId: 5,
-  //   },
-  //   {
-  //     groupLevel: Level.INTERMEDIATE,
-  //     startDate: new Date('2025-02-10T17:00:00Z'),
-  //     endDate: new Date('2025-02-10T19:00:00Z'),
-  //     branchId: 4,
-  //     coachId: 5,
-  //   },
-  //   {
-  //     groupLevel: Level.ADVANCED,
-  //     startDate: new Date('2025-02-10T20:00:00Z'),
-  //     endDate: new Date('2025-02-10T22:00:00Z'),
-  //     branchId: 4,
-  //     coachId: 5,
-  //   },
-  //   {
-  //     groupLevel: Level.BEGINNER,
-  //     startDate: new Date('2025-02-10T14:00:00Z'),
-  //     endDate: new Date('2025-02-10T16:00:00Z'),
+  // const trainingSessions = [];
+
+  // const levels = [Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCED];
+  // const baseDate = new Date('2025-02-12T14:00:00Z');
+
+  // for (let i = 0; i < 3000; i++) {
+  //   const currentDate = new Date(baseDate);
+  //   currentDate.setDate(baseDate.getDate() + Math.floor(i / 3));
+
+  //   trainingSessions.push({
+  //     groupLevel: levels[i % 3],
+  //     startDate: new Date(currentDate.getTime() + (i % 3) * 3 * 60 * 60 * 1000),
+  //     endDate: new Date(
+  //       currentDate.getTime() + ((i % 3) * 3 + 2) * 60 * 60 * 1000,
+  //     ),
   //     branchId: 8,
   //     coachId: 134,
-  //   },
-  //   {
-  //     groupLevel: Level.INTERMEDIATE,
-  //     startDate: new Date('2025-02-10T17:00:00Z'),
-  //     endDate: new Date('2025-02-10T19:00:00Z'),
-  //     branchId: 8,
-  //     coachId: 134,
-  //   },
-  //   {
-  //     groupLevel: Level.ADVANCED,
-  //     startDate: new Date('2025-02-10T20:00:00Z'),
-  //     endDate: new Date('2025-02-10T22:00:00Z'),
-  //     branchId: 8,
-  //     coachId: 134,
-  //   },
-  // ];
+  //   });
+  // }
 
   await prisma.user.createMany({
     data: users,
