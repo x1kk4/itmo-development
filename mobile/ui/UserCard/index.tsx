@@ -24,12 +24,21 @@ const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
         flexDirection={'row'}
         alignItems={'flex-start'}
         gap={'$3'}
+        flex={1}
       >
-        <UserAvatar
-          avatarSrc={profilePicture}
-          fallback={login}
-        />
         <View>
+          <UserAvatar
+            avatarSrc={profilePicture}
+            fallback={login}
+          />
+        </View>
+        <View
+          flex={1}
+          alignItems={'flex-start'}
+          gap={'$0.5'}
+        >
+          <RoleBadge role={role} />
+
           <View
             flexDirection={'row'}
             alignItems={'center'}
@@ -38,10 +47,11 @@ const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
             <Text
               fontSize={18}
               fontWeight={600}
+              numberOfLines={1}
+              flexShrink={1}
             >
               {login}
             </Text>
-            <RoleBadge role={role} />
           </View>
           <Text
             fontSize={14}
@@ -53,7 +63,7 @@ const UserCard: FC<TUserCardProps> = ({ id, login, role, profilePicture }) => {
         </View>
       </View>
 
-      <ArrowRight />
+      <ArrowRight marginLeft={'$2'} />
     </Card>
   )
 }

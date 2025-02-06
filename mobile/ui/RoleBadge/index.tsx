@@ -33,7 +33,7 @@ const RoleBadge: FC<TRoleBadgeProps> = ({ role, size = 'small' }) => {
       backgroundColor={badgeColor[role][theme]}
     >
       <Text
-        fontSize={size === 'small' ? 13 : 20}
+        fontSize={size === 'small' ? 12 : 20}
         fontWeight={600}
         color={'$white1'}
       >

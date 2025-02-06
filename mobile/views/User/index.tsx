@@ -52,12 +52,16 @@ const User: FC = () => {
           fallback={user.login}
           size={'$10'}
         />
-        <Heading>{user.login}</Heading>
+        <Heading
+          textAlign={'center'}
+          marginBottom={'$2'}
+        >
+          {user.login}
+        </Heading>
         {(user.surname || user.firstname || user.middlename) && (
           <Heading
             fontSize={20}
             lineHeight={20}
-            marginTop={'$3'}
             marginBottom={'$2'}
             textAlign={'center'}
           >
