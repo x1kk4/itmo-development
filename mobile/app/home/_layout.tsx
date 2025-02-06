@@ -80,6 +80,11 @@ export default function HomeLayout() {
           name='schools/[id]'
           options={{ presentation: 'modal' }}
         />
+
+        <Stack.Screen
+          name='training-sessions/[id]'
+          options={{ presentation: 'modal' }}
+        />
       </Stack>
     </Theme>
   )

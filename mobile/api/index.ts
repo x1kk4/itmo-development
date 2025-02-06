@@ -109,6 +109,7 @@ export type TGetBranchesRequest = TQueryPagination & {
   latitude?: number
   longitude?: number
 }
+
 export type TBranchesResponse = TBranch[]
 
 const getManyBranches = async (data: TGetBranchesRequest) => {
@@ -148,7 +149,36 @@ const unbindUserFromBranch = async (req: TBindRequest) => {
   await api.post(`/branches/${req.branchId}/unbind-user/${req.userId}`)
 }
 
-export type TGetTrainingSessionsResponse = TTrainingSession[]
+export type TTrainingSessionResponse = TTrainingSession
+export type TTrainingSessionsResponse = TTrainingSessionResponse[]
+
+export type TGetTrainingSessionsRequest = Omit<TQueryPagination, 'search'> & {
+  branchId?: number[]
+}
+
+const getManyTrainingSessions = async (data: TGetTrainingSessionsRequest) => {
+  const res = await api.get<TTrainingSessionsResponse>('/training-sessions', {
+    params: data,
+  })
+  return res.data
+}
+
+export type TGroupedTrainingSessionsResponse = {
+  date: string
+  data: TTrainingSession[]
+}[]
+
+const getGroupedTrainingSessions = async (data: TGetTrainingSessionsRequest) => {
+  const res = await api.get<TGroupedTrainingSessionsResponse>('/training-sessions/grouped', {
+    params: data,
+  })
+  return res.data
+}
+
+const getTrainingSessionById = async (id: number) => {
+  const res = await api.get<TTrainingSessionResponse>(`/training-sessions/${id}`)
+  return res.data
+}
 
 export const v2 = {
   // auth
@@ -177,4 +207,9 @@ export const v2 = {
   getStaffByBranchId,
   bindUserToBranch,
   unbindUserFromBranch,
+
+  //training-sessions
+  getManyTrainingSessions,
+  getGroupedTrainingSessions,
+  getTrainingSessionById,
 }

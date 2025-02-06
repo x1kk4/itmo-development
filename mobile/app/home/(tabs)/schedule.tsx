@@ -1,5 +1,10 @@
+import { Screen } from '@/ui/Screen'
 import { Schedule } from '@/views/Schedule'
 
 export default function ScheduleScreen() {
-  return <Schedule />
+  return (
+    <Screen>
+      <Schedule />
+    </Screen>
+  )
 }

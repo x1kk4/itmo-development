@@ -1,14 +1,47 @@
-// import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 // import { Lottie } from '@/ui/Lottie'
-import { Screen } from '@/ui/Screen'
-import { FC } from 'react'
-// import { View, Text } from 'tamagui'
+import { useGroupedTrainingSessions } from '@/api/hooks/training-sessions/useGroupedTrainingSessions'
+import { useUserBranches } from '@/api/hooks/users/useUserBranches'
+import { useAuthContext } from '@/providers/AuthContext'
+import {
+  FC,
+  // useState
+} from 'react'
+import { SectionList } from 'react-native'
+import {
+  // Text,
+  View,
+} from 'tamagui'
+import { TrainingSessionsSectionHeader } from './TrainingSessionsSectionHeader'
+import { TrainingSessionCard } from '@/ui/TrainingSessionCard'
 
 const Schedule: FC = () => {
-  // const {} = useUserBranches()
+  const { user } = useAuthContext()
+
+  // const [groupedData, setGroupedData] = useState<{ date: string; data: TTrainingSession[] }[]>([])
+
+  const { data: bindedBranches } = useUserBranches(user?.id)
+
+  const { data: groupedTrainingSessions } = useGroupedTrainingSessions({
+    page: 1,
+    limit: 10,
+    branchId: bindedBranches?.map((branch) => branch.id),
+  })
 
   return (
-    <Screen>
+    <>
+      <SectionList
+        showsVerticalScrollIndicator={false}
+        sections={groupedTrainingSessions ?? []}
+        renderItem={({ item }) => <TrainingSessionCard {...item} />}
+        renderSectionHeader={({ section: { date, data } }) => (
+          <TrainingSessionsSectionHeader
+            date={date}
+            numberOfEvents={data.length}
+          />
+        )}
+        ItemSeparatorComponent={() => <View paddingBottom={'$1.5'} />}
+        SectionSeparatorComponent={() => <View paddingBottom={'$3'} />}
+      />
       {/* <View>
         <Text>Тренировки</Text>
       </View>
@@ -19,7 +52,7 @@ const Schedule: FC = () => {
         autoPlay
         loop
       /> */}
-    </Screen>
+    </>
   )
 }
 
