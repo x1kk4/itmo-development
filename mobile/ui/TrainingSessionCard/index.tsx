@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
+import { getEnrolledForm } from '@/utils/wordForms'
 
 dayjs.locale('ru')
 
@@ -18,6 +19,7 @@ const TrainingSessionCard: FC<TTrainingSessionCardProps> = ({
   endDate,
   branch,
   coach,
+  enrolled,
 }) => {
   const router = useRouter()
 
@@ -58,14 +60,21 @@ const TrainingSessionCard: FC<TTrainingSessionCardProps> = ({
           <Text
             fontSize={17}
             fontWeight={600}
+            marginBottom={'$1.5'}
           >
             {branch && branch.name}
           </Text>
           <Text
-            fontSize={17}
+            fontSize={14}
             fontWeight={600}
           >
-            {coach && coach.login}
+            Тренер: {coach && coach.login}
+          </Text>
+          <Text
+            fontSize={14}
+            fontWeight={600}
+          >
+            {enrolled.length} {getEnrolledForm(enrolled.length)}
           </Text>
         </View>
       </View>

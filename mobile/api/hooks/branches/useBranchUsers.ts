@@ -2,7 +2,9 @@ import { TBranchesResponse, v2 } from '@/api'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
-export const useBranchUsers = (id?: number): UseQueryResult<TBranchesResponse, AxiosError> => {
+export const useBranchUsers = (
+  id: number | undefined,
+): UseQueryResult<TBranchesResponse, AxiosError> => {
   const queryFn = () => {
     if (!id) {
       throw new Error('Branch ID is required')

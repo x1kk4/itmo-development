@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 export const useUserBranches = (
-  id?: number,
+  id: number | undefined,
   isEnabled?: boolean,
 ): UseQueryResult<TBranchesResponse, AxiosError> => {
   const queryFn = async () => {

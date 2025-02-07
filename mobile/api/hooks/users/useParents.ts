@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 export const useParents = (
-  id?: number,
+  id: number | undefined,
   isEnabled?: boolean,
 ): UseQueryResult<TUsersResponse, AxiosError> => {
   const queryFn = () => {

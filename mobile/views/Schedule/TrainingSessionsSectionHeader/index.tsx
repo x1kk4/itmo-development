@@ -2,24 +2,9 @@ import { FC } from 'react'
 import { Heading, View, Text } from 'tamagui'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
+import { getSessionForm } from '@/utils/wordForms'
 
 dayjs.locale('ru')
-
-const getForm = (numberOfEvents: number) => {
-  if (numberOfEvents.toString().endsWith('1')) {
-    return 'занятие'
-  }
-
-  if (
-    numberOfEvents.toString().endsWith('2') ||
-    numberOfEvents.toString().endsWith('3') ||
-    numberOfEvents.toString().endsWith('4')
-  ) {
-    return 'занятия'
-  }
-
-  return 'занятий'
-}
 
 type TTrainingSessionsSectionHeaderProps = {
   date: string
@@ -43,7 +28,7 @@ const TrainingSessionsSectionHeader: FC<TTrainingSessionsSectionHeaderProps> = (
         fontSize={18}
         fontWeight={600}
       >
-        {dayjs(date).format('D MMMM')} · {numberOfEvents} {getForm(numberOfEvents)}
+        {dayjs(date).format('D MMMM')} · {numberOfEvents} {getSessionForm(numberOfEvents)}
       </Text>
     </View>
   )

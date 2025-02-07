@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 export const useTrainingSession = (
-  id?: number,
+  id: number | undefined,
 ): UseQueryResult<TTrainingSessionResponse, AxiosError> => {
   const queryFn = () => {
     if (!id) {
