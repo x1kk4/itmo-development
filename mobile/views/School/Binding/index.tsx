@@ -5,7 +5,7 @@ import { ROLE } from '@/api/types'
 import { useAuthContext } from '@/providers/AuthContext'
 import { useLocalSearchParams } from 'expo-router'
 import { FC, useMemo } from 'react'
-import { Button, View } from 'tamagui'
+import { Button, View, Text } from 'tamagui'
 import { ChildBinding } from './ChildBinding'
 import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 
@@ -63,7 +63,7 @@ const Binding: FC = () => {
         )
       ) : (
         children &&
-        children?.length && (
+        (children.length ? (
           <View
             gap={'$1.5'}
             marginBottom={'$3'}
@@ -75,7 +75,22 @@ const Binding: FC = () => {
               />
             ))}
           </View>
-        )
+        ) : (
+          <View
+            padding={'$2'}
+            borderColor={'$accentColor'}
+            borderWidth={1}
+            borderRadius={'$4'}
+          >
+            <Text
+              fontSize={14}
+              fontWeight={500}
+              textAlign={'center'}
+            >
+              Пригласите учащегося, чтобы подписаться на расписание тренировок школы
+            </Text>
+          </View>
+        ))
       )}
     </View>
   )

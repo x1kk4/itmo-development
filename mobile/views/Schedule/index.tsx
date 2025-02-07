@@ -1,18 +1,15 @@
-// import { Lottie } from '@/ui/Lottie'
+import { Lottie } from '@/ui/Lottie'
 import { useGroupedTrainingSessions } from '@/api/hooks/training-sessions/useGroupedTrainingSessions'
 import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 import { useAuthContext } from '@/providers/AuthContext'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { SectionList } from 'react-native'
-import {
-  // Text,
-  View,
-} from 'tamagui'
+import { Heading, View, Text } from 'tamagui'
 import { TrainingSessionsSectionHeader } from './TrainingSessionsSectionHeader'
 import { TrainingSessionCard } from '@/ui/TrainingSessionCard'
-import { TTrainingSession } from '@/api/types'
+import { ROLE, TTrainingSession } from '@/api/types'
 
-const MAX_PAGE = 3
+const MAX_PAGE = 4
 
 const Schedule: FC = () => {
   const { user } = useAuthContext()
@@ -23,11 +20,14 @@ const Schedule: FC = () => {
 
   const { data: bindedBranches } = useUserBranches(user?.id)
 
-  const { data, isLoading, refetch } = useGroupedTrainingSessions({
-    page,
-    limit,
-    branchId: bindedBranches?.map((branch) => branch.id),
-  })
+  const { data, isLoading, refetch } = useGroupedTrainingSessions(
+    {
+      page,
+      limit,
+      branchId: bindedBranches?.map((branch) => branch.id),
+    },
+    !!bindedBranches?.length,
+  )
 
   useEffect(() => {
     if (data?.length) {
@@ -70,6 +70,44 @@ const Schedule: FC = () => {
     await refetch()
   }, [refetch])
 
+  if (!user) {
+    return null
+  }
+
+  if (bindedBranches && bindedBranches.length === 0) {
+    return (
+      <View
+        alignItems={'center'}
+        justifyContent={'center'}
+      >
+        <View gap={'$3'}>
+          <Heading
+            fontSize={24}
+            textAlign={'center'}
+          >
+            Тренировок пока нет
+          </Heading>
+          <Text
+            fontWeight={600}
+            fontSize={16}
+            textAlign={'center'}
+          >
+            {user?.role === ROLE.PARENT
+              ? 'Подпишите учащегося на школу, чтобы увидеть её расписание'
+              : 'Подпишитесь на школу, чтобы увидеть её расписание'}
+          </Text>
+        </View>
+
+        <Lottie
+          source={require('@/lottie/starina-snoop.json')}
+          style={{ width: '70%', height: '70%', alignSelf: 'center' }}
+          autoPlay
+          loop
+        />
+      </View>
+    )
+  }
+
   return (
     <>
       <SectionList
@@ -92,17 +130,6 @@ const Schedule: FC = () => {
         ItemSeparatorComponent={() => <View paddingBottom={'$1.5'} />}
         SectionSeparatorComponent={() => <View paddingBottom={'$3'} />}
       />
-
-      {/* <View>
-        <Text>Тренировки</Text>
-      </View>
-
-      <Lottie
-        source={require('@/lottie/starina-snoop.json')}
-        style={{ width: '80%', height: '80%', alignSelf: 'center' }}
-        autoPlay
-        loop
-      /> */}
     </>
   )
 }

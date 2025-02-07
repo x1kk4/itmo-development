@@ -4,8 +4,6 @@ import { Card, View, Text } from 'tamagui'
 import { LevelBadge } from '../LevelBadge'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
-import { useUser } from '@/api/hooks/users/useUser'
-import { useBranch } from '@/api/hooks/branches/useBranch'
 import { ArrowRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 
@@ -18,13 +16,10 @@ const TrainingSessionCard: FC<TTrainingSessionCardProps> = ({
   groupLevel,
   startDate,
   endDate,
-  branchId,
-  coachId,
+  branch,
+  coach,
 }) => {
   const router = useRouter()
-
-  const { data: coach } = useUser(coachId)
-  const { data: branch } = useBranch(branchId)
 
   return (
     <Card

@@ -15,6 +15,8 @@ export type TTrainingSession = {
   attendees: number[]
   coachId: number
   branchId: number
+  coach: TUser
+  branch: TBranch
 }
 
 export type TBranch = {
