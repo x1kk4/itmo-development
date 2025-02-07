@@ -3,8 +3,6 @@ import { PrismaService } from 'prisma/prisma.service';
 import { TrainingSessionResponseDto } from './dto/training-session-response.dto';
 import { ScheduleResponseDto } from './dto/schedule-response.dto';
 
-import { sortBy } from 'lodash';
-
 @Injectable()
 export class TrainingSessionsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -40,13 +38,22 @@ export class TrainingSessionsService {
   ): Promise<ScheduleResponseDto[]> {
     const offset = (page - 1) * limit;
 
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
+
     const trainingSessions = await this.prisma.trainingSession.findMany({
       skip: offset,
       take: limit,
       where: {
-        branchId: {
+        branchId: branchId && {
           in: typeof branchId === 'number' ? [branchId] : branchId,
         },
+        startDate: {
+          gte: currentDate,
+        },
+      },
+      orderBy: {
+        startDate: 'asc',
       },
     });
 
@@ -54,32 +61,30 @@ export class TrainingSessionsService {
       throw new NotFoundException('Training sessions not found');
     }
 
-    const sortedByTime = sortBy(
-      trainingSessions,
-      (session) => session.startDate,
-    );
+    const structuredTrainingSessions: ScheduleResponseDto[] = [];
 
-    const structuredSorted: ScheduleResponseDto[] = [];
-
-    sortedByTime.forEach((session) => {
+    trainingSessions.forEach((session) => {
       const dayDate = new Date(session.startDate);
       dayDate.setUTCHours(0, 0, 0, 0);
 
       if (
-        structuredSorted.length === 0 ||
-        structuredSorted[structuredSorted.length - 1].date.getTime() !==
-          dayDate.getTime()
+        structuredTrainingSessions.length === 0 ||
+        structuredTrainingSessions[
+          structuredTrainingSessions.length - 1
+        ].date.getTime() !== dayDate.getTime()
       ) {
-        structuredSorted.push({
+        structuredTrainingSessions.push({
           date: dayDate,
           data: [session],
         });
       } else {
-        structuredSorted[structuredSorted.length - 1].data.push(session);
+        structuredTrainingSessions[
+          structuredTrainingSessions.length - 1
+        ].data.push(session);
       }
     });
 
-    return structuredSorted;
+    return structuredTrainingSessions;
   }
 
   async getById(id: number) {
