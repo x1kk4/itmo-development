@@ -11,6 +11,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { TrainingSessionResponseDto } from './dto/training-session-response.dto';
 import { TrainingSessionsFilterDto } from './dto/training-sessions-filter.dto';
 import { ScheduleResponseDto } from './dto/schedule-response.dto';
+import { ExtendedTrainingSessionResponseDto } from './dto/extended-training-session-response.dto';
 
 @Controller('training-sessions')
 export class TrainingSessionsController {
@@ -50,10 +51,10 @@ export class TrainingSessionsController {
 
   @ApiResponse({
     status: 200,
-    type: TrainingSessionResponseDto,
+    type: ExtendedTrainingSessionResponseDto,
     description: 'Single training session by id',
   })
-  @SerializeOptions({ type: TrainingSessionResponseDto })
+  @SerializeOptions({ type: ExtendedTrainingSessionResponseDto })
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return this.trainingSessionService.getById(id);

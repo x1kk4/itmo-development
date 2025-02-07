@@ -55,6 +55,12 @@ export class TrainingSessionsService {
       orderBy: {
         startDate: 'asc',
       },
+      include: {
+        enrolled: true,
+        attendees: true,
+        coach: true,
+        branch: true,
+      },
     });
 
     if (!trainingSessions || !trainingSessions.length) {
@@ -91,6 +97,12 @@ export class TrainingSessionsService {
     const trainingSession = await this.prisma.trainingSession.findUnique({
       where: {
         id,
+      },
+      include: {
+        enrolled: true,
+        attendees: true,
+        coach: true,
+        branch: true,
       },
     });
 

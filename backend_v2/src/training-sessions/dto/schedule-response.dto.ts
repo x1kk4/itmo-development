@@ -1,6 +1,6 @@
-import { TrainingSessionResponseDto } from './training-session-response.dto';
+import { ExtendedTrainingSessionResponseDto } from './extended-training-session-response.dto';
 
 export class ScheduleResponseDto {
   date: Date;
-  data: TrainingSessionResponseDto[];
+  data: ExtendedTrainingSessionResponseDto[];
 }
