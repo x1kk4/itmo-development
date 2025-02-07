@@ -12,7 +12,7 @@ export const useLogout = (): UseMutationResult<void, AxiosError, void> => {
     mutationFn: v2.logout,
     onSuccess: async () => {
       await AsyncStorage.multiRemove([STORAGE_KEYS.AUTHORIZATION, STORAGE_KEYS.REFRESH])
-      queryClient.resetQueries({ queryKey: ['me'] })
+      queryClient.clear()
     },
     // onError: (error) => {},
   })
