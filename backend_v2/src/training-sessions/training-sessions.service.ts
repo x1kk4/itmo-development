@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { TrainingSessionResponseDto } from './dto/training-session-response.dto';
 import { ScheduleResponseDto } from './dto/schedule-response.dto';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class TrainingSessionsService {
@@ -99,8 +105,16 @@ export class TrainingSessionsService {
         id,
       },
       include: {
-        enrolled: true,
-        attendees: true,
+        enrolled: {
+          include: {
+            user: true,
+          },
+        },
+        attendees: {
+          include: {
+            user: true,
+          },
+        },
         coach: true,
         branch: true,
       },
@@ -111,5 +125,258 @@ export class TrainingSessionsService {
     }
 
     throw new NotFoundException('Training session with such id does not exist');
+  }
+
+  async enrollUser(sessionId: number, userId: number, requestorId: number) {
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect training session id');
+      });
+
+    const requestor = await this.prisma.user.findUnique({
+      where: {
+        id: requestorId,
+      },
+    });
+
+    if (requestor.role !== Role.PARENT) {
+      if (userId !== requestor.id) {
+        throw new ForbiddenException('Bad permissions.');
+      }
+
+      await this.prisma.enrolledUsers
+        .create({
+          data: {
+            trainingSessionId: sessionId,
+            userId,
+          },
+        })
+        .catch(() => {
+          throw new BadRequestException('Already enrolled');
+        });
+
+      return;
+    }
+
+    // PARENT logic
+    const requestorChild = await this.prisma.user.findMany({
+      where: {
+        childrenRelations: {
+          some: {
+            parentId: requestor.id,
+            childId: userId,
+          },
+        },
+      },
+    });
+
+    if (requestorChild.length === 0) {
+      throw new ForbiddenException('Bad permissions.');
+    }
+
+    await this.prisma.enrolledUsers
+      .create({
+        data: {
+          trainingSessionId: sessionId,
+          userId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Already enrolled');
+      });
+
+    return;
+  }
+
+  async unenrollUser(sessionId: number, userId: number, requestorId: number) {
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect training session id');
+      });
+
+    const requestor = await this.prisma.user.findUnique({
+      where: {
+        id: requestorId,
+      },
+    });
+
+    if (requestor.role !== Role.PARENT) {
+      if (userId !== requestor.id) {
+        throw new ForbiddenException('Bad permissions.');
+      }
+
+      const isAttended = Boolean(
+        await this.prisma.sessionAttendees.findUnique({
+          where: {
+            userId_trainingSessionId: {
+              trainingSessionId: sessionId,
+              userId,
+            },
+          },
+        }),
+      );
+
+      if (isAttended) {
+        throw new BadRequestException('Already attended');
+      }
+
+      await this.prisma.enrolledUsers
+        .delete({
+          where: {
+            userId_trainingSessionId: {
+              trainingSessionId: sessionId,
+              userId,
+            },
+          },
+        })
+        .catch(() => {
+          throw new BadRequestException('Not enrolled');
+        });
+
+      return;
+    }
+
+    // PARENT logic
+    const requestorChild = await this.prisma.user.findMany({
+      where: {
+        childrenRelations: {
+          some: {
+            parentId: requestor.id,
+            childId: userId,
+          },
+        },
+      },
+    });
+
+    if (requestorChild.length === 0) {
+      throw new ForbiddenException('Bad permissions.');
+    }
+
+    const isAttended = Boolean(
+      await this.prisma.sessionAttendees.findUnique({
+        where: {
+          userId_trainingSessionId: {
+            trainingSessionId: sessionId,
+            userId,
+          },
+        },
+      }),
+    );
+
+    if (isAttended) {
+      throw new BadRequestException('Already attended');
+    }
+
+    await this.prisma.enrolledUsers
+      .delete({
+        where: {
+          userId_trainingSessionId: {
+            trainingSessionId: sessionId,
+            userId,
+          },
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Not enrolled');
+      });
+
+    return;
+  }
+
+  async attendUser(sessionId: number, userId: number, requestorId: number) {
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect training session id');
+      });
+
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+          coachId: requestorId,
+        },
+      })
+      .catch(() => {
+        throw new ForbiddenException('Bad permissions.');
+      });
+
+    await this.prisma.enrolledUsers
+      .findUniqueOrThrow({
+        where: {
+          userId_trainingSessionId: {
+            trainingSessionId: sessionId,
+            userId,
+          },
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Not enrolled');
+      });
+
+    await this.prisma.sessionAttendees
+      .create({
+        data: {
+          trainingSessionId: sessionId,
+          userId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Already attended');
+      });
+
+    return;
+  }
+
+  async unattendUser(sessionId: number, userId: number, requestorId: number) {
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Incorrect training session id');
+      });
+
+    await this.prisma.trainingSession
+      .findUniqueOrThrow({
+        where: {
+          id: sessionId,
+          coachId: requestorId,
+        },
+      })
+      .catch(() => {
+        throw new ForbiddenException('Bad permissions.');
+      });
+
+    await this.prisma.sessionAttendees
+      .delete({
+        where: {
+          userId_trainingSessionId: {
+            trainingSessionId: sessionId,
+            userId,
+          },
+        },
+      })
+      .catch(() => {
+        throw new BadRequestException('Already unattended');
+      });
+
+    return;
   }
 }
