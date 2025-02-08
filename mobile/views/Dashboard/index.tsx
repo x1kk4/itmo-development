@@ -1,32 +1,30 @@
 import { Lottie } from '@/ui/Lottie'
 import { useGroupedTrainingSessions } from '@/api/hooks/training-sessions/useGroupedTrainingSessions'
-import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 import { useAuthContext } from '@/providers/AuthContext'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { Platform, SectionList } from 'react-native'
-import { View, Text } from 'tamagui'
-import { TrainingSessionsSectionHeader } from './TrainingSessionsSectionHeader'
+import { Heading, View, Text } from 'tamagui'
+
 import { TrainingSessionCard } from '@/ui/TrainingSessionCard'
 import { ROLE, TTrainingSession } from '@/api/types'
+import { TrainingSessionsSectionHeader } from '../Schedule/TrainingSessionsSectionHeader'
 
 const MAX_PAGE = Platform.OS === 'ios' ? 2 : 100
 
-const Schedule: FC = () => {
+const Dashboard: FC = () => {
   const { user } = useAuthContext()
   const [page, setPage] = useState<number>(1)
   const [limit] = useState<number>(20)
 
   const [groupedData, setGroupedData] = useState<{ date: string; data: TTrainingSession[] }[]>([])
 
-  const { data: bindedBranches } = useUserBranches(user?.id)
-
   const { data, isLoading, refetch } = useGroupedTrainingSessions(
     {
       page,
       limit,
-      branchId: bindedBranches?.map((branch) => branch.id),
+      userId: user?.id,
     },
-    !!bindedBranches?.length,
+    !!user?.id,
   )
 
   useEffect(() => {
@@ -74,27 +72,31 @@ const Schedule: FC = () => {
     return null
   }
 
-  if (bindedBranches && bindedBranches.length === 0) {
+  if (data && data.length === 0) {
     return (
       <View
         alignItems={'center'}
         justifyContent={'center'}
       >
         <View gap={'$3'}>
-          {/* <Heading
-            fontSize={24}
+          <Heading
+            fontSize={22}
             textAlign={'center'}
           >
-            Тренировок пока нет
-          </Heading> */}
+            Расписание не составлено
+          </Heading>
           <Text
             fontWeight={600}
             fontSize={16}
             textAlign={'center'}
           >
-            {user?.role === ROLE.PARENT
-              ? 'Подпишите учащегося на школу, чтобы увидеть её расписание'
-              : 'Подпишитесь на школу, чтобы увидеть её расписание'}
+            {user.role === ROLE.CHILDREN && 'Запишитесь на тренировку, чтобы увидеть расписание'}
+            {user.role === ROLE.PARENT &&
+              'Запишите учащегося на тренировку, чтобы увидеть расписание'}
+            {user.role === ROLE.COACH &&
+              'Вы пока не ведёте тренировки. Обратитесь к менеджеру, чтобы сформировать расписание'}
+            {(user.role === ROLE.MANAGER || user.role === ROLE.SUPER) &&
+              'Подпишитесь на школу, чтобы стать ее сотрудником, после чего Вам будет видно расписание'}
           </Text>
         </View>
 
@@ -134,4 +136,4 @@ const Schedule: FC = () => {
   )
 }
 
-export { Schedule }
+export { Dashboard }

@@ -154,6 +154,7 @@ export type TTrainingSessionsResponse = TTrainingSessionResponse[]
 
 export type TGetTrainingSessionsRequest = Omit<TQueryPagination, 'search'> & {
   branchId?: number[]
+  userId?: number
 }
 
 const getManyTrainingSessions = async (data: TGetTrainingSessionsRequest) => {

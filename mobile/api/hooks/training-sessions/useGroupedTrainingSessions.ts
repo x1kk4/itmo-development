@@ -7,8 +7,10 @@ export const useGroupedTrainingSessions = (
   data: TGetTrainingSessionsRequest,
   isEnabled?: boolean,
 ): UseQueryResult<TGroupedTrainingSessionsResponse, AxiosError> => {
-  const queryFn = () => {
-    return v2.getGroupedTrainingSessions(data)
+  const queryFn = async () => {
+    return await v2.getGroupedTrainingSessions(data).catch(() => {
+      return []
+    })
   }
 
   return useQuery({

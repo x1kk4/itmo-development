@@ -13,7 +13,6 @@ import { BranchCard } from '@/ui/BranchCard'
 import { UserCard } from '@/ui/UserCard'
 import { Enrolling } from './Enrolling'
 import { useAuthContext } from '@/providers/AuthContext'
-import { ROLE } from '@/api/types'
 import { AttendCard } from './AttendCard'
 
 dayjs.locale('ru')
@@ -101,20 +100,14 @@ const TrainingSession: FC = () => {
             )}
 
             <View gap={'$1.5'}>
-              {session.enrolled.map((child) =>
-                user.role === ROLE.COACH ? (
-                  <AttendCard
-                    key={child.userId}
-                    {...child.user}
-                    session={session}
-                  />
-                ) : (
-                  <UserCard
-                    key={child.userId}
-                    {...child.user}
-                  />
-                ),
-              )}
+              {session.enrolled.map((child) => (
+                <AttendCard
+                  key={child.userId}
+                  {...child.user}
+                  session={session}
+                  user={user}
+                />
+              ))}
             </View>
           </View>
         </View>

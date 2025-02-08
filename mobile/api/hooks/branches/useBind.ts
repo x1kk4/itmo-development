@@ -13,6 +13,8 @@ export const useBind = (): UseMutationResult<void, AxiosError, TBindRequest> => 
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['userBranches'] })
       queryClient.invalidateQueries({ queryKey: ['staff'] })
+      queryClient.invalidateQueries({ queryKey: ['grouped-training-sessions'] })
+      queryClient.invalidateQueries({ queryKey: ['training-session'] })
     },
   })
 }

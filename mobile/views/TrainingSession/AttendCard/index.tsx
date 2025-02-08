@@ -1,4 +1,4 @@
-import { TTrainingSession, TUser } from '@/api/types'
+import { ROLE, TTrainingSession, TUser } from '@/api/types'
 import { FC } from 'react'
 import { Card, Text, View } from 'tamagui'
 
@@ -12,9 +12,10 @@ import { useThemeContext } from '@/providers/ThemeContext'
 
 type TUserCardProps = TUser & {
   session: TTrainingSession | undefined
+  user: TUser
 }
 
-const AttendCard: FC<TUserCardProps> = ({ id, login, role, profilePicture, session }) => {
+const AttendCard: FC<TUserCardProps> = ({ id, login, role, profilePicture, session, user }) => {
   const router = useRouter()
   const { theme } = useThemeContext()
 
@@ -81,10 +82,12 @@ const AttendCard: FC<TUserCardProps> = ({ id, login, role, profilePicture, sessi
         <View
           padding={'$3'}
           borderRadius={'$3'}
-          backgroundColor={'$backgroundHover'}
+          backgroundColor={user.role === ROLE.COACH ? '$backgroundHover' : '$background'}
           onPress={(e) => {
-            e.stopPropagation()
-            unattend({ sessionId: session.id, userId: id })
+            if (user.role === ROLE.COACH) {
+              e.stopPropagation()
+              unattend({ sessionId: session.id, userId: id })
+            }
           }}
         >
           <X color={theme === 'light' ? '$red10Light' : '$red10Dark'} />
@@ -93,10 +96,12 @@ const AttendCard: FC<TUserCardProps> = ({ id, login, role, profilePicture, sessi
         <View
           padding={'$3'}
           borderRadius={'$3'}
-          backgroundColor={'$backgroundHover'}
+          backgroundColor={user.role === ROLE.COACH ? '$backgroundHover' : '$background'}
           onPress={(e) => {
-            e.stopPropagation()
-            attend({ sessionId: session.id, userId: id })
+            if (user.role === ROLE.COACH) {
+              e.stopPropagation()
+              attend({ sessionId: session.id, userId: id })
+            }
           }}
         >
           <Check color={theme === 'light' ? '$green10Light' : '$green10Dark'} />
