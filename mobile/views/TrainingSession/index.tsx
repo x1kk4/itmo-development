@@ -12,6 +12,9 @@ import { LevelBadge } from '@/ui/LevelBadge'
 import { BranchCard } from '@/ui/BranchCard'
 import { UserCard } from '@/ui/UserCard'
 import { Enrolling } from './Enrolling'
+import { useAuthContext } from '@/providers/AuthContext'
+import { ROLE } from '@/api/types'
+import { AttendCard } from './AttendCard'
 
 dayjs.locale('ru')
 
@@ -19,9 +22,11 @@ const TrainingSession: FC = () => {
   const { id } = useLocalSearchParams()
   const router = useRouter()
 
+  const { user } = useAuthContext()
+
   const { data: session } = useTrainingSession(Number(id))
 
-  if (!session) {
+  if (!session || !user) {
     return null
   }
 
@@ -96,12 +101,20 @@ const TrainingSession: FC = () => {
             )}
 
             <View gap={'$1.5'}>
-              {session.enrolled.map((child) => (
-                <UserCard
-                  key={child.userId}
-                  {...child.user}
-                />
-              ))}
+              {session.enrolled.map((child) =>
+                user.role === ROLE.COACH ? (
+                  <AttendCard
+                    key={child.userId}
+                    {...child.user}
+                    session={session}
+                  />
+                ) : (
+                  <UserCard
+                    key={child.userId}
+                    {...child.user}
+                  />
+                ),
+              )}
             </View>
           </View>
         </View>
