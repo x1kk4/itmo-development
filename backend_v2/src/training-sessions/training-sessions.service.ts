@@ -41,33 +41,164 @@ export class TrainingSessionsService {
     page: number,
     limit: number,
     branchId?: number[],
+    userId?: number,
   ): Promise<ScheduleResponseDto[]> {
     const offset = (page - 1) * limit;
 
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
 
-    const trainingSessions = await this.prisma.trainingSession.findMany({
-      skip: offset,
-      take: limit,
-      where: {
-        branchId: branchId && {
-          in: typeof branchId === 'number' ? [branchId] : branchId,
+    let trainingSessions = [];
+
+    if (userId) {
+      const user = await this.prisma.user
+        .findUniqueOrThrow({
+          where: {
+            id: userId,
+          },
+        })
+        .catch(() => {
+          throw new BadRequestException();
+        });
+
+      if (user.role === Role.CHILDREN) {
+        trainingSessions = await this.prisma.trainingSession.findMany({
+          skip: offset,
+          take: limit,
+          where: {
+            enrolled: {
+              some: {
+                userId,
+              },
+            },
+            startDate: {
+              gte: currentDate,
+            },
+          },
+          orderBy: {
+            startDate: 'asc',
+          },
+          include: {
+            enrolled: true,
+            attendees: true,
+            coach: true,
+            branch: true,
+          },
+        });
+      }
+
+      if (user.role === Role.COACH) {
+        trainingSessions = await this.prisma.trainingSession.findMany({
+          skip: offset,
+          take: limit,
+          where: {
+            coachId: userId,
+            startDate: {
+              gte: currentDate,
+            },
+          },
+          orderBy: {
+            startDate: 'asc',
+          },
+          include: {
+            enrolled: true,
+            attendees: true,
+            coach: true,
+            branch: true,
+          },
+        });
+      }
+
+      if (user.role === Role.MANAGER || user.role === Role.SUPER) {
+        const branches = await this.prisma.branchesUsers.findMany({
+          where: {
+            userId,
+          },
+        });
+
+        trainingSessions = await this.prisma.trainingSession.findMany({
+          skip: offset,
+          take: limit,
+          where: {
+            branchId: {
+              in: branches.map((branch) => branch.branchId),
+            },
+            startDate: {
+              gte: currentDate,
+            },
+          },
+          orderBy: {
+            startDate: 'asc',
+          },
+          include: {
+            enrolled: true,
+            attendees: true,
+            coach: true,
+            branch: true,
+          },
+        });
+      }
+
+      if (user.role === Role.PARENT) {
+        const children = await this.prisma.user.findMany({
+          where: {
+            childrenRelations: {
+              some: {
+                parentId: userId,
+              },
+            },
+          },
+        });
+
+        trainingSessions = await this.prisma.trainingSession.findMany({
+          skip: offset,
+          take: limit,
+          where: {
+            enrolled: {
+              some: {
+                userId: {
+                  in: children.map((child) => child.id),
+                },
+              },
+            },
+            startDate: {
+              gte: currentDate,
+            },
+          },
+          orderBy: {
+            startDate: 'asc',
+          },
+          include: {
+            enrolled: true,
+            attendees: true,
+            coach: true,
+            branch: true,
+          },
+        });
+      }
+    } else {
+      trainingSessions = await this.prisma.trainingSession.findMany({
+        skip: offset,
+        take: limit,
+        where: {
+          branchId: branchId && {
+            in: typeof branchId === 'number' ? [branchId] : branchId,
+          },
+          startDate: {
+            gte: currentDate,
+          },
         },
-        startDate: {
-          gte: currentDate,
+        orderBy: {
+          startDate: 'asc',
         },
-      },
-      orderBy: {
-        startDate: 'asc',
-      },
-      include: {
-        enrolled: true,
-        attendees: true,
-        coach: true,
-        branch: true,
-      },
-    });
+        include: {
+          enrolled: true,
+          attendees: true,
+          coach: true,
+          branch: true,
+        },
+      });
+    }
 
     if (!trainingSessions || !trainingSessions.length) {
       throw new NotFoundException('Training sessions not found');

@@ -53,6 +53,7 @@ export class TrainingSessionsController {
       query.page,
       query.limit,
       query.branchId,
+      query.userId,
     );
   }
 

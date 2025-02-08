@@ -19,4 +19,9 @@ export class TrainingSessionsFilterDto {
   @IsOptional()
   @Type(() => Number)
   branchId?: number[];
+
+  @ApiPropertyOptional({ example: 13 })
+  @IsOptional()
+  @Type(() => Number)
+  userId?: number;
 }
