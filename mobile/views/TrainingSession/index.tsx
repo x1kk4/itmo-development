@@ -92,7 +92,14 @@ const TrainingSession: FC = () => {
                   </Heading>
                 )}
 
-                <View gap={'$1.5'}></View>
+                <View gap={'$1.5'}>
+                  {session.enrolled.map((child) => (
+                    <UserCard
+                      key={child.userId}
+                      {...child.user}
+                    />
+                  ))}
+                </View>
               </View>
             </View>
           </ScrollView>

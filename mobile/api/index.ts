@@ -180,6 +180,29 @@ const getTrainingSessionById = async (id: number) => {
   return res.data
 }
 
+export type TEnrollRequest = {
+  sessionId: number
+  userId: number
+}
+
+export type TAttendRequest = TEnrollRequest
+
+const enrollUser = async (req: TEnrollRequest) => {
+  await api.post(`/training-sessions/${req.sessionId}/enroll/${req.userId}`)
+}
+
+const unenrollUser = async (req: TEnrollRequest) => {
+  await api.post(`/training-sessions/${req.sessionId}/unenroll/${req.userId}`)
+}
+
+const attendUser = async (req: TAttendRequest) => {
+  await api.post(`/training-sessions/${req.sessionId}/attend/${req.userId}`)
+}
+
+const unattendUser = async (req: TAttendRequest) => {
+  await api.post(`/training-sessions/${req.sessionId}/unattend/${req.userId}`)
+}
+
 export const v2 = {
   // auth
   signIn,
@@ -212,4 +235,8 @@ export const v2 = {
   getManyTrainingSessions,
   getGroupedTrainingSessions,
   getTrainingSessionById,
+  enrollUser,
+  unenrollUser,
+  attendUser,
+  unattendUser,
 }

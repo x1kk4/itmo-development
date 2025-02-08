@@ -3,13 +3,13 @@ import { useGroupedTrainingSessions } from '@/api/hooks/training-sessions/useGro
 import { useUserBranches } from '@/api/hooks/users/useUserBranches'
 import { useAuthContext } from '@/providers/AuthContext'
 import { FC, useCallback, useEffect, useState } from 'react'
-import { SectionList } from 'react-native'
+import { Platform, SectionList } from 'react-native'
 import { Heading, View, Text } from 'tamagui'
 import { TrainingSessionsSectionHeader } from './TrainingSessionsSectionHeader'
 import { TrainingSessionCard } from '@/ui/TrainingSessionCard'
 import { ROLE, TTrainingSession } from '@/api/types'
 
-const MAX_PAGE = 4
+const MAX_PAGE = Platform.OS === 'ios' ? 2 : 100
 
 const Schedule: FC = () => {
   const { user } = useAuthContext()

@@ -11,8 +11,8 @@ export type TTrainingSession = {
   groupLevel: GROUP_LEVEL
   startDate: string
   endDate: string
-  enrolled: number[]
-  attendees: number[]
+  enrolled: { user: TUser; userId: number }[]
+  attendees: { user: TUser; userId: number }[]
   coachId: number
   branchId: number
   coach: TUser
@@ -59,12 +59,6 @@ export const groupLevel = {
   [GROUP_LEVEL.BEGINNER]: 'Новичок',
   [GROUP_LEVEL.INTERMEDIATE]: 'Средний',
   [GROUP_LEVEL.ADVANCED]: 'Профи',
-}
-
-export type TSubscription = {
-  id: number
-  session_count: number
-  client: number
 }
 
 export enum STORAGE_KEYS {
